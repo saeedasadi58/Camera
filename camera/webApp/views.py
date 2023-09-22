@@ -18,6 +18,10 @@ from django.utils.http import urlencode
 from django.utils.encoding import smart_str
 from django.views.decorators.http import require_http_methods
 from django.views import View
+
+from django.contrib.auth.decorators import login_required
+
+from oauth2_provider.views.generic import ProtectedResourceView
 from .form import loginForm
 from . import models
 # Create your views here.
@@ -45,6 +49,10 @@ def login(request, *arg, **kwargs):
         return redirect('/')
     # except:
     #     return render(request, 'handle500.html')
+class ApiEndpoint(ProtectedResourceView):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Hello, OAuth2!')
+@login_required()
 def index(request, *arg, **kwargs):
 
     return HttpResponse("success")
