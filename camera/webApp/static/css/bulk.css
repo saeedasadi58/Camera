@@ -1,0 +1,76 @@
+.responsive{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.img_curser{
+    cursor: pointer;
+}
+.button_margin{
+    margin: auto;
+}
+
+.passport_img_width{
+}
+.btn{
+    font-size: 100px !important;
+}
+
+/*.btn-sm{*/
+/*    font-size:15px;*/
+/*}*/
+.img_width{
+}
+@media screen and (max-width: 990px) {
+  .responsive {
+    margin-top: 7%;
+   }
+
+}
+
+@media screen and (max-width: 815px) {
+  .responsive {
+    margin-top: 12%;
+   }
+    .button_margin{
+        margin: auto 5px;
+    }
+
+}
+
+/*@media screen and (max-width: 700px) {*/
+/*  !*.responsive_column {*!*/
+/*  !*  display: flex;*!*/
+/*  !*  flex-direction: column;*!*/
+/*  !*  align-items: center;*!*/
+/*  !* }*!*/
+/*    .responsive{*/
+
+/*    }*/
+
+/*}*/
+
+@media screen and (max-width: 670px) {
+  .responsive {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+   }
+    .passport_img_width{
+        width: 2.5cm !important;
+    }
+    .img_width{
+        width: 1.3cm !important;
+    }
+    .button_margin{
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .responsive{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

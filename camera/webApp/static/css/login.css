@@ -1,0 +1,154 @@
+html, body {
+    height: 100%;
+}
+body {
+    line-height: 1;
+}
+#LoginPage {
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+}
+#LoginPage #LoginHeader {
+    background: #dd0033;
+    padding: 10px 0;
+}
+#LoginPage #LoginHeader h1 span {
+    font-style: italic;
+    font-weight: normal;
+    
+}
+   
+
+#LoginPage #LoginHeader h1 {
+    color: #ffffff;
+    text-align: center;
+    font: inherit;
+    font-size: 14px !important;
+}
+.LoginFormWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+/* @media (min-width: 640px) */
+/* #LoginPage #LoginFormContainer {
+    clear: both;
+    width: 470px;
+    min-height: 215px;
+    padding: 40px;
+} */
+#LoginPage #LoginFormContainer {
+    overflow: hidden;
+    margin: 18% auto 0 auto;
+    
+    background: #ffffff;
+    width: 470px;
+    min-height: 215px;
+    padding: 40px;
+    /* width: 100%; */
+    /* padding: 20px; */
+    border-radius: 5px;
+    border: 1px solid #d8dee2;
+}
+#LoginPage #LoginFormContainer #logo {
+    width: 220px;
+    height: 215px;
+    float: left;
+}
+#LoginPage #LoginFormContainer > .body {
+    border-left: 1px solid #e4e4e4;
+    width: 220px;
+    padding: 0 0 0 25px;
+    float: left;
+}
+
+#LoginPage #LoginFormContainer > .body .header h2 {
+    color: #2c3e50;
+    text-align: right;
+    margin:0 !important;
+    font-size: 14px !important;
+}
+#LoginPage #LoginFormContainer > .body .formentry .input #username {
+    background: url(themeResource?theme=portal&location=skin/images/login-input-username.png) white no-repeat right center;
+}
+#LoginPage #LoginFormContainer > .body .formentry .input input[type=text], #LoginPage #LoginFormContainer > .body .formentry .input input[type=password] {
+    line-height: 35px;
+    border: 1px solid #dedcdc;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 30px 0 10px;
+    border-radius: 5px;
+}
+#LoginPage #LoginFormContainer > .body .formentry .input input {
+    height: 35px;
+    
+}
+#LoginPage #LoginFormContainer > .body .formentry .input #password {
+    background: url(themeResource?theme=portal&location=skin/images/login-input-password.png) white no-repeat right center;
+}
+#LoginPage #LoginFormContainer > .body .formentry .input input[type=password] {
+    line-height: 35px;
+    border: 1px solid #dedcdc;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 30px 0 10px;
+    border-radius: 5px;
+}
+#LoginPage #LoginFormContainer > .body .formactions {
+    margin: 0;
+    text-align: right;
+    margin-top: 20px;
+}
+#LoginPage #LoginFormContainer > .body .formentry {
+    padding: 0 0 15px 0;
+    width: 100%;
+}
+#LoginPage #LoginFormContainer p.error {
+    padding: 10px 15px;
+}
+#LoginPage #LoginFormContainer > .body .formentry + .formentry {
+    margin: 20px 0 0 0;
+}
+#LoginPage #LoginFormContainer > .body .formentry {
+    padding: 0 0 15px 0;
+    width: 100%;
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+#LoginPage #LoginFormContainer > .body .formactions input[type="submit"] {
+    color: #ffffff;
+    padding: 5px 10px;
+    width: 100%;
+    -webkit-appearance: none;
+    outline-color: #ff1148;
+    border: 1px solid #dd0033;
+    text-transform: uppercase;
+    font-family: "Signika-Semibold", sans-serif;
+   font-size: 70%;
+    border-radius: 3px;
+    line-height: 2rem;
+    text-decoration: none;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+    user-select: none;
+    background: #dd0033;
+    overflow: hidden;
+    zoom: 1;
+    cursor: pointer;
+}
+#LoginPage #LoginFormContainer > .body .formactions input[type="submit"] {
+    line-height: 18px !important;
+    min-width: 90px;
+    width: inherit;
+}

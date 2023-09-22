@@ -1,0 +1,40 @@
+.body {
+    
+    
+    background: #d9eefb;
+    
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+
+   
+    
+    
+}
+
+.card-border-footer {
+    border-radius: 6px;
+    box-shadow: #21212130 1px 1px 1px 1px;
+   margin-bottom: 8px;
+}
+.btn-font{
+    font-size: 0.72rem !important;
+    font-weight: 300 !important;
+}
+.table-search{
+    font-weight: bold !important;
+    font-size: 12px;
+}
+
+.example-print {
+    display: none;
+}
+@media print {
+   .example-screen {
+       display: none;
+    }
+    .example-print {
+       display: block;
+    }
+}

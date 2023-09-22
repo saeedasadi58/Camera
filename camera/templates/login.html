@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html5>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180969068-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-180969068-1');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>Covid-19 Panel</title>
+
+</head>
+
+
+<!-- <div>
+        <form action="/login" method="POST" >
+            {% csrf_token %}
+
+            {{form.as_p}}
+            <input type="submit" value="Save">
+        </form>
+    </div> -->
+
+<body id="LoginPage" style="margin:0 !important;">
+
+
+    <div id="LoginHeader">
+        <h1 style="margin:0 !important;">
+            <span class="header-font">
+                Welcome to</span>
+            <span id="WelcomeTitle">Camera
+
+            </span>
+        </h1>
+
+    </div>
+    <div class="LoginFormWrapper">
+
+        <div id="LoginFormContainer" style="width: 530px;">
+            <div id="logo" style="m">
+                <img id="imageLogo" src="../../static/image/camera.png" width=250px; height=150px;>
+            </div>
+            <div class="body">
+                <form id="LoginForm" method="POST" action="/login" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="header">
+                        <h2>Login form</h2>
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="" style="display: block;text-align: left; max-height: 20px !important; color: red
+                        ; width: 100% !important;padding: 10px ;" id="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <p class="error"></p>
+                    <div class="formentries">
+                        <div class="formentry" title="Enter your login (username)">
+                            <div class="label">
+                                <label for="username"></label>
+                            </div>
+                            <div class="input">
+                                {{form.username}}
+<!--                                 <input title="Username" id="username" name="username" value="" placeholder="User" type="text" autocomplete="off" tabindex="1" maxlength="255" style="width: 300;">-->
+                            </div>
+                        </div>
+
+                        <div class="formentry" title="Enter your password">
+                            <div class="label">
+                                <label for="password"></label>
+                            </div>
+                            <div class="input">
+                                {{form.password}}
+                                <!-- <input title="Password" id="password" name="password" type="password" tabindex="2" autocomplete="off" maxlength="50" placeholder="Password"> -->
+                            </div>
+                            <input name="_l" type="hidden" value="en_US">
+                        </div>
+
+                    </div>
+                    <div class="formactions">
+                        <div class="g-recaptcha" data-sitekey="6LdoU44gAAAAAEs87ubNi-njn_-GHxYhrdxAx1wT"></div>
+                        <input type="submit" id="btnSubmit" value="Login" class="btn btn-danger btn-sm" style="margin:7px;">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="pad-l pad-r " style="margin-top: 15px">
+            {% include 'footerNav.html'  %}
+          </div>
+    </div>
+    <script>
+
+        if (document.getElementById('alert').style.display == "block") {
+            setTimeout(function () { document.getElementById('alert').style.display = "none" }, 3000);
+        }
+    </script>
+
+</body>
+
+</html>

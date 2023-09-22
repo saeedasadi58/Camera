@@ -1,0 +1,12 @@
+.btn_size_control{
+}
+.box_responsive{
+}
+
+@media screen and (max-width: 992px) {
+    .btn_size_control {
+        width: 25%;
+        height: 2%;
+        margin-top: 25px;
+    }
+}
