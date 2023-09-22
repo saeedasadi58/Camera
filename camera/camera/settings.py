@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-**ujc40j12)ec87a6o=#)_4bcx$pcxhz30&mxq8k=g)-yx1l18
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webApp',
+    'oauth2_provider',
 ]
+AUTH_USER_MODEL='webApp.User'
+LOGIN_URL='/admin/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

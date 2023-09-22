@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from webApp.views import DashboardView
+# from webApp.views import DashboardView
+from webApp import views
+from django.urls import include, path
 # from webApp import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', DashboardView.as_view()),
+    path('login', views.login),
+    path('', views.index),
+    # path('', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
