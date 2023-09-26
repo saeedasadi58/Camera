@@ -21,7 +21,7 @@ from django.views import View
 
 from django.contrib.auth.decorators import login_required
 
-from oauth2_provider.views.generic import ProtectedResourceView
+# from oauth2_provider.views.generic import ProtectedResourceView
 from .form import loginForm
 from . import models
 # Create your views here.
@@ -34,7 +34,7 @@ def login(request, *arg, **kwargs):
     if request.method == "POST":
         form = loginForm(request.POST)
         if form.is_valid():
-            user = Authentication(form.cleaned_data, request)
+            user = ""
             if user == None:
                 messages.error(request, 'Wrong username or password')
                 return redirect('/login')
@@ -49,9 +49,11 @@ def login(request, *arg, **kwargs):
         return redirect('/')
     # except:
     #     return render(request, 'handle500.html')
-class ApiEndpoint(ProtectedResourceView):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('Hello, OAuth2!')
+
+# class ApiEndpoint(ProtectedResourceView):
+#     def get(self, request, *args, **kwargs):
+#         return HttpResponse('Hello, OAuth2!')
+
 @login_required()
 def index(request, *arg, **kwargs):
 
