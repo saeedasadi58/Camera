@@ -55,6 +55,9 @@ def login(request, *arg, **kwargs):
 #         return HttpResponse('Hello, OAuth2!')
 
 # @login_required()
+
+
 def index(request, *arg, **kwargs):
 
     return HttpResponse("success")
+
