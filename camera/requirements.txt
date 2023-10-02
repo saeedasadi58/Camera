@@ -1,3 +1,6 @@
 django
 requests
 django-allauth
+pillow
+pypylon
+matplotlib
