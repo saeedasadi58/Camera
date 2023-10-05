@@ -38,15 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webApp',
-    # 'django.contrib.auth',
-    # 'django.contrib.messages',
+    'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 ]
 AUTH_USER_MODEL='webApp.User'
+
 LOGIN_URL='/admin/login/'
+
 CORS_ORIGIN_ALLOW_ALL = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,39 +58,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    # 'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
-ACCOUNT_FORMS = {
-    'add_email': 'allauth.account.forms.AddEmailForm',
-    'change_password': 'allauth.account.forms.ChangePasswordForm',
-    'login': 'allauth.account.forms.LoginForm',
-    'reset_password': 'allauth.account.forms.ResetPasswordForm',
-    'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
-    'set_password': 'allauth.account.forms.SetPasswordForm',
-    'signup': 'allauth.account.forms.SignupForm',
-    'user_token': 'allauth.account.forms.UserTokenForm',
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
-ACCOUNT_RATE_LIMITS = {
-    # Change password view (for users already logged in)
-    "change_password": "5/m",
-    # Email management (e.g. add, remove, change primary)
-    "manage_email": "10/m",
-    # Request a password reset, global rate limit per IP
-    "reset_password": "20/m",
-    # Rate limit measured per individual email address
-    "reset_password_email": "5/m",
-    # Password reset (the view the password reset email links to).
-    "reset_password_from_key": "20/m",
-    # Signups.
-    "signup": "20/m",
-    # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
-}
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
-]
 
 ROOT_URLCONF = 'camera.urls'
 

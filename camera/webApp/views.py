@@ -1,63 +1,63 @@
-from django.shortcuts import render
-import time
-import json
-import os
-import requests
-from io import BytesIO
-from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime, timedelta
-from django.http import HttpResponse,JsonResponse
-from django.urls import reverse
-from django.conf import settings
-from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
-from django.http.response import Http404
-from django.shortcuts import render
-from django.utils.http import urlencode
-from django.utils.encoding import smart_str
-from django.views.decorators.http import require_http_methods
-from django.views import View
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
+from rest_framework import viewsets
+from rest_framework import permissions
+from webApp.serializers import UserSerializer, GroupSerializer
+from rest_framework.response import Response
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.views import APIView
+from webApp.form import loginForm
+from django.contrib.auth.views import LoginView
+from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.cache import never_cache
+from django.http import HttpResponseRedirect, QueryDict
 
-from django.contrib.auth.decorators import login_required
-
-# from oauth2_provider.views.generic import ProtectedResourceView
-from .form import loginForm
-from . import models
-# Create your views here.
-
-# class DashboardView(View):
-
-def login(request, *arg, **kwargs):
-    # try:
-    form = loginForm()
-    if request.method == "POST":
-        form = loginForm(request.POST)
-        if form.is_valid():
-            user = ""
-            if user == None:
-                messages.error(request, 'Wrong username or password')
-                return redirect('/login')
-            else:
-                return redirect('/')
-    elif request.method == "GET":
-        # if (request) == None:
-        return render(request, 'login.html', {"form": form})
-        # else:
-        #     return redirect('/')
-    else:
-        return redirect('/')
-    # except:
-    #     return render(request, 'handle500.html')
-
-# class ApiEndpoint(ProtectedResourceView):
-#     def get(self, request, *args, **kwargs):
-#         return HttpResponse('Hello, OAuth2!')
-
-# @login_required()
+User = get_user_model()
 
 
-def index(request, *arg, **kwargs):
 
-    return HttpResponse("success")
+class Login(LoginView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'login.html'
 
+    AuthenticationForm = loginForm
+
+    form_class = AuthenticationForm
+    authentication_form = None
+    template_name = "registration/login.html"
+    redirect_authenticated_user = False
+    extra_context = None
+
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if self.redirect_authenticated_user and self.request.user.is_authenticated:
+            redirect_to = self.get_success_url()
+            if redirect_to == self.request.path:
+                raise ValueError(
+                    "Redirection loop for authenticated user detected. Check that "
+                    "your LOGIN_REDIRECT_URL doesn't point to a login page."
+                )
+            return HttpResponseRedirect(redirect_to)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
