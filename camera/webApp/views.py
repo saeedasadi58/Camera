@@ -32,9 +32,9 @@ from django.http import HttpResponseRedirect, QueryDict
 # from rest_framework import viewsets
 # from rest_framework import permissions
 # from webApp.serializers import UserSerializer
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 
 class Login(LoginView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -126,14 +126,40 @@ class Login(LoginView):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
 
+@api_view(['GET'])
+def create_project(request):
+   # data = first_task()
+   # second_task(data) # want to run this function at background
+   return Response("asdasdasdsad") # want to return this response after completion of first_task()
 
-class ReadCameraView(Response):
+class ReadCameraView(APIView):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-
     queryset = Camera.objects.all()
     serializer_class = CameraSerializer
+    # def get(self,request,*args,**kwargs):
+    #     return Response("asdasdasdsad")
+
+    # def get(self, request, *args, **kwargs):
+    #     if request.user.is_superuser:
+    #         if request.method == "GET":
+    #             template_name = 'profile/status_staff.html'
+    #             result = User.objects.all().order_by('date_joined')
+    #             # for j in result:
+    #             #     print(j.)
+    #             # paginator = Paginator(result, 10)
+    #             # page = request.GET.get('page')
+    #             # result = paginator.get_page(page)
+    #             context = {
+    #                 'object_of_event': result,
+    #                 # 'paginator': paginator,
+    #                 'permission_flag': True
+    #             }
+    #             return render(request, template_name, context)
+    #     return render(request, 'error_403.html')
+
+
 
     # def get(self,request,*args,**kwargs):
     #     return HttpResponse("ok")

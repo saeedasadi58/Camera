@@ -19,7 +19,7 @@ from django.contrib.auth import views as drf_views
 app_name = 'webApp'
 router = DefaultRouter()
 # router.register(r'profile', views.ProfileView)
-router.register(r'readCamera', views.ReadCameraView)
+router.register(r'readCamera', views.ReadCameraView,basename="webApp")
 #
 # # Wire up our API using automatic URL routing.
 # # Additionally, we include login URLs for the browsable API.
@@ -37,7 +37,7 @@ urlpatterns = [
     path('login/', drf_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', drf_views.LogoutView.as_view(), name='logout'),
     path('docs/', include(router.urls)),
-    # path('docs/list/', views.ReadCameraView.as_view(), name="list"),
+    path('docs/list/', views.create_project, name="list"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
