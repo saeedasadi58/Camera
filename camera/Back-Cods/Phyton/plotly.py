@@ -28,7 +28,8 @@ image_label = tk.Label(window)
 image_label.place(x=window_width // 2, y=0, anchor=tk.NW)
 
 # List of image paths
-image_path = "my_pics/my_pic.jpg"  # Replace with the paths to your images
+image_path = "static/image/camera" \
+             "/my_pic.jpg"  # Replace with the paths to your images
 
 
 def plotting():
@@ -114,7 +115,7 @@ def read_camera():
 
     im = Image.fromarray(img)
 
-    im.save('my_pics/my_pic.jpg')
+    im.save('static/image/camera/my_pic.jpg')
 
 
 # img = ImageTk.PhotoImage(Image.open("my_pics/my_pic.jpg"))
