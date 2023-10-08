@@ -39,7 +39,7 @@ urlpatterns = [
     # path('admin/login/', views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', drf_views.LogoutView.as_view(), name='logout'),
     path('docs/', include(router.urls)),
-    path('', views.ReadCameraView.as_view(), name="list"),
+    path('', views.ReadCameraView.as_view(), name="home"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

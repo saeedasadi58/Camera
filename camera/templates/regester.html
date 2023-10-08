@@ -70,21 +70,32 @@
             {#            </button>#}
 
         </div>
-        <form action="/" method="POST" id="form1">
-            {% csrf_token %}
 
-            <div class="form-row col-xl-12 col-lg-12" style="position: unset !important;">
-                <div class=" form-row col-xl-12 col-lg-12">
+
+        <div class="form-row col-xl-12 col-lg-12" style="position: unset !important;">
+            <div class=" form-row col-xl-12 col-lg-12">
+                <form action="/" method="POST" id="form1">
+                    {% csrf_token %}
                     <div class=" col-xl-12 mb-4" style="text-align:left !important;">
                         <input type="submit" class="btn btn-primary btn-sm btn-font " value="Plotting"
                                id="plotting">
 
                     </div>
-                </div>
+                </form>
+                <form action="{% url 'webApp:home' %}" method="POST" id="form1">
+                    {% csrf_token %}
+                    <div class=" col-xl-12 mb-4" style="text-align:left !important;">
+                        <input type="file" value="بررسی" class="btn btn-primary btn-sm btn-font"
+                               id="uploaded" name="uploaded" multiple=true>
+                        <input type="submit" class="btn btn-primary btn-sm btn-font " value="Plottingfile"
+                               id="fileplotting">
+
+                    </div>
+                </form>
+
             </div>
+        </div>
 
-
-        </form>
 
     </div>
 </div>

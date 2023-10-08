@@ -209,16 +209,35 @@ class ReadCameraView(LoginRequiredMixin, View):
         return render(request, "main.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
-        print("saeed plotting :", read_camera())
-        camera = read_camera()
-        data = {
-            "regesterForm": "Rform",
-            "customerList": "customerList",
-            "Custpmers": "Customers",
-            "searchTestPerson": "searchTest"
-        }
-        if camera["code"] == -1:
-            messages.error(request, camera["message"])
+        print("saeed ------------- request.FILES :",request.user)
+        print("saeed ------------- request.FILES :",request.body)
+        print("saeed ------------- request.FILES :",request.FILES)
+        files = request.FILES.getlist("uploaded")
+        print("saeed ------------- request.FILES :",files)
+        permission = Permission.objects.filter(user=request.user)
+        grouppermission = request.user.get_group_permissions()
+        if request.user.is_superuser or permission or grouppermission:
+            if files and len(files) > 0:
+                messages.success(request, "file is there")
+                for csv_file in files:
+                    pass
+            else:
+                camera = read_camera()
+                data = {
+                    "regesterForm": "Rform",
+                    "customerList": "customerList",
+                    "Custpmers": "Customers",
+                    "searchTestPerson": "searchTest"
+                }
+                if camera["code"] == -1:
+                    messages.error(request, camera["message"])
+
+
+        else:
+            messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
+            return self.get(request, *args, **kwargs)
+
+
         return render(request, "main.html", {"data": data})
 
 #
