@@ -97,13 +97,13 @@ class CameraSerializer(serializers.Serializer):
     city_name = serializers.CharField(required=False)
     latitude = serializers.CharField(required=False)
     longitude = serializers.CharField(required=False)
-    def create(self, validated_data):
-        """
-        Create and return a new `Camera` instance, given the validated data.
-        """
-        return Camera.objects.create(**validated_data)
-    def get(self):
-        return HttpResponse("ok")
+    # def create(self, validated_data):
+    #     """
+    #     Create and return a new `Camera` instance, given the validated data.
+    #     """
+    #     return Camera.objects.create(**validated_data)
+    # def get(self):
+    #     return HttpResponse("ok")
 
 class UserSerializerCsfPermission(ModelSerializer):
     class Meta:

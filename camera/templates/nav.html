@@ -41,7 +41,7 @@
     style="background-color: #ffffff !important; position: unset;">
 
 
-    <a class="navbar-brand" href="/"><img src="../../static/image/logo-alraazi.svg" width="60" height="60"
+    <a class="navbar-brand" href="/"><img src="../../static/image/jahad_daneshgahi.png" width="60" height="60"
         alt=""></a>
 
 
@@ -55,128 +55,106 @@
 
 
       <ul class="navbar-nav mr-auto ">
-        {% if 'COVID19 Manager' in role or 'COVID19 Issuer' in role or 'COVID19 MedicalTest' in role %}
         <li class="nav-item active ex1">
           <a class="nav-link " id="ex1"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/'}">Test
-            Registration
+            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/'}">
+              Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
-        {% endif %}
-        {% if 'COVID19 Manager' in role or 'COVID19 Doctor' in role or 'COVID19 Top Doctor' in role %}
-        
-        <!-- <li class="nav-item ">
-          <a class="nav-link " id="ex1"
-          onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/recordResult'}">Submit
-          Result</a>
-        </li> -->
-        <li class="nav-item dropdown " >
-          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown"
-          style="cursor: pointer;color:#183375 !important ;font-size: 14px;" aria-haspopup="true"
-          aria-expanded="false">Submit Result</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            {% if 'COVID19 Manager' in role or 'COVID19 Doctor' in role %}
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/recordResult'}">Doctor</a>
-            {% endif %}
-            {% if 'COVID19 Manager' in role or 'COVID19 Top Doctor' in role %}
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/TopManager'}">Top Manager</a>
-              {% endif %}
-          </div>
-        </li>
-        {% endif %}
-
-
-        {% if 'COVID19 Manager' in role or 'COVID19 Doctor' in role or 'Top Doctor' in role %}
-        <li class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"
-            aria-haspopup="true" aria-expanded="false">Inquery</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/unArchived'}">Approved
-              valid</a>
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/archived'}">Invalid</a>
-          </div>
-        </li>
-        {% endif %}
-        {% if 'COVID19 Manager' in role or 'COVID19 Report' in role %}
-
-        <!-- <li class="nav-item ">
-          <a class="nav-link " id="ex1" href="/report"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/report'}">Report</a>
-        </li> -->
-        <li class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"
-            aria-haspopup="true" aria-expanded="false">Report</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/report'}">Report Test</a>
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/policyReport'}">Report Policy</a>
-            {% if 'COVID19 Manager' in role or 'COVID19 Manager Report' in role  %}
-              <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "
-                onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/managerReport'}">Manager Report</a>
-            {% endif %}
-            <!-- <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/managerReport'}">Manager Policy Report</a> -->
-          </div>
-        </li>
-
-        {% endif %}
-        {% if 'COVID19 Manager' in role or 'COVID19 Doctor' in role or 'COVID19 Top Doctor' in role %}
-
-        <li class="nav-item ">
-          <a class="nav-link " id="ex1" href="/Dr_reportPage"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/Dr_reportPage'}">Dr.Report</a>
-        </li>
-
-        {% endif %}
-        {% if 'COVID19 Manager' in role or 'COVID19 Operator' in role %}
-
-        <li class="nav-item ">
-          <a class=" nav-link " id="ex1"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/airportSearch'}">Check
-            In</a>
-        </li>
-        {% endif %}
-        {% if 'COVID19 Manager' in role or 'COVID19 Visa_Confirm' in role or 'Visa_Confirm' in role %}
-        {% endif %}
-
-        <li class="nav-item ">
-          <a class=" nav-link " id="ex1"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/confirmInformation'}">
-          Confirm Information
-          </a>
-        </li>
-        {% if 'COVID19 Manager' in role or 'COVID19 EmbassyData' in role %}
-<!-- 
-        <li class="nav-item ">
-          <a class=" nav-link " id="ex1"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/visaRequest'}">Visa Request</a>
-        </li> -->
-        <li class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"
-            aria-haspopup="true" aria-expanded="false">Visa Embassy</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/visaRequest'}">Visa Request</a>
-            
-              <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "
-              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/embassyList'}">Embassy List</a>
-            
-          </div>
-        </li>
-        {% endif %}
-
-        <li class="nav-item ">
-          <a class=" nav-link " id="ex1"
-            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/downloadReport'}">
-          Download Schedule
-          </a>
-        </li>
+{##}
+{#        <!-- <li class="nav-item ">#}
+{#          <a class="nav-link " id="ex1"#}
+{#          onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/recordResult'}">Submit#}
+{#          Result</a>#}
+{#        </li> -->#}
+{#        <li class="nav-item dropdown " >#}
+{#          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown"#}
+{#          style="cursor: pointer;color:#183375 !important ;font-size: 14px;" aria-haspopup="true"#}
+{#          aria-expanded="false">Submit Result</a>#}
+{#          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/recordResult'}">Doctor</a>#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/TopManager'}">Top Manager</a>#}
+{#          </div>#}
+{#        </li>#}
+{##}
+{##}
+{#        <li class="nav-item dropdown ">#}
+{#          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"#}
+{#            aria-haspopup="true" aria-expanded="false">Inquery</a>#}
+{#          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/unArchived'}">Approved#}
+{#              valid</a>#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/archived'}">Invalid</a>#}
+{#          </div>#}
+{#        </li>#}
+{##}
+{#        <!-- <li class="nav-item ">#}
+{#          <a class="nav-link " id="ex1" href="/report"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/report'}">Report</a>#}
+{#        </li> -->#}
+{#        <li class="nav-item dropdown ">#}
+{#          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"#}
+{#            aria-haspopup="true" aria-expanded="false">Report</a>#}
+{#          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/report'}">Report Test</a>#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/policyReport'}">Report Policy</a>#}
+{#              <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "#}
+{#                onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/managerReport'}">Manager Report</a>#}
+{#            <!-- <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/managerReport'}">Manager Policy Report</a> -->#}
+{#          </div>#}
+{#        </li>#}
+{##}
+{##}
+{#        <li class="nav-item ">#}
+{#          <a class="nav-link " id="ex1" href="/Dr_reportPage"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/Dr_reportPage'}">Dr.Report</a>#}
+{#        </li>#}
+{##}
+{##}
+{#        <li class="nav-item ">#}
+{#          <a class=" nav-link " id="ex1"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/airportSearch'}">Check#}
+{#            In</a>#}
+{#        </li>#}
+{##}
+{#        <li class="nav-item ">#}
+{#          <a class=" nav-link " id="ex1"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/confirmInformation'}">#}
+{#          Confirm Information#}
+{#          </a>#}
+{#        </li>#}
+{#<!--#}
+{#        <li class="nav-item ">#}
+{#          <a class=" nav-link " id="ex1"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/visaRequest'}">Visa Request</a>#}
+{#        </li> -->#}
+{#        <li class="nav-item dropdown ">#}
+{#          <a class="nav-link dropdown-toggle " id="ex1" data-toggle="dropdown" style="cursor: pointer;"#}
+{#            aria-haspopup="true" aria-expanded="false">Visa Embassy</a>#}
+{#          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">#}
+{#            <a class="dropdown-item " id="ex1" style="color:#183375 !important ;font-size: 14px;"#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/visaRequest'}">Visa Request</a>#}
+{#            #}
+{#              <a class="dropdown-item " id="ex1" style="color:#183375 !important ; font-size: 14px; "#}
+{#              onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/embassyList'}">Embassy List</a>#}
+{#            #}
+{#          </div>#}
+{#        </li>#}
+{##}
+{#        <li class="nav-item ">#}
+{#          <a class=" nav-link " id="ex1"#}
+{#            onClick="{document.getElementById('loader').style.display = 'block',window.location.href='/downloadReport'}">#}
+{#          Download Schedule#}
+{#          </a>#}
+{#        </li>#}
       </ul>
 
 
@@ -186,15 +164,15 @@
           <div class="col-xl-12 col-lg-12 " style="display: flex;flex-direction: row; direction: rtl;">
             <div class="myTriggerNav" id="myTriggerNav">
               <a class="ex1 mr-1 " style="cursor:pointer !important;" id="ex1">
-                Logout |
+                Logout
               </a>
             </div>
-            <a class="ex1 mr-2 " style="cursor:pointer !important;" id="passwordModal">
-              Password |
-            </a>
+{#            <a class="ex1 mr-2 " style="cursor:pointer !important;" id="passwordModal">#}
+{#              Password |#}
+{#            </a>#}
 
-            <h6 class="mr-2 mb-0" style="right: 0; font-size: 14px;
-            line-height: 1.42857143;" id="username">( {{name}} )</h6>
+{#            <h6 class="mr-2 mb-0" style="right: 0; font-size: 14px;#}
+{#            line-height: 1.42857143;" id="username">( {{name}} )</h6>#}
           </div>
 
 

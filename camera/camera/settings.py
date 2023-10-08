@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL='webApp.User'
 
 LOGIN_URL='/admin/login/'
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
@@ -139,3 +140,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = True

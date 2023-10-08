@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html5>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <link href="{% static 'css/bootstrap-datepicker.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/loader.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+
+
+    <script src="{% static 'js/jsuites.js' %}"></script>
+    <link href="{% static 'css/jsuites.css' %}" rel="stylesheet"/>
+
+
+    <title>Document</title>
+
+</head>
+
+<body class="body">
+<div style="display: none;" id="loader">
+    <div
+            style="position: fixed;width: 100%;height: 100%;background-color: black;display: flex;opacity: 50%;;flex-direction: column; ">
+        <div class="lds-ring" style="margin: auto auto;">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<div class="card card-border" style="position: unset !important;">
+    <div class="card-body ">
+        <div class="alert alert-danger alert-dismissible fade show" style="display:none;text-align: center;"
+             id="alertErrorScaner">
+            <strong>Scan Failled</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-success alert-dismissible fade show"
+                         style="display: block;text-align: center;"
+                         id="alert">
+                        <strong>{{ message }} </strong>
+                    </div>
+                {% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show"
+                         style="display: block;text-align: center;" id="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+        <div class="alert-messages"></div>
+        <label class="table-search mb-1">Charts</label>
+        <hr class="m-0 mb-3">
+
+        <div class=" form-row col-xl-12 col-lg-12 mb-4 ">
+            {#            <button type="button" class="btn btn-outline-primary btn-sm btn-font " onclick="passportScan()">Scan#}
+            {#                Passport#}
+            {#            </button>#}
+
+        </div>
+        <form action="/" method="POST" id="form1">
+            {% csrf_token %}
+
+            <div class="form-row col-xl-12 col-lg-12" style="position: unset !important;">
+                <div class=" form-row col-xl-12 col-lg-12">
+                    <div class=" col-xl-12 mb-4" style="text-align:left !important;">
+                        <input type="submit" class="btn btn-primary btn-sm btn-font " value="Plotting"
+                               id="plotting">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    if (document.getElementById('alert').style.display == "block") {
+        setTimeout(function () {
+            document.getElementById('alert').style.display = "none"
+        }, 3000);
+    }
+</script>
+
+
+{##}
+{#<script>#}
+{#    $('#passportNo').bind('keyup', function () {#}
+{#        $(this).val($(this).val().replace(/[^a-z-0-9 ]/i, ""))#}
+{##}
+{#    });#}
+{#    $('#mobileNo').bind('keyup', function () {#}
+{#        $(this).val($(this).val().replace(/[^0-9-۰-۹ ]/i, ""))#}
+{##}
+{#    });#}
+{#</script>#}
+
+</body>
+
+</html>
