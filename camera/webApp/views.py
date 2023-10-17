@@ -95,8 +95,8 @@ class LoginView(SuccessURLAllowedHostsMixin, FormView):
     Display the login form and handle the login action.
     """
 
-    form_class = AuthenticationForm
-    authentication_form = None
+    form_class = loginForm
+    authentication_form = loginForm
     redirect_field_name = REDIRECT_FIELD_NAME
     template_name = 'login.html'
     redirect_authenticated_user = False
