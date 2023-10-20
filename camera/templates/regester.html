@@ -11,6 +11,7 @@
     <link href="{% static 'css/bootstrap-datepicker.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/loader.css' %}" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+    <link rel="icon" href="{% static 'image/jahad_daneshgahi.png' %}" type="image/x-icon">
 
 
     <script src="{% static 'js/jsuites.js' %}"></script>
@@ -21,7 +22,12 @@
 
 </head>
 
-<body class="body">
+
+
+<div style="width: 100%;display: flex;flex-direction: column;align-items: center">
+    <h1 class="google_fonts" style="font-size: 65px;color: white">Particle Size Analysis</h1>
+</div>
+<body class="body" style="background-image: {% static 'image/peakpx.jpg' %}">
 <div style="display: none;" id="loader">
     <div
             style="position: fixed;width: 100%;height: 100%;background-color: black;display: flex;opacity: 50%;;flex-direction: column; ">
@@ -33,73 +39,50 @@
         </div>
     </div>
 </div>
-<div class="card card-border" style="position: unset !important;">
-    <div class="card-body ">
-        <div class="alert alert-danger alert-dismissible fade show" style="display:none;text-align: center;"
-             id="alertErrorScaner">
-            <strong>Scan Failled</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                    <div class="alert alert-success alert-dismissible fade show"
-                         style="display: block;text-align: center;"
-                         id="alert">
-                        <strong>{{ message }} </strong>
-                    </div>
-                {% endif %}
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                    <div class="alert alert-danger alert-dismissible fade show"
-                         style="display: block;text-align: center;" id="alert">
-                        <strong>{{ message }}</strong>
-                    </div>
-                {% endif %}
 
-            {% endfor %}
-        {% endif %}
-        <div class="alert-messages"></div>
-        <label class="table-search mb-1">Charts</label>
-        <hr class="m-0 mb-3">
-
-        <div class=" form-row col-xl-12 col-lg-12 mb-4 ">
-            {#            <button type="button" class="btn btn-outline-primary btn-sm btn-font " onclick="passportScan()">Scan#}
-            {#                Passport#}
-            {#            </button>#}
-
-        </div>
+<div class="form-row col-xl-12" style="position: unset">
+    <div class="card card-border col-xl-5" style="position: unset !important;margin-right: 50px;margin-left: 100px;">
+        <div class="card-body ">
 
 
-        <div class="form-row col-xl-12 col-lg-12" style="position: unset !important;">
-            <div class=" form-row col-xl-12 col-lg-12">
-                <form action="/" method="POST" id="form1">
+            <div class="" style="display: flex;flex-direction: column;text-align: center">
+                <form action="/" method="POST" id="form1" style="display: flex;flex-direction: column;text-align: center">
                     {% csrf_token %}
-                    <div class=" col-xl-12 mb-4" style="text-align:left !important;">
-                        <input type="submit" class="btn btn-primary btn-sm btn-font " value="Plotting"
-                               id="plotting">
-
-                    </div>
+                    <input type="submit" class="btn btn-font " style="margin-top: 17px;background-color: cornflowerblue;" value="Plotting"
+                           id="plotting">
                 </form>
-                <form action="{% url 'webApp:home' %}" method="POST" id="form1">
-                    {% csrf_token %}
-                    <div class=" col-xl-12 mb-4" style="text-align:left !important;">
-                        <input type="file" value="بررسی" class="btn btn-primary btn-sm btn-font"
-                               id="uploaded" name="uploaded" multiple=true>
-                        <input type="submit" class="btn btn-primary btn-sm btn-font " value="Plottingfile"
-                               id="fileplotting">
-
-                    </div>
-                </form>
-
             </div>
         </div>
-
-
     </div>
+
+    <div class="card card-border col-xl-5" style="position: unset !important;">
+        <div class="card-body ">
+            <div class="" style="display: flex;flex-direction: column;text-align: center">
+                <form action="{% url 'webApp:home' %}" method="POST" id="form1" style="display: flex;flex-direction: column;text-align: center">
+                    {% csrf_token %}
+{#                    <input hidden type="file" value="بررسی" class="btn btn-primary btn-sm btn-font"#}
+{#                           id="uploaded" name="uploaded" multiple=true>#}
+{#                    <input type="file" onchange="this.form.submit()"  class="btn btn-font " style="margin-top: 17px;background-color: cornflowerblue;" value="Plotting File"#}
+{#                           id="fileplotting">#}
+                    <input type="file" id="file" style="display:none;" />
+                    <button id="button" name="button" value="Upload" class="btn btn-font " style="margin-top: 17px;background-color: cornflowerblue;" onclick="thisFileUpload();">Plotting File</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+
+
+
+
+<script>
+        function thisFileUpload() {
+            document.getElementById("file").click();
+        }
+</script>
 <script>
     if (document.getElementById('alert').style.display == "block") {
         setTimeout(function () {

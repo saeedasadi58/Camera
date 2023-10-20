@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
     <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-      <script src="{% static 'js/ajax.js' %}"></script>
+    <script src="{% static 'js/ajax.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 
     <!-- ---------pace loder--------- -->
@@ -27,7 +27,8 @@
 
 </head>
 
-<body class="body">
+<body class="body"  >
+{#<body class="body" style="background-image: {% static 'image/peakpx.jpg' %}" >#}
 <div style="display: none;" id="loader">
     <div
             style="position: fixed;width: 100%;height: 100%;background-color: black;display: flex;opacity: 50%;;flex-direction: column; ">
@@ -40,11 +41,16 @@
         </div>
     </div>
 </div>
+
+{#    <div style="background-image: {% static 'image/peakpx.jpg' %}"></div>#}
 <div class="pad-l pad-r ">
     {% include 'nav.html' with role=role name=name %}
 </div>
 <div class="pad-l pad-r " style="margin-top: 15px;position: unset !important;">
     {% include 'regester.html' with messages=messages %}
+</div>
+<div class="pad-l pad-r " style="margin-top: 15px;position: unset !important;">
+    {% include 'footer.html' with messages=messages %}
 </div>
 {#  <!-- <div class="pad-l pad-r " style="margin-top: 15px;position: unset !important;">#}
 {#    {% include 'regester.html' with form=data.regesterForm data=data.Custpmers searchCustomer=data.searchCustomer role=role messages=messages %}#}

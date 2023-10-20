@@ -1,18 +1,30 @@
+@font-face {
+    font-family: externalFont;
+    src: url(static/font/Iranian Sans.ttf);
+}
 .body {
-    
-    
-    background: #d9eefb;
-    
+    background-image: url('/static/image/peakpx.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    /*font-family: externalFont;*/
+
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-
-   
-    
-    
 }
-
+.footer {
+   position:fixed;
+   left:0px;
+   bottom:-12px;
+   height:70px;
+   width:100%;
+   background:#fff;
+}
+.google_fonts{
+    font-family: "externalFont !important";
+}
 .card-border-footer {
     border-radius: 6px;
     box-shadow: #21212130 1px 1px 1px 1px;
