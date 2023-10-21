@@ -32,6 +32,30 @@
         }
     </style>
 
+    <style>
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+    </style>
+
 </head>
 
 <body style="position: unset;">
@@ -124,6 +148,11 @@
 
                     <span class="sr-only"></span>
                 </li>
+                <li class="nav-item active ex1">
+                    <a class="nav-link ex1" id="myTriggerReport">Report</a>
+
+                    <span class="sr-only"></span>
+                </li>
             </ul>
 
 
@@ -194,7 +223,7 @@
         <div class="card">
             <div class="card-body">
                 <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
-                    Settings</h3>
+                    Camera Settings</h3>
                 <hr>
                 <div class="" style="text-align: center;margin: 20px">
                     <div class="col-12" href="/" style="direction: rtl;">
@@ -300,6 +329,157 @@
 </div>
 
 
+<div class="myModalReport" id="myModalReport">
+    <div class="myModalReport-contentNav" id="myModal-contentNav">
+        <!-- <span class="myClose-button" id="myClose-button"></span> -->
+        <div class="card">
+            <div class="card-body">
+                <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
+                    Report</h3>
+                <hr>
+                <div class="" style="text-align: center;margin: 20px">
+                    <div class="col-12" href="/" style="direction: rtl;">
+                        <div class="form-row col-xl-12">
+                            <div style="overflow: auto;">
+                                <table class="label-class" style="margin-top: 1.55 ;overflow: visible !important;">
+                                    <tr>
+                                        <th> Id </th>
+                                        <th> Date </th>
+                                        <th> Chart 1 </th>
+                                        <th>Chart 2 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+                                        <th>Chart 3 </th>
+{#                                        <th>Submit Date</th>#}
+{#                                        <th>ُLaboratory Code</th>#}
+{#                                        <th>Group Code</th>#}
+{#                                        <th>Test Result</th>#}
+{#                                        <th>Operation</th>#}
+                                    </tr>
+{#                                    {% for obj in data.customers %}#}
+                                    <tr>
+                                        <td> 1 </td>
+                                        <td> 2023/06/04 </td>
+                                        <td> 20 </td>
+                                        <td> 30 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                        <td> 40 </td>
+                                    </tr>
+{#                                    {% endfor %}#}
+                                </table>
+                                {% if data.lastPage >= 1 %}
+                                <nav class="Page navigation example">
+                                    {% csrf_token %}
+                                    <ul class="pagination pg-blue">
+                                        <div action="?pageNumber=0" method="POST" style="position: unset;"
+                                            class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber=0" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}"
+                                                    style="position: unset;">&laquo;</a>
+                                            </li>
+                                        </div>
+
+
+                                        {% for page in data.total %}
+                                        {% if page < data.thisPage|add:'-2' %}
+                                        {% if forloop.counter0 == 0 %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{data.thisPage|add:'-3'}}" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}" style="position: unset;">....</a>
+                                            </li>
+                                        </div>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if page > data.thisPage|add:'-3' and page < data.thisPage|add:'3' %}
+
+                                        {% if data.thisPage == page %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item active">
+                                                <a href="?pageNumber={{page}}" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}"
+                                                    style="position: unset;">{{ forloop.counter }}</a>
+                                            </li>
+                                        </div>
+                                        {% else %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{page}}" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}"
+                                                    style="position: unset;">{{ forloop.counter }}</a> </li>
+                                        </div>
+                                        {% endif %}
+                                        {% else %}
+
+                                        {% if forloop.last %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{data.thisPage|add:'3'}}" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}" style="position: unset;">....</a>
+                                            </li>
+                                        </div>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% endfor %}
+
+
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{data.lastPage}}" class="page-link"
+                                                    id="tablLi{{ forloop.counter }}"
+                                                    style="position: unset;">&raquo;</a> </li>
+                                        </div>
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row col-xl-12 m-0" style="text-align: center;">
+                    <div class="col-6" href="/" style="direction: rtl;">
+                        <botton href="/recordResults"
+                                class="btn btn-outline-danger btn-sm btn-font myClose-buttonReport">
+                            انصراف
+                        </botton>
+
+                        <!-- <botton type="button"  href="/recordResults"  class="btn btn-outline-danger btn-sm btn-font "  value="No" > -->
+                    </div>
+                    <div class="col-6">
+                        <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
+{#                        <a href="" style="width: 57px;" class="btn btn-outline-success btn-sm btn-font ">تایید</a>#}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
 <script>
 
     var logoutModalSetting = document.querySelector("#myModalSetting");
@@ -328,6 +508,39 @@
     closeButtonNavSetting.addEventListener("click", toggleModalSetting);
 
     window.addEventListener("click", windowOnClickSetting);
+
+
+</script>
+
+
+<script>
+
+    var logoutModalReport = document.querySelector("#myModalReport");
+
+    var triggerNavReport = document.querySelector("#myTriggerReport");
+
+    var closeButtonNavReport = document.querySelector(".myClose-buttonReport");
+
+
+    function toggleModalReport() {
+        logoutModalReport.classList.toggle("myShow-modalNav");
+
+    }
+
+
+    function windowOnClickReport(eventNav) {
+        if (eventNav.target === logoutModalReport) {
+            toggleModalReport();
+        }
+
+    }
+
+
+    triggerNavReport.addEventListener("click", toggleModalReport);
+
+    closeButtonNavReport.addEventListener("click", toggleModalReport);
+
+    window.addEventListener("click", windowOnClickReport);
 
 
 </script>

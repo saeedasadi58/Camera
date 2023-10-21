@@ -35,6 +35,15 @@
 
 }
 
+#myTriggerReport:hover {
+    border-bottom: 2px solid red;
+    padding-bottom: 1px;
+    /*p*/
+    /* text-decoration: underline;
+    text-decoration-color: red; */
+
+}
+
 .ex1 {
     color: #183375 !important;
 }
@@ -70,6 +79,29 @@
 }
 
 .myModalSetting-contentNav {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 60rem;
+    border-radius: 0.5rem;
+}
+.myModalReport {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.myModalReport-contentNav {
     position: absolute;
     top: 50%;
     left: 50%;
