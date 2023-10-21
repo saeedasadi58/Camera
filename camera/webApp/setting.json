@@ -1,0 +1,12 @@
+{ "setting" : {
+    "ExposureTime": 10000,
+    "Gain": 2,
+    "Width": 1920,
+    "Height": 1080,
+    "FrameRate": 30,
+    "PixelFormat": "RGB8",
+    "AutoWhiteBalance": "Off",
+    "ColorBalanceRed": 1.0,
+    "ColorBalanceBlue": 1.0
+}
+}
