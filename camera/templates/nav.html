@@ -64,12 +64,6 @@
      style="position: unset;height: 160px;display: flex;flex-direction: column">
 
     <div class="form-row" style="width: 100%">
-        {#        <div class="navbar-nav mr-auto " id="basicExampleNav">#}
-
-        {#            <a class="navbar-brand" style="background-color: white;border-radius: 12%;" href="/"><img src="../../static/image/jahad_daneshgahi.png" width="60" height="60"#}
-        {#                                                                                                      alt=""></a>#}
-        {#            <a class="navbar-brand" style="background-color: white;border-radius: 12%;" href="/"><img src="../../static/image/jahad_daneshgahi.png" width="60" height="60"#}
-        {#                                                                                                  alt=""></a>#}
         <ul class="navbar-nav mr-auto ">
             <li class="nav-item active ex1">
                 <a class="navbar-brand" style="background-color: white;border-radius: 12%;" href="/"><img
@@ -112,18 +106,7 @@
                         alt=""></a>
                 </a>
             </li>
-
         </ul>
-
-        {#            <div class="form-row" style="padding-top: 0.75rem;">#}
-        {#                <div class="col-xl-12 col-lg-12 " style="display: flex;flex-direction: row; direction: rtl;">#}
-        {#                    <div class="myTriggerNav" id="myTriggerNav">#}
-        {#                        <a class="navbar-brand" style="background-color: white;border-radius: 12%;" href="/"><img src="../../static/image/jahad_daneshgahi.png" width="60" height="60"#}
-        {#                                                                                                              alt=""></a>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
     </div>
     <div class="form-row" style="width: 100%">
 
@@ -165,15 +148,7 @@
                                 <img style="height: 20px;margin-left: -53px;" src="{% static 'image/logout-8.png' %}">
                             </a>
                         </div>
-                        {#            <a class="ex1 mr-2 " style="cursor:pointer !important;" id="passwordModal">#}
-                        {#              Password |#}
-                        {#            </a>#}
-
-                        {#            <h6 class="mr-2 mb-0" style="right: 0; font-size: 14px;#}
-                        {#            line-height: 1.42857143;" id="username">( {{name}} )</h6>#}
                     </div>
-
-
                 </div>
             </form>
         </div>
@@ -221,14 +196,101 @@
     <div class="myModalSetting-contentNav" id="myModal-contentNav">
         <!-- <span class="myClose-button" id="myClose-button"></span> -->
         <div class="card">
-            <div class="card-body">
+            <form method="post" action="/settings" class="card-body">
+                {% csrf_token %}
                 <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
-                    Camera Settings</h3>
+                    Settings</h3>
                 <hr>
                 <div class="" style="text-align: center;margin: 20px">
                     <div class="col-12" href="/" style="direction: rtl;">
                         <div class="form-row col-xl-12">
-                            <div class="col-xl-6 form-row card-border-footer" style="padding: 9px">
+                            <div class="col-xl-6 form-row card-border-footer" style="padding: 9px;margin: auto">
+                                <div class="col-xl-12" style="display: flex;flex-direction: column">
+                                    <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
+                                        Process Settings</h3>
+                                    <hr>
+                                </div>
+                                <div class="col-xl-12 form-row " style="text-align: right;">
+                                    <label class="col-xl-3">نمونه برداری هر </label>
+                                    {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                    {{ data.SettingsForm.samplingTime }}
+                                    <label class="col-xl-5">ثانیه انجام شود</label>
+
+                                </div>
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    {{ data.SettingsForm.processedSeparately }}
+                                    {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
+                                    <label style="text-align: right;" class="col-xl-10">هر نمونه به صورت مجزا پردازش
+                                        شود</label>
+
+                                </div>
+                                <div class="col-xl-12 form-row " style="text-align: right;">
+                                    <label class="col-xl-1"> هر </label>
+                                    {{ data.SettingsForm.processPerSeconds }}
+                                    {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
+                                </div>
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    <label class="col-xl-3"> کالیبراسین : </label>
+                                    {{ data.SettingsForm.calibration }}
+
+                                    {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
+                                    {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
+                                </div>
+                                {#                                <div class="col-xl-12 form-row " style="padding: 9px">#}
+                                {#                                    {{ data.SettingsForm.evaluatedDirectly }}#}
+                                {#                                    <input class="col-xl-1" type="radio" name="proccess" style="height: 15px;text-align: right;">#}
+                                {#                                    <label class="col-xl-10" style="text-align: right;">نتایج مستقیما ارزیابی#}
+                                {#                                        شود</label>#}
+                                {##}
+                                {#                                </div>#}
+                                {#                                <div class="col-xl-12 form-row " style="padding: 9px">#}
+                                {#                                    {{ data.SettingsForm.evaluatedAutomatically }}#}
+                                {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
+                                {#                                           style="height: 15px;text-align: right;">#}
+                                {#                                    <label class="col-xl-10" style="text-align: right;">نتایج به صورت خودکار توسط تاریخ#}
+                                {#                                        توزیع تخمین زده شود</label>#}
+                                {##}
+                                {#                                </div>#}
+                                <div class="col-xl-12 form-row " style="padding: 9px;text-align: initial;">
+                                    {{ data.SettingsForm.evaluated }}
+                                    {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
+                                    {#                                           style="height: 15px;text-align: right;">#}
+                                    {#                                    <label class="col-xl-10" style="text-align: right;">نتایج بر اساس نتایج تجربی توسط#}
+                                    {#                                        تابع توزیع تخمین زده شود</label>#}
+                                </div>
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    <div class="col-xl-6 form-row">
+                                        <label class="col-xl-6">ضریب (n) </label>
+                                        {{ data.SettingsForm.coefficient_N }}
+
+                                        {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                    </div>
+                                    <div class="col-xl-6 form-row">
+                                        <label class="col-xl-6">ضریب (x) </label>
+                                        {{ data.SettingsForm.coefficient_X }}
+
+                                        {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    <div class="col-xl-12 form-row " style="padding: 9px">
+                                        {{ data.SettingsForm.separationAlgorithm }}
+
+                                        {#                                        <input class="col-xl-1" type="checkbox" style="height: 15px;text-align: right;">#}
+                                        <label class="col-xl-10" style="text-align: right;">از الگریتم جدا سازی برای
+                                            تفکیک
+                                            بیشتر ذرات استفاده شود.</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 form-row card-border-footer" style="margin: auto;padding: 9px;">
+                                <div class="col-xl-12" style="display: flex;flex-direction: column">
+                                    <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
+                                        Camera Settings</h3>
+                                    <hr>
+                                </div>
                                 <div class="col-xl-12 form-row " style="text-align: right;">
                                     <label class="col-xl-3">نمونه برداری هر </label>
                                     <input class="col-xl-2" value="0" type="number">
@@ -246,9 +308,9 @@
                                     <input class="col-xl-2" value="0" type="number">
                                     <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
                                 </div>
-                                                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <label class="col-xl-6"> کالیبراسین : </label>
-                                    <input class="col-xl-6" value="0" type="number" style="height: 25px;">
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    <label class="col-xl-3"> کالیبراسین : </label>
+                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">
                                     {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
                                 </div>
                                 <div class="col-xl-12 form-row " style="padding: 9px">
@@ -280,75 +342,27 @@
                                         <label class="col-xl-6">ضریب (x) </label>
                                         <input class="col-xl-6" value="0" type="number" style="height: 25px;">
                                     </div>
-                                    <div class="col-xl-4 form-row">
-                                        <button class="btn btn-primary btn-sm" style="margin: auto">ثبت ضرایب</button>
+                                </div>
+                                <div class="col-xl-12 form-row " style="padding: 9px">
+                                    <div class="col-xl-12 form-row " style="padding: 9px">
+                                        <input class="col-xl-1" type="checkbox" style="height: 15px;text-align: right;">
+                                        <label class="col-xl-10" style="text-align: right;">از الگریتم جدا سازی برای
+                                            تفکیک
+                                            بیشتر ذرات استفاده شود.</label>
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-5 form-row card-border-footer" style="margin-right: 20px">
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <label class="col-xl-6"> کالیبراسین : </label>
-                                    <input class="col-xl-6" value="0" type="number" style="height: 25px;">
-                                    {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="form-row col-xl-12">
-                            <div class="col-xl-12 form-row card-border-footer" style="padding: 9px">
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج مستقیما ارزیابی
-                                        شود</label>
-
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج به صورت خودکار توسط تاریخ
-                                        توزیع تخمین زده شود</label>
-
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج بر اساس نتایج تجربی توسط
-                                        تابع توزیع تخمین زده شود</label>
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <div class="col-xl-4 form-row">
-                                        <label class="col-xl-6">ضریب (n) </label>
-                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">
-                                    </div>
-                                    <div class="col-xl-4 form-row">
-                                        <label class="col-xl-6">ضریب (x) </label>
-                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">
-                                    </div>
-                                    <div class="col-xl-4 form-row">
-                                        <button class="btn btn-primary btn-sm" style="margin: auto">ثبت ضرایب</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row col-xl-12">
-                            <div class="col-xl-12 form-row card-border-footer" style="padding: 9px">
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="checkbox" style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">از الگریتم جدا سازی برای تفکیک
-                                        بیشتر ذرات استفاده شود.</label>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row col-xl-12 m-0" style="text-align: center;">
                     <div class="col-6" href="/" style="direction: rtl;">
-                        <botton href="/recordResults"
-                                class="btn btn-outline-danger btn-sm btn-font myClose-buttonSetting">
+                        <a href="/recordResults"
+                           class="btn btn-outline-danger btn-sm btn-font myClose-buttonSetting">
                             انصراف
-                        </botton>
+                        </a>
 
                         <!-- <botton type="button"  href="/recordResults"  class="btn btn-outline-danger btn-sm btn-font "  value="No" > -->
                     </div>
@@ -359,7 +373,7 @@
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
@@ -381,112 +395,117 @@
                             <div style="overflow: auto;">
                                 <table class="label-class" style="margin-top: 1.55 ;overflow: visible !important;">
                                     <tr>
-                                        <th> Id </th>
-                                        <th> Date </th>
-                                        <th> Chart 1 </th>
-                                        <th>Chart 2 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-                                        <th>Chart 3 </th>
-{#                                        <th>Submit Date</th>#}
-{#                                        <th>ُLaboratory Code</th>#}
-{#                                        <th>Group Code</th>#}
-{#                                        <th>Test Result</th>#}
-{#                                        <th>Operation</th>#}
+                                        <th> Id</th>
+                                        <th> Date</th>
+                                        <th> Chart 1</th>
+                                        <th>Chart 2</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        <th>Chart 3</th>
+                                        {#                                        <th>Submit Date</th>#}
+                                        {#                                        <th>ُLaboratory Code</th>#}
+                                        {#                                        <th>Group Code</th>#}
+                                        {#                                        <th>Test Result</th>#}
+                                        {#                                        <th>Operation</th>#}
                                     </tr>
-{#                                    {% for obj in data.customers %}#}
+                                    {#                                    {% for obj in data.customers %}#}
                                     <tr>
-                                        <td> 1 </td>
-                                        <td> 2023/06/04 </td>
-                                        <td> 20 </td>
-                                        <td> 30 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
-                                        <td> 40 </td>
+                                        <td> 1</td>
+                                        <td> 2023/06/04</td>
+                                        <td> 20</td>
+                                        <td> 30</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
+                                        <td> 40</td>
                                     </tr>
-{#                                    {% endfor %}#}
+                                    {#                                    {% endfor %}#}
                                 </table>
                                 {% if data.lastPage >= 1 %}
-                                <nav class="Page navigation example">
-                                    {% csrf_token %}
-                                    <ul class="pagination pg-blue">
-                                        <div action="?pageNumber=0" method="POST" style="position: unset;"
-                                            class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber=0" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}"
-                                                    style="position: unset;">&laquo;</a>
-                                            </li>
-                                        </div>
+                                    <nav class="Page navigation example">
+                                        {% csrf_token %}
+                                        <ul class="pagination pg-blue">
+                                            <div action="?pageNumber=0" method="POST" style="position: unset;"
+                                                 class="formpage">
+                                                {% csrf_token %}
+                                                <li class="page-item">
+                                                    <a href="?pageNumber=0" class="page-link"
+                                                       id="tablLi{{ forloop.counter }}"
+                                                       style="position: unset;">&laquo;</a>
+                                                </li>
+                                            </div>
 
 
-                                        {% for page in data.total %}
-                                        {% if page < data.thisPage|add:'-2' %}
-                                        {% if forloop.counter0 == 0 %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{data.thisPage|add:'-3'}}" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}" style="position: unset;">....</a>
-                                            </li>
-                                        </div>
-                                        {% endif %}
-                                        {% endif %}
-                                        {% if page > data.thisPage|add:'-3' and page < data.thisPage|add:'3' %}
+                                            {% for page in data.total %}
+                                                {% if page < data.thisPage|add:'-2' %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <div style="position: unset;" class="formpage">
+                                                            {% csrf_token %}
+                                                            <li class="page-item">
+                                                                <a href="?pageNumber={{ data.thisPage|add:'-3'}}"
+                                                                   class="page-link"
+                                                                   id="tablLi{{ forloop.counter }}"
+                                                                   style="position: unset;">....</a>
+                                                            </li>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% if page > data.thisPage|add:'-3' and page < data.thisPage|add:'3' %}
 
-                                        {% if data.thisPage == page %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item active">
-                                                <a href="?pageNumber={{page}}" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}"
-                                                    style="position: unset;">{{ forloop.counter }}</a>
-                                            </li>
-                                        </div>
-                                        {% else %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{page}}" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}"
-                                                    style="position: unset;">{{ forloop.counter }}</a> </li>
-                                        </div>
-                                        {% endif %}
-                                        {% else %}
+                                                    {% if data.thisPage == page %}
+                                                        <div style="position: unset;" class="formpage">
+                                                            {% csrf_token %}
+                                                            <li class="page-item active">
+                                                                <a href="?pageNumber={{ page }}" class="page-link"
+                                                                   id="tablLi{{ forloop.counter }}"
+                                                                   style="position: unset;">{{ forloop.counter }}</a>
+                                                            </li>
+                                                        </div>
+                                                    {% else %}
+                                                        <div style="position: unset;" class="formpage">
+                                                            {% csrf_token %}
+                                                            <li class="page-item">
+                                                                <a href="?pageNumber={{ page }}" class="page-link"
+                                                                   id="tablLi{{ forloop.counter }}"
+                                                                   style="position: unset;">{{ forloop.counter }}</a>
+                                                            </li>
+                                                        </div>
+                                                    {% endif %}
+                                                {% else %}
 
-                                        {% if forloop.last %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{data.thisPage|add:'3'}}" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}" style="position: unset;">....</a>
-                                            </li>
-                                        </div>
-                                        {% endif %}
-                                        {% endif %}
-                                        {% endfor %}
+                                                    {% if forloop.last %}
+                                                        <div style="position: unset;" class="formpage">
+                                                            {% csrf_token %}
+                                                            <li class="page-item">
+                                                                <a href="?pageNumber={{ data.thisPage|add:'3'}}"
+                                                                   class="page-link"
+                                                                   id="tablLi{{ forloop.counter }}"
+                                                                   style="position: unset;">....</a>
+                                                            </li>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
 
 
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{data.lastPage}}" class="page-link"
-                                                    id="tablLi{{ forloop.counter }}"
-                                                    style="position: unset;">&raquo;</a> </li>
-                                        </div>
-                                    </ul>
-                                </nav>
+                                            <div style="position: unset;" class="formpage">
+                                                {% csrf_token %}
+                                                <li class="page-item">
+                                                    <a href="?pageNumber={{ data.lastPage }}" class="page-link"
+                                                       id="tablLi{{ forloop.counter }}"
+                                                       style="position: unset;">&raquo;</a></li>
+                                            </div>
+                                        </ul>
+                                    </nav>
                                 {% endif %}
                             </div>
 
@@ -505,7 +524,7 @@
                     </div>
                     <div class="col-6">
                         <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
-{#                        <a href="" style="width: 57px;" class="btn btn-outline-success btn-sm btn-font ">تایید</a>#}
+                        {#                        <a href="" style="width: 57px;" class="btn btn-outline-success btn-sm btn-font ">تایید</a>#}
                     </div>
 
                 </div>

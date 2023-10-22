@@ -20,7 +20,7 @@ from .serializers import UserSerializer, UserCrateSerializer, ChangePasswordSeri
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime
 from django.db.models import Avg, Count
-from webApp.form import loginForm
+from webApp.form import loginForm, SettingsForm
 from django.contrib.auth.views import LoginView
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -51,33 +51,6 @@ from .BackCods.Python.plotly import *
 from django.contrib import messages
 
 
-# from webApp.BackCods.python.poplib import plotting
-
-
-# class Login(SuccessURLAllowedHostsMixin, FormView):
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'login.html'
-#
-#     AuthenticationForm = loginForm
-#
-#     form_class = AuthenticationForm
-#     authentication_form = None
-#     redirect_authenticated_user = False
-#     extra_context = None
-#
-#     @method_decorator(sensitive_post_parameters())
-#     @method_decorator(csrf_protect)
-#     @method_decorator(never_cache)
-#     def dispatch(self, request, *args, **kwargs):
-#         if self.redirect_authenticated_user and self.request.user.is_authenticated:
-#             redirect_to = "/"
-#             if redirect_to == self.request.path:
-#                 raise ValueError(
-#                     "Redirection loop for authenticated user detected. Check that "
-#                     "your LOGIN_REDIRECT_URL doesn't point to a login page."
-#                 )
-#             return HttpResponseRedirect(redirect_to)
-#         return super().dispatch(request, *args, **kwargs)
 
 class RemovedInDjango21Warning(PendingDeprecationWarning):
     pass
@@ -201,7 +174,7 @@ class ReadCameraView(LoginRequiredMixin, View):
     # serializer_class = CameraSerializer
     def get(self, request, *args, **kwargs):
         data = {
-            "regesterForm": "Rform",
+            "SettingsForm": SettingsForm,
             "customerList": "customerList",
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
@@ -209,13 +182,15 @@ class ReadCameraView(LoginRequiredMixin, View):
         return render(request, "main.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
-        print("saeed ------------- request.FILES :",request.user)
-        print("saeed ------------- request.FILES :",request.body)
-        print("saeed ------------- request.FILES :",request.FILES)
         files = request.FILES.getlist("uploaded")
-        print("saeed ------------- request.FILES :",files)
         permission = Permission.objects.filter(user=request.user)
         grouppermission = request.user.get_group_permissions()
+        data = {
+            "SettingsForm": SettingsForm,
+            "customerList": "customerList",
+            "Custpmers": "Customers",
+            "searchTestPerson": "searchTest"
+        }
         if request.user.is_superuser or permission or grouppermission:
             if files and len(files) > 0:
                 messages.success(request, "file is there")
@@ -223,12 +198,6 @@ class ReadCameraView(LoginRequiredMixin, View):
                     pass
             else:
                 camera = read_camera()
-                data = {
-                    "regesterForm": "Rform",
-                    "customerList": "customerList",
-                    "Custpmers": "Customers",
-                    "searchTestPerson": "searchTest"
-                }
                 if camera["code"] == -1:
                     messages.error(request, camera["message"])
 
@@ -237,8 +206,17 @@ class ReadCameraView(LoginRequiredMixin, View):
             messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
             return self.get(request, *args, **kwargs)
 
-
         return render(request, "main.html", {"data": data})
+
+
+class Settings(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        settings_form = SettingsForm()
+        if settings_form.is_valid() :
+            print("saeed ------------- ",settings_form.cleaned_data)
+
+        return redirect("/")
 
 #
 # class StandardResultsSetPagination(PageNumberPagination):

@@ -40,6 +40,7 @@ urlpatterns = [
     path('logout/', drf_views.LogoutView.as_view(), name='logout'),
     path('docs/', include(router.urls)),
     path('', views.ReadCameraView.as_view(), name="home"),
+    path('settings', views.Settings.as_view(), name="settings"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

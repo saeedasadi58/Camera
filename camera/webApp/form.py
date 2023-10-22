@@ -1,5 +1,4 @@
 import unicodedata
-
 from django import forms
 from django.contrib.auth import authenticate, get_user_model, password_validation
 from django.contrib.auth.hashers import UNUSABLE_PASSWORD_PREFIX, identify_hasher
@@ -15,8 +14,64 @@ from django.utils.text import capfirst
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
-
 UserModel = get_user_model()
+
+
+class SettingsForm(forms.Form):
+    samplingTime = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    processedSeparately = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-1',
+            "type": "checkbox",
+            "style": "text-align: right;height: 15px;",
+        })
+    )
+    processPerSeconds = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    calibration = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    CHOICES = [('evaluatedDirectly', 'نتایج مستقیما ارزیابی شود'),
+               ('evaluatedAutomatically', 'نتایج به صورت خودکار توسط تاریخ توزیع تخمین زده شود'),
+               ('evaluatedExperimental', 'نتایج بر اساس تجربی توسط تابع توزیع تخمین زده شود')]
+    evaluated = forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
+
+    coefficient_N = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-4',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    coefficient_X = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-4',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    separationAlgorithm = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-1',
+            "type": "checkbox",
+            "style": "text-align: right;height: 15px;",
+        })
+    )
 
 class UsernameField(forms.CharField):
     def to_python(self, value):
@@ -37,16 +92,16 @@ class loginForm(forms.Form):
     """
 
     username = UsernameField(widget=forms.TextInput(attrs={
-            'type': 'text',
-            'title': 'Username',
-            'id': 'username',
-            'name': 'username',
-            'placeholder': 'user',
-            'autocomplete': 'off',
-            'maxlength': '255',
-            'tabindex': '1',
-            'style': 'width: 300',
-        }))
+        'type': 'text',
+        'title': 'Username',
+        'id': 'username',
+        'name': 'username',
+        'placeholder': 'user',
+        'autocomplete': 'off',
+        'maxlength': '255',
+        'tabindex': '1',
+        'style': 'width: 300',
+    }))
     password = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -130,4 +185,3 @@ class loginForm(forms.Form):
             code="invalid_login",
             params={"username": self.username_field.verbose_name},
         )
-
