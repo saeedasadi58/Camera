@@ -23,7 +23,6 @@
 </head>
 
 
-
 <div style="width: 100%;display: flex;flex-direction: column;align-items: center">
     <h1 class="google_fonts" style="margin-bottom: 70px;font-size: 65px;color: white">Particle Size Analysis</h1>
 </div>
@@ -46,9 +45,11 @@
 
 
             <div class="" style="display: flex;flex-direction: column;text-align: center">
-                <form action="/" method="POST" id="form1" style="display: flex;flex-direction: column;text-align: center">
+                <form action="/" method="POST" id="form1"
+                      style="display: flex;flex-direction: column;text-align: center">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-font " style="height: 69px;margin-top: 17px;background-color: cornflowerblue;" value="Plotting"
+                    <input type="submit" class="btn btn-font "
+                           style="height: 69px;margin-top: 17px;background-color: cornflowerblue;" value="Plotting"
                            id="plotting">
                 </form>
             </div>
@@ -58,14 +59,18 @@
     <div class="card card-border col-xl-5" style="position: unset !important;margin: auto;">
         <div class="card-body ">
             <div class="" style="display: flex;flex-direction: column;text-align: center">
-                <form action="{% url 'webApp:home' %}" method="POST" id="form1" style="display: flex;flex-direction: column;text-align: center">
+                <form action="{% url 'webApp:home' %}" method="POST" id="form1"
+                      style="display: flex;flex-direction: column;text-align: center">
                     {% csrf_token %}
-{#                    <input hidden type="file" value="بررسی" class="btn btn-primary btn-sm btn-font"#}
-{#                           id="uploaded" name="uploaded" multiple=true>#}
-{#                    <input type="file" onchange="this.form.submit()"  class="btn btn-font " style="margin-top: 17px;background-color: cornflowerblue;" value="Plotting File"#}
-{#                           id="fileplotting">#}
-                    <input type="file" id="file" style="display:none;" />
-                    <button id="button" name="button" value="Upload" class="btn btn-font " style="height: 69px;margin-top: 17px;background-color: cornflowerblue;" onclick="thisFileUpload();">Plotting File</button>
+                    {#                    <input hidden type="file" value="بررسی" class="btn btn-primary btn-sm btn-font"#}
+                    {#                           id="uploaded" name="uploaded" multiple=true>#}
+                    {#                    <input type="file" onchange="this.form.submit()"  class="btn btn-font " style="margin-top: 17px;background-color: cornflowerblue;" value="Plotting File"#}
+                    {#                           id="fileplotting">#}
+                    <input type="file" id="file" style="display:none;"/>
+                    <button id="button" name="button" value="Upload" class="btn btn-font "
+                            style="height: 69px;margin-top: 17px;background-color: cornflowerblue;"
+                            onclick="thisFileUpload();">Plotting File
+                    </button>
 
                 </form>
             </div>
@@ -74,14 +79,27 @@
 
 </div>
 
+<div class="form-row col-xl-12" style="position: unset;margin-top: 250px">
+    <div class="card card-border col-xl-3" style="position: unset !important;margin: auto;">
+        <div class="card-body ">
 
 
+            <div class="" style="display: flex;flex-direction: column;text-align: center">
+                <div style="display: flex;flex-direction: column;text-align: center"class="card-border-footer">
+                    <label class="col-xl-12">تعداد فرایند های انجام شده : 3 </label>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 <script>
-        function thisFileUpload() {
-            document.getElementById("file").click();
-        }
+    function thisFileUpload() {
+        document.getElementById("file").click();
+    }
 </script>
 <script>
     if (document.getElementById('alert').style.display == "block") {

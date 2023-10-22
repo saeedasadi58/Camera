@@ -276,8 +276,6 @@
                                 <div class="col-xl-12 form-row " style="padding: 9px">
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         {{ data.SettingsForm.separationAlgorithm }}
-
-                                        {#                                        <input class="col-xl-1" type="checkbox" style="height: 15px;text-align: right;">#}
                                         <label class="col-xl-10" style="text-align: right;">از الگریتم جدا سازی برای
                                             تفکیک
                                             بیشتر ذرات استفاده شود.</label>
@@ -285,73 +283,71 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6 form-row card-border-footer" style="margin: auto;padding: 9px;">
+                            <div class="col-xl-6 form-row card-border-footer" style="padding: 9px;margin: auto">
                                 <div class="col-xl-12" style="display: flex;flex-direction: column">
-                                    <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
+                                    <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.1rem !important;">
                                         Camera Settings</h3>
                                     <hr>
                                 </div>
                                 <div class="col-xl-12 form-row " style="text-align: right;">
-                                    <label class="col-xl-3">نمونه برداری هر </label>
-                                    <input class="col-xl-2" value="0" type="number">
-                                    <label class="col-xl-5">ثانیه انجام شود</label>
+                                    <label class="col-xl-3">زمان نور دهی : </label>
+                                    {{ data.SettingsForm.ExposureTime }}
+                                    {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                    {#                                    <label class="col-xl-5">ثانیه انجام شود</label>#}
 
                                 </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">
-                                    <label style="text-align: right;" class="col-xl-10">هر نمونه به صورت مجزا پردازش
-                                        شود</label>
-
+                                {#                                <div class="col-xl-12 form-row " style="padding: 9px">#}
+                                {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
+                                {#                                    <label style="text-align: right;" class="col-xl-2">  </label>#}
+                                {##}
+                                {#                                    {{ data.SettingsForm.Gain }}#}
+                                {##}
+                                {#                                </div>#}
+                                <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
+                                    <label class="col-xl-3"> عرض : </label>
+                                    {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                    {{ data.SettingsForm.Width }}
                                 </div>
-                                <div class="col-xl-12 form-row " style="text-align: right;">
-                                    <label class="col-xl-1"> هر </label>
-                                    <input class="col-xl-2" value="0" type="number">
-                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <label class="col-xl-3"> کالیبراسین : </label>
-                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">
+                                <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
+                                    <label class="col-xl-3"> ارتفاع : </label>
+                                    {{ data.SettingsForm.Height }}
+                                    {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
                                     {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
                                 </div>
                                 <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج مستقیما ارزیابی
-                                        شود</label>
+                                    <label class="col-xl-3" style="text-align: right;">تعداد فریم : </label>
+                                    {{ data.SettingsForm.FrameRate }}
+
+                                    {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
+                                    {#                                           style="height: 15px;text-align: right;">#}
 
                                 </div>
                                 <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج به صورت خودکار توسط تاریخ
-                                        توزیع تخمین زده شود</label>
+                                    {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
+                                    {#                                           style="height: 15px;text-align: right;">#}
+                                    <label class="col-xl-3" style="text-align: right;">کیفیت فریم : </label>
+                                    {{ data.SettingsForm.PixelFormat }}
+
 
                                 </div>
                                 <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <input class="col-xl-1" type="radio" name="proccess"
-                                           style="height: 15px;text-align: right;">
-                                    <label class="col-xl-10" style="text-align: right;">نتایج بر اساس نتایج تجربی توسط
-                                        تابع توزیع تخمین زده شود</label>
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <div class="col-xl-4 form-row">
-                                        <label class="col-xl-6">ضریب (n) </label>
-                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">
-                                    </div>
-                                    <div class="col-xl-4 form-row">
-                                        <label class="col-xl-6">ضریب (x) </label>
-                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 form-row " style="padding: 9px">
-                                    <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <input class="col-xl-1" type="checkbox" style="height: 15px;text-align: right;">
-                                        <label class="col-xl-10" style="text-align: right;">از الگریتم جدا سازی برای
-                                            تفکیک
-                                            بیشتر ذرات استفاده شود.</label>
+                                    {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
+                                    {#                                           style="height: 15px;text-align: right;">#}
+                                    <label class="col-xl-4" style="text-align: right;padding: 9px;">تنظیم اتوماتیک نور
+                                        سفید :</label>
+                                    {{ data.SettingsForm.AutoWhiteBalance }}
 
-                                    </div>
                                 </div>
+                                <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
+                                        <label class="col-xl-3">میزان نور آبی :  </label>
+                                        {{ data.SettingsForm.ColorBalanceRed }}
+                                </div>
+
+                                <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
+                                        <label class="col-xl-3">میزان نور آبی :  </label>
+                                        {{ data.SettingsForm.ColorBalanceBlue }}
+                                </div>
+
                             </div>
 
                         </div>
@@ -359,8 +355,7 @@
                 </div>
                 <div class="row col-xl-12 m-0" style="text-align: center;">
                     <div class="col-6" href="/" style="direction: rtl;">
-                        <a href="/recordResults"
-                           class="btn btn-outline-danger btn-sm btn-font myClose-buttonSetting">
+                        <a class="btn btn-outline-danger btn-sm btn-font myClose-buttonSetting">
                             انصراف
                         </a>
 
@@ -368,7 +363,7 @@
                     </div>
                     <div class="col-6">
                         <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
-                        <a href="" style="width: 57px;" class="btn btn-outline-success btn-sm btn-font ">تایید</a>
+                        <input type="submit" style="width: 57px;" class="btn btn-outline-success btn-sm btn-font " value="تایید">
                     </div>
 
                 </div>

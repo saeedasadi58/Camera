@@ -25,13 +25,7 @@ class SettingsForm(forms.Form):
             "value": 0,
         })
     )
-    processedSeparately = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'col-xl-1',
-            "type": "checkbox",
-            "style": "text-align: right;height: 15px;",
-        })
-    )
+    processedSeparately = forms.BooleanField(required=False)
     processPerSeconds = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'col-xl-2',
@@ -65,14 +59,65 @@ class SettingsForm(forms.Form):
             "value": 0,
         })
     )
-    separationAlgorithm = forms.CharField(
+    separationAlgorithm = forms.BooleanField(required=False)
+    ExposureTime = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-1',
-            "type": "checkbox",
-            "style": "text-align: right;height: 15px;",
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
         })
     )
+    Gain = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    Width = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    Height = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    FrameRate = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    PixelFormat = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "text",
+            "value": "RGB8",
+        })
+    )
+    AutoWhiteBalance = forms.BooleanField(required=False)
 
+    ColorBalanceRed = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
+    ColorBalanceBlue = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'col-xl-2',
+            "type": "number",
+            "value": 0,
+        })
+    )
 class UsernameField(forms.CharField):
     def to_python(self, value):
         return unicodedata.normalize("NFKC", super().to_python(value))

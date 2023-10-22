@@ -49,8 +49,7 @@ from rest_framework.authtoken.models import Token
 from camera import settings
 from .BackCods.Python.plotly import *
 from django.contrib import messages
-
-
+import json
 
 class RemovedInDjango21Warning(PendingDeprecationWarning):
     pass
@@ -173,8 +172,34 @@ class ReadCameraView(LoginRequiredMixin, View):
     # queryset = Camera.objects.all()
     # serializer_class = CameraSerializer
     def get(self, request, *args, **kwargs):
+
+        # settings_form = SettingsForm()
+        with open('webApp/setting.json') as f:
+            data = json.load(f)
+        print("saeed data ************ ",data)
+        settings_form = SettingsForm(initial={
+            "ExposureTime": data["setting"]["CameraSettings"]["ExposureTime"],
+            "Gain": data["setting"]["CameraSettings"]["Gain"],
+            "Width": data["setting"]["CameraSettings"]["Width"],
+            "Height": data["setting"]["CameraSettings"]["Height"],
+            "FrameRate": data["setting"]["CameraSettings"]["FrameRate"],
+            "PixelFormat": data["setting"]["CameraSettings"]["PixelFormat"],
+            "AutoWhiteBalance": data["setting"]["CameraSettings"]["AutoWhiteBalance"],
+            "ColorBalanceRed": data["setting"]["CameraSettings"]["ColorBalanceRed"],
+            "ColorBalanceBlue": data["setting"]["CameraSettings"]["ColorBalanceBlue"],
+            "samplingTime": data["setting"]["PanelSettings"]["samplingTime"],
+            "processedSeparately": data["setting"]["PanelSettings"]["processedSeparately"],
+            "processPerSeconds": data["setting"]["PanelSettings"]["processPerSeconds"],
+            "calibration": data["setting"]["PanelSettings"]["calibration"],
+            "evaluatedDirectly": data["setting"]["PanelSettings"]["evaluatedDirectly"],
+            "evaluatedAutomatically": data["setting"]["PanelSettings"]["evaluatedAutomatically"],
+            "evaluatedExperimental": data["setting"]["PanelSettings"]["evaluatedExperimental"],
+            "coefficient_N": data["setting"]["PanelSettings"]["coefficient_N"],
+            "coefficient_X": data["setting"]["PanelSettings"]["coefficient_X"],
+            "separationAlgorithm": data["setting"]["PanelSettings"]["separationAlgorithm"],
+        })
         data = {
-            "SettingsForm": SettingsForm,
+            "SettingsForm": settings_form,
             "customerList": "customerList",
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
@@ -212,9 +237,17 @@ class ReadCameraView(LoginRequiredMixin, View):
 class Settings(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        settings_form = SettingsForm()
-        if settings_form.is_valid() :
-            print("saeed ------------- ",settings_form.cleaned_data)
+        print("saeed ------------- ", request.POST)
+        if request.method == 'POST':
+            regForm = SettingsForm(request.POST)  # form needs content
+            if regForm.is_valid():
+                print("saeed ------------- regForm.is_valid ", regForm.is_valid())
+
+        if request.method == "POST":
+            settings_form = SettingsForm(request.POST)
+            print("saeed ------------- ", settings_form.is_valid())
+            if settings_form.is_valid():
+                print("saeed ------------- ", settings_form.cleaned_data)
 
         return redirect("/")
 

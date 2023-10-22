@@ -7,20 +7,20 @@
       "Height": 1080,
       "FrameRate": 30,
       "PixelFormat": "RGB8",
-      "AutoWhiteBalance": "Off",
+      "AutoWhiteBalance": true,
       "ColorBalanceRed": 1.0,
       "ColorBalanceBlue": 1.0
     },
     "PanelSettings": {
       "samplingTime": 0,
-      "processedSeparately": false,
+      "processedSeparately": true,
       "processPerSeconds": 11,
       "calibration": 10,
       "evaluatedDirectly": true,
       "evaluatedAutomatically": false,
       "evaluatedExperimental": false,
-      "coefficient_N": 0,
-      "coefficient_X": 0,
+      "coefficient_N": 5,
+      "coefficient_X": 5,
       "separationAlgorithm": true
     }
   }
