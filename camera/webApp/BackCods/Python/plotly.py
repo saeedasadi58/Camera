@@ -28,7 +28,7 @@ image_label = tk.Label(window)
 image_label.place(x=window_width // 2, y=0, anchor=tk.NW)
 
 # List of image paths
-image_path = "webApp/static/image/camera.png"  # Replace with the paths to your images
+image_path = "webApp/static/image/plotly/camera.png"  # Replace with the paths to your images
 
 
 def plotting():
@@ -116,7 +116,7 @@ def read_camera():
 
     im = Image.fromarray(img)
 
-    im.save('webApp/static/image/camera2.png')
+    im.save('webApp/static/image/plotly/camera2.png')
 
 
 # img = ImageTk.PhotoImage(Image.open("my_pics/my_pic.jpg"))
