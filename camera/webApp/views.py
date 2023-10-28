@@ -204,7 +204,7 @@ class ReadCameraView(LoginRequiredMixin, View):
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
         }
-        return render(request, "main.html", {"data": data})
+        return render(request, "index.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
         files = request.FILES.getlist("uploaded")
