@@ -76,20 +76,20 @@
             <div class="collapse navbar-toggleable-sm text-xs-center text-uppercase tm-navbar" id="tmNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item active selected">
-                        <a class="nav-link" href="#0" data-no="1">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#0" data-no="1">داشبورد <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="2">Setting</a>
+                        <a class="nav-link" href="#0" data-no="2">تنظیمات</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="3">Gallery</a>
+                        <a class="nav-link" href="#0" data-no="3">تصاویر</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="4">Charts</a>
+                        <a class="nav-link" href="#0" data-no="4">گزارشات</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="5">Reports</a>
-                    </li>
+                    {#                    <li class="nav-item">#}
+                    {#                        <a class="nav-link" href="#0" data-no="5">گزارشات</a>#}
+                    {#                    </li>#}
                 </ul>
             </div>
         </nav>
@@ -98,20 +98,94 @@
     <ul class="cd-hero-slider">  <!-- autoplay -->
         <li class="selected">
             <div class="cd-full-width">
-                <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
+                <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1"
+                     style="margin: 0 !important;">
 
                     <div class="row">
 
                         <div class="col-xs-12">
                             <i class="fa fa-4x fa-camera tm-icon"></i>
                             <h2 class="tm-site-name">Particle Size Analysis</h2>
-                            <div style="width: 80%"
-                                 class="tm-bg-white-translucent text-xs-left tm-textbox tm-textbox-1-col">
+                            <div style="width: 100%"
+                                 class="tm-bg-white-translucent text-xs-left tm-textbox ">
                                 <div class="form-row col-xl-12 unset_position" style="position: unset">
                                     <div class=" col-xl-6" style="position: unset !important;margin: auto;">
                                         <div class="card-body ">
 
 
+                                            <div class=""
+                                                 style="display: flex;flex-direction: column;text-align: center">
+                                                <div class="col-xl-12">
+                                                    <div class="col-xl-12">
+                                                        <canvas id="live_Chart"></canvas>
+                                                    </div>
+
+                                                    <script class="col-xl-12"
+                                                            src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                                                    <script>
+                                                        const ctx3 = document.getElementById('live_Chart');
+
+                                                        new Chart(ctx3, {
+                                                            type: 'bar',
+                                                            data: {
+                                                                labels: ['1', '2', '3'],
+                                                                datasets: [{
+                                                                    label: '# اندازه تجمیعی ',
+                                                                    data: [0, 0, 0],
+                                                                    borderWidth: 1
+                                                                }]
+                                                            },
+                                                            options: {
+                                                                scales: {
+                                                                    y: {
+                                                                        beginAtZero: true
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    </script>
+                                                </div>
+
+                                                <div class="col-xl-12">
+                                                    <div class="col-xl-12">
+                                                        <canvas id="col_Chart"></canvas>
+                                                    </div>
+
+                                                    <script class="col-xl-12"
+                                                            src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                                                    <script>
+                                                        const ctx4 = document.getElementById('col_Chart');
+
+                                                        new Chart(ctx4, {
+                                                            type: 'bar',
+                                                            data: {
+                                                                labels: ['1', '2', '3', '4', '5', '6'],
+                                                                datasets: [{
+                                                                    label: '# اندازه میلی متر در زمان ',
+                                                                    data: [0, 0, 0],
+                                                                    borderWidth: 1
+                                                                }]
+                                                            },
+                                                            options: {
+                                                                scales: {
+                                                                    y: {
+                                                                        beginAtZero: true
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    </script>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6 unset_position"
+                                         style="position: unset !important;margin: auto;">
+                                        <div class="card-body ">
                                             <div class=""
                                                  style="display: flex;flex-direction: column;text-align: center">
                                                 <form action="/" method="POST" id="form1"
@@ -122,15 +196,6 @@
                                                            value="Plotting"
                                                            id="plotting">
                                                 </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-6 unset_position"
-                                         style="position: unset !important;margin: auto;">
-                                        <div class="card-body ">
-                                            <div class=""
-                                                 style="display: flex;flex-direction: column;text-align: center">
                                                 <form action="{% url 'webApp:home' %}" method="POST" id="form1"
                                                       style="display: flex;flex-direction: column;text-align: center">
                                                     {% csrf_token %}
@@ -171,8 +236,8 @@
                                 <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
                                      style="padding: 30px;margin: 20px">
                                     <div class="col-xl-12" style="display: flex;flex-direction: column">
-                                        <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
-                                            Process Settings</h3>
+                                        <h3 style="text-align: center;font-size: 2.25rem !important ;margin-bottom: 1.5rem !important;">
+                                            کالیبراسیون</h3>
                                         <hr>
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;">
@@ -256,8 +321,8 @@
                                 <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
                                      style="margin: 20px;padding: 30px">
                                     <div class="col-xl-12" style="display: flex;flex-direction: column">
-                                        <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.1rem !important;">
-                                            Camera Settings</h3>
+                                        <h3 style="text-align: center;font-size: 2.25rem  !important ;margin-bottom: 1.1rem !important;">
+                                            تنظیمات دوربین</h3>
                                         <hr>
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;">
@@ -286,7 +351,7 @@
                                         {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <label class="col-xl-4" style="text-align: right;"> : تعداد فریم</label>
+                                        <label class="col-xl-3" style="text-align: right;"> : تعداد فریم</label>
                                         {{ data.SettingsForm.FrameRate }}
 
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
@@ -296,7 +361,7 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
                                         {#                                           style="height: 15px;text-align: right;">#}
-                                        <label class="col-xl-4" style="text-align: right;"> : کیفیت فریم </label>
+                                        <label class="col-xl-3" style="text-align: right;"> : کیفیت فریم </label>
                                         {{ data.SettingsForm.PixelFormat }}
 
 
@@ -304,7 +369,7 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
                                         {#                                           style="height: 15px;text-align: right;">#}
-                                        <label class="col-xl-5" style="text-align: right;padding: 9px;">: تنظیم اتوماتیک
+                                        <label class="col-xl-4" style="text-align: right;padding: 9px;">: تنظیم اتوماتیک
                                             نور سفید</label>
                                         <div class="col-xl-1">
 
@@ -313,12 +378,12 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-4"> : میزان نور آبی </label>
+                                        <label class="col-xl-3"> : میزان نور آبی </label>
                                         {{ data.SettingsForm.ColorBalanceRed }}
                                     </div>
 
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-4"> : میزان نور آبی</label>
+                                        <label class="col-xl-3"> : میزان نور آبی</label>
                                         {{ data.SettingsForm.ColorBalanceBlue }}
                                     </div>
 
@@ -490,18 +555,18 @@
                 <table class="label-class"
                        style="margin-top: 1.55rem ;overflow: visible !important;">
                     <tr>
-                        <th> Id </th>
-                        <th> Date </th>
-                        <th> Chart 1 </th>
-                        <th> Chart 2 </th>
-                        <th> Chart 3 </th>
-                        <th> Chart 4 </th>
-                        <th> Chart 5 </th>
-                        <th> Chart 6 </th>
-                        <th> Chart 7 </th>
-                        <th> Chart 8 </th>
-                        <th> Chart 9 </th>
-                        <th> Chart 10 </th>
+                        <th> Id</th>
+                        <th> Date</th>
+                        <th> Chart 1</th>
+                        <th> Chart 2</th>
+                        <th> Chart 3</th>
+                        <th> Chart 4</th>
+                        <th> Chart 5</th>
+                        <th> Chart 6</th>
+                        <th> Chart 7</th>
+                        <th> Chart 8</th>
+                        <th> Chart 9</th>
+                        <th> Chart 10</th>
 
                         {#                                        <th>Submit Date</th>#}
                         {#                                        <th>ُLaboratory Code</th>#}
@@ -511,46 +576,46 @@
                     </tr>
                     {#                                    {% for obj in data.customers %}#}
                     <tr>
-                        <td> 1 </td>
-                        <td> 2023/06/04 </td>
-                        <td> 20 </td>
-                        <td> 30 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
-                        <td> 40 </td>
+                        <td> 1</td>
+                        <td> 2023/06/04</td>
+                        <td> 20</td>
+                        <td> 30</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
+                        <td> 40</td>
                     </tr>
                     <tr>
-                        <td> 2 </td>
-                        <td> 2023/06/04 </td>
-                        <td> 20 </td>
-                        <td> 0 </td>
-                        <td> 20 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
-                        <td> 60 </td>
+                        <td> 2</td>
+                        <td> 2023/06/04</td>
+                        <td> 20</td>
+                        <td> 0</td>
+                        <td> 20</td>
+                        <td> 60</td>
+                        <td> 60</td>
+                        <td> 60</td>
+                        <td> 60</td>
+                        <td> 60</td>
+                        <td> 60</td>
+                        <td> 60</td>
                     </tr>
                     <tr>
-                        <td> 3 </td>
-                        <td> 2023/06/04 </td>
-                        <td> 20 </td>
-                        <td> 40 </td>
-                        <td> 50 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
-                        <td> 10 </td>
+                        <td> 3</td>
+                        <td> 2023/06/04</td>
+                        <td> 20</td>
+                        <td> 40</td>
+                        <td> 50</td>
+                        <td> 10</td>
+                        <td> 10</td>
+                        <td> 10</td>
+                        <td> 10</td>
+                        <td> 10</td>
+                        <td> 10</td>
+                        <td> 10</td>
                     </tr>
                     {#                                    {% endfor %}#}
                 </table>
