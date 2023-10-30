@@ -96,7 +96,8 @@ jQuery(document).ready(function($){
 			var videoWrapper = $(this);
 			if( videoWrapper.is(':visible') ) {
 				// if visible - we are not on a mobile device 
-				var	videoUrl = videoWrapper.data('video'),
+				// var	videoUrl = videoWrapper.data('video'),
+				var	videoUrl = '../static/video/sunset-loop.mp4' ,
 					video = $('<video loop><source src="'+videoUrl+'.mp4" type="video/mp4" /><source src="'+videoUrl+'.webm" type="video/webm" /></video>');
 				video.appendTo(videoWrapper);
 				// play video if first slide

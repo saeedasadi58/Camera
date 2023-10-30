@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../static/image/jahad_daneshgahi.png" type="image/x-icon">
 
-    <title>Flat - Responsive HTML Template</title>
+    <title>Particle Size Analysis</title>
     <!--
     Flat Template
     http://www.templatemo.com/tm-491-flat
@@ -33,6 +34,31 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+    <style>
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -59,10 +85,10 @@
                         <a class="nav-link" href="#0" data-no="3">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="4">Video</a>
+                        <a class="nav-link" href="#0" data-no="4">Charts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#0" data-no="5">Contact</a>
+                        <a class="nav-link" href="#0" data-no="5">Reports</a>
                     </li>
                 </ul>
             </div>
@@ -134,15 +160,16 @@
         </li>
 
         <li>
-            <div class="cd-full-width">
+            <div class="setting_box" style="">
 
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="col-xs-12 form-row">
+                            <div class="col-xs-12 form-row" style="margin: 25px;">
 
                                 {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox form-row col-xl-12">#}
-                                <div class="col-xl-6 form-row card-border-footer tm-bg-white-translucent"  style="padding: 9px;margin: auto">
+                                <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
+                                     style="padding: 30px;margin: 20px">
                                     <div class="col-xl-12" style="display: flex;flex-direction: column">
                                         <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.5rem !important;">
                                             Process Settings</h3>
@@ -152,7 +179,7 @@
                                         <label class="col-xl-3">نمونه برداری هر </label>
                                         {#                                    <input class="col-xl-2" value="0" type="number">#}
                                         {{ data.SettingsForm.samplingTime }}
-                                        <label class="col-xl-5">ثانیه انجام شود</label>
+                                        <label class="col-xl-4">ثانیه انجام شود</label>
 
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px">
@@ -170,7 +197,7 @@
                                         <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <label class="col-xl-3"> کالیبراسین : </label>
+                                        <label class="col-xl-3"> : کالیبراسین</label>
                                         {{ data.SettingsForm.calibration }}
 
                                         {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
@@ -226,14 +253,15 @@
                                 {#                                </div>#}
                                 {##}
                                 {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox">#}
-                                <div class="col-xl-6 form-row card-border-footer tm-bg-white-translucent" style="margin: auto">
+                                <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
+                                     style="margin: 20px;padding: 30px">
                                     <div class="col-xl-12" style="display: flex;flex-direction: column">
                                         <h3 style="text-align: center;font-size: 1.25rem !important ;margin-bottom: 1.1rem !important;">
                                             Camera Settings</h3>
                                         <hr>
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;">
-                                        <label class="col-xl-3">زمان نور دهی : </label>
+                                        <label class="col-xl-3"> : زمان نور دهی</label>
                                         {{ data.SettingsForm.ExposureTime }}
                                         {#                                    <input class="col-xl-2" value="0" type="number">#}
                                         {#                                    <label class="col-xl-5">ثانیه انجام شود</label>#}
@@ -247,18 +275,18 @@
                                     {##}
                                     {#                                </div>#}
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-3"> عرض : </label>
+                                        <label class="col-xl-3">: عرض </label>
                                         {#                                    <input class="col-xl-2" value="0" type="number">#}
                                         {{ data.SettingsForm.Width }}
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-3"> ارتفاع : </label>
+                                        <label class="col-xl-3"> : ارتفاع</label>
                                         {{ data.SettingsForm.Height }}
                                         {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
                                         {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <label class="col-xl-3" style="text-align: right;">تعداد فریم : </label>
+                                        <label class="col-xl-4" style="text-align: right;"> : تعداد فریم</label>
                                         {{ data.SettingsForm.FrameRate }}
 
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
@@ -268,7 +296,7 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
                                         {#                                           style="height: 15px;text-align: right;">#}
-                                        <label class="col-xl-3" style="text-align: right;">کیفیت فریم : </label>
+                                        <label class="col-xl-4" style="text-align: right;"> : کیفیت فریم </label>
                                         {{ data.SettingsForm.PixelFormat }}
 
 
@@ -276,19 +304,21 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
                                         {#                                           style="height: 15px;text-align: right;">#}
-                                        <label class="col-xl-4" style="text-align: right;padding: 9px;">تنظیم
-                                            اتوماتیک نور
-                                            سفید :</label>
-                                        {{ data.SettingsForm.AutoWhiteBalance }}
+                                        <label class="col-xl-5" style="text-align: right;padding: 9px;">: تنظیم اتوماتیک
+                                            نور سفید</label>
+                                        <div class="col-xl-1">
 
+                                            {{ data.SettingsForm.AutoWhiteBalance }}
+
+                                        </div>
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-3">میزان نور آبی : </label>
+                                        <label class="col-xl-4"> : میزان نور آبی </label>
                                         {{ data.SettingsForm.ColorBalanceRed }}
                                     </div>
 
                                     <div class="col-xl-12 form-row " style="text-align: right;padding: 9px">
-                                        <label class="col-xl-3">میزان نور آبی : </label>
+                                        <label class="col-xl-4"> : میزان نور آبی</label>
                                         {{ data.SettingsForm.ColorBalanceBlue }}
                                     </div>
 
@@ -314,40 +344,40 @@
                     <div class="row tm-img-gallery">
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                             <a href="image/tm-img-01.jpg">
-                                <img src="{% static 'image/tm-img-01-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
+                                <img src="{% static 'image/processes0.jpg' %}" alt="Image" class="img-fluid tm-img">
                                 {#                                        <img src="img/tm-img-01-tn.jpg" alt="Image" class="img-fluid tm-img">#}
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                             <a href="image/tm-img-02.jpg">
                                 {#                                        <img src="img/tm-img-02-tn.jpg" alt="Image" class="img-fluid tm-img">#}
-                                <img src="{% static 'image/tm-img-02-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
+                                <img src="{% static 'image/processes1.jpg' %}" alt="Image" class="img-fluid tm-img">
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                             <a href="image/tm-img-03.jpg">
                                 {#                                        <img src="img/tm-img-03-tn.jpg" alt="Image" class="img-fluid tm-img">#}
-                                <img src="{% static 'image/tm-img-03-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
+                                <img src="{% static 'image/processes2.jpg' %}" alt="Image" class="img-fluid tm-img">
                             </a>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                            <a href="image/tm-img-04.jpg">
-                                {#                                        <img src="img/tm-img-04-tn.jpg" alt="Image" class="img-fluid tm-img">#}
-                                <img src="{% static 'image/tm-img-04-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
-                            </a>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                            <a href="image/tm-img-05.jpg">
-                                {#                                        <img src="img/tm-img-05-tn.jpg" alt="Image" class="img-fluid tm-img">#}
-                                <img src="{% static 'image/tm-img-05-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
-                            </a>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                            <a href="image/tm-img-06.jpg">
-                                {#                                        <img src="img/tm-img-06-tn.jpg" alt="Image" class="img-fluid tm-img">#}
-                                <img src="{% static 'image/tm-img-06-tn.jpg' %}" alt="Image" class="img-fluid tm-img">
-                            </a>
-                        </div>
+                        {#                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">#}
+                        {#                            <a href="image/tm-img-01.jpg">#}
+                        {#                                <img src="{% static 'image/processes3.jpg' %}" alt="Image" class="img-fluid tm-img">#}
+                        {#                                        <img src="img/tm-img-01-tn.jpg" alt="Image" class="img-fluid tm-img">#}
+                        {#                            </a>#}
+                        {#                        </div>#}
+                        {#                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">#}
+                        {#                            <a href="image/tm-img-02.jpg">#}
+                        {#                                        <img src="img/tm-img-02-tn.jpg" alt="Image" class="img-fluid tm-img">#}
+                        {#                                <img src="{% static 'image/processes4.jpg' %}" alt="Image" class="img-fluid tm-img">#}
+                        {#                            </a>#}
+                        {#                        </div>#}
+                        {#                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">#}
+                        {#                            <a href="image/tm-img-03.jpg">#}
+                        {#                                        <img src="img/tm-img-03-tn.jpg" alt="Image" class="img-fluid tm-img">#}
+                        {#                                <img src="{% static 'image/processes5.jpg' %}" alt="Image" class="img-fluid tm-img">#}
+                        {#                            </a>#}
+                        {#                        </div>#}
                     </div>
 
                 </div>
@@ -357,73 +387,252 @@
         </li>
 
         <li>  <!-- class="cd-bg-video" -->
-            <div class="js-tm-page-content" data-page-no="4">
 
-                <div class="cd-bg-video-wrapper" data-video="video/sunset-loop">
-                    <!-- video element will be loaded using jQuery -->
-                </div> <!-- .cd-bg-video-wrapper -->
+            <div class="setting_box" style="width: 100%">
+
+                <div class="container-fluid js-tm-page-content" data-page-no="2">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 form-row" style="margin: 25px;">
+
+                                {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox form-row col-xl-12">#}
+                                <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
+                                     style="padding: 30px;margin: 20px">
+                                    <div class="col-xl-12">
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+
+                                    <script class="col-xl-12" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                                    <script>
+                                        const ctx = document.getElementById('myChart');
+
+                                        new Chart(ctx, {
+                                            type: 'bar',
+                                            data: {
+                                                labels: ['P1', 'P2', 'P3'],
+                                                datasets: [{
+                                                    label: '# Number Of Process',
+                                                    data: [1, 0, 1],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox">#}
+                                <div class="col-xl-5 form-row card-border-footer tm-bg-white-translucent"
+                                     style="margin: 20px;padding: 30px">
+                                    <div class="col-xl-12">
+                                        <canvas class="col-xl-12" id="Chart_line"></canvas>
+                                    </div>
+
+
+                                    <script>
+                                        const ctx2 = document.getElementById('Chart_line');
+
+                                        new Chart(ctx2, {
+                                            type: 'line',
+                                            data: {
+                                                labels: ['P1', 'P2', 'P3'],
+                                                datasets: [{
+                                                    label: '# Line Of Process',
+                                                    data: [1, 0, 1],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    </script>
+
+                                </div>
+                                {#                                </div>#}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
+
+            {#            <div class="js-tm-page-content" data-page-no="4">#}
+            {##}
+            {#                <div class="cd-bg-video-wrapper" data-video="video/sunset-loop">#}
+            {#                    <!-- video element will be loaded using jQuery -->#}
+            {#                </div> <!-- .cd-bg-video-wrapper -->#}
+            {#                <video loop="">#}
+            {#                    <source src="{% static 'video/sunset-loop.mp4' %}" type="video/mp4">#}
+            {#                    <source src="{% static 'video/sunset-loop.mp4' %}" type="video/webm">#}
+            {#                </video>#}
+            {##}
+            {#            </div>#}
 
         </li>
 
         <li>
-            <div class="cd-full-width">
+            <div class="report_box col-xl-12 form-row card-border-footer tm-bg-white-translucent" style="width: 80%">
 
-                <div class="container-fluid js-tm-page-content" data-page-no="5">
+                <table class="label-class"
+                       style="margin-top: 1.55rem ;overflow: visible !important;">
+                    <tr>
+                        <th> Id </th>
+                        <th> Date </th>
+                        <th> Chart 1 </th>
+                        <th> Chart 2 </th>
+                        <th> Chart 3 </th>
+                        <th> Chart 4 </th>
+                        <th> Chart 5 </th>
+                        <th> Chart 6 </th>
+                        <th> Chart 7 </th>
+                        <th> Chart 8 </th>
+                        <th> Chart 9 </th>
+                        <th> Chart 10 </th>
 
-                    <div class="tm-contact-page">
-
-                        <div class="row">
-
-                            <div class="col-xs-12">
-
-                                <h2 class="tm-section-title">Contact Us</h2>
-                                <p class="tm-text tm-font-w-400 m-b-3">Pellentesque in quam iaculis erat iaculis
-                                    lacinia. Donec sagittis sapien odio, a sodales velit elementum nec. Donec feugiat
-                                    purus a bibendum hendreit.</p>
-
+                        {#                                        <th>Submit Date</th>#}
+                        {#                                        <th>ُLaboratory Code</th>#}
+                        {#                                        <th>Group Code</th>#}
+                        {#                                        <th>Test Result</th>#}
+                        {#                                        <th>Operation</th>#}
+                    </tr>
+                    {#                                    {% for obj in data.customers %}#}
+                    <tr>
+                        <td> 1 </td>
+                        <td> 2023/06/04 </td>
+                        <td> 20 </td>
+                        <td> 30 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                        <td> 40 </td>
+                    </tr>
+                    <tr>
+                        <td> 2 </td>
+                        <td> 2023/06/04 </td>
+                        <td> 20 </td>
+                        <td> 0 </td>
+                        <td> 20 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                        <td> 60 </td>
+                    </tr>
+                    <tr>
+                        <td> 3 </td>
+                        <td> 2023/06/04 </td>
+                        <td> 20 </td>
+                        <td> 40 </td>
+                        <td> 50 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                    </tr>
+                    {#                                    {% endfor %}#}
+                </table>
+                {% if data.lastPage >= 1 %}
+                    <nav class="Page navigation example">
+                        {% csrf_token %}
+                        <ul class="pagination pg-blue">
+                            <div action="?pageNumber=0" method="POST" style="position: unset;"
+                                 class="formpage">
+                                {% csrf_token %}
+                                <li class="page-item">
+                                    <a href="?pageNumber=0" class="page-link"
+                                       id="tablLi{{ forloop.counter }}"
+                                       style="position: unset;">&laquo;</a>
+                                </li>
                             </div>
 
-                        </div>
 
-                        <!-- contact form -->
-                        <div class="row">
-                            <form action="index.html" method="post" class="tm-contact-form">
+                            {% for page in data.total %}
+                                {% if page < data.thisPage|add:'-2' %}
+                                    {% if forloop.counter0 == 0 %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{ data.thisPage|add:'-3'}}"
+                                                   class="page-link"
+                                                   id="tablLi{{ forloop.counter }}"
+                                                   style="position: unset;">....</a>
+                                            </li>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if page > data.thisPage|add:'-3' and page < data.thisPage|add:'3' %}
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <input type="text" id="contact_name" name="contact_name" class="form-control"
-                                               placeholder="Your Name" required/>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" id="contact_email" name="contact_email" class="form-control"
-                                               placeholder="Your Email" required/>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" id="contact_subject" name="contact_subject"
-                                               class="form-control" placeholder="Subject" required/>
-                                    </div>
-                                </div>
+                                    {% if data.thisPage == page %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item active">
+                                                <a href="?pageNumber={{ page }}" class="page-link"
+                                                   id="tablLi{{ forloop.counter }}"
+                                                   style="position: unset;">{{ forloop.counter }}</a>
+                                            </li>
+                                        </div>
+                                    {% else %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{ page }}" class="page-link"
+                                                   id="tablLi{{ forloop.counter }}"
+                                                   style="position: unset;">{{ forloop.counter }}</a>
+                                            </li>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
 
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <textarea id="contact_message" name="contact_message" class="form-control"
-                                                  rows="5" placeholder="Your message" required></textarea>
-                                    </div>
-                                </div>
+                                    {% if forloop.last %}
+                                        <div style="position: unset;" class="formpage">
+                                            {% csrf_token %}
+                                            <li class="page-item">
+                                                <a href="?pageNumber={{ data.thisPage|add:'3'}}"
+                                                   class="page-link"
+                                                   id="tablLi{{ forloop.counter }}"
+                                                   style="position: unset;">....</a>
+                                            </li>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
 
-                                <div class="col-xs-12">
-                                    <button type="submit" class="pull-xs-right tm-submit-btn">Submit</button>
-                                </div>
-                            </form>
-                        </div>
 
-                    </div>
+                            <div style="position: unset;" class="formpage">
+                                {% csrf_token %}
+                                <li class="page-item">
+                                    <a href="?pageNumber={{ data.lastPage }}" class="page-link"
+                                       id="tablLi{{ forloop.counter }}"
+                                       style="position: unset;">&raquo;</a></li>
+                            </div>
+                        </ul>
+                    </nav>
+                {% endif %}
 
-                </div>
-
-            </div> <!-- .cd-full-width -->
+            </div>
         </li>
     </ul> <!-- .cd-hero-slider -->
 

@@ -20,7 +20,7 @@ UserModel = get_user_model()
 class SettingsForm(forms.Form):
     samplingTime = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-1',
             "type": "number",
             "value": 0,
         })
@@ -28,14 +28,14 @@ class SettingsForm(forms.Form):
     processedSeparately = forms.BooleanField(required=False)
     processPerSeconds = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-2',
             "type": "number",
             "value": 0,
         })
     )
     calibration = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-2',
             "type": "number",
             "value": 0,
         })
@@ -47,14 +47,14 @@ class SettingsForm(forms.Form):
 
     coefficient_N = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-4',
+            'class': 'form-control col-xl-4',
             "type": "number",
             "value": 0,
         })
     )
     coefficient_X = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-4',
+            'class': 'form-control col-xl-4',
             "type": "number",
             "value": 0,
         })
@@ -62,42 +62,42 @@ class SettingsForm(forms.Form):
     separationAlgorithm = forms.BooleanField(required=False)
     ExposureTime = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     Gain = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     Width = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     Height = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     FrameRate = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     PixelFormat = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "text",
             "value": "RGB8",
         })
@@ -106,14 +106,14 @@ class SettingsForm(forms.Form):
 
     ColorBalanceRed = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
     )
     ColorBalanceBlue = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'col-xl-2',
+            'class': 'form-control col-xl-3',
             "type": "number",
             "value": 0,
         })
