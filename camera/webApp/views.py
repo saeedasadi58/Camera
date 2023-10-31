@@ -47,7 +47,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-# from .BackCods.Python.plotly import *
+from .BackCods.Python.plotly import *
 from django.contrib import messages
 import json
 
@@ -210,6 +210,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         return render(request, "index.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
+        print("Post")
         files = request.FILES.getlist("uploaded")
         permission = Permission.objects.filter(user=request.user)
         grouppermission = request.user.get_group_permissions()
@@ -220,20 +221,22 @@ class ReadCameraView(LoginRequiredMixin, View):
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
         }
-        # if request.user.is_superuser or permission or grouppermission:
-        #     if files and len(files) > 0:
-        #         messages.success(request, "file is there")
-        #         for csv_file in files:
-        #             pass
-        #     else:
-        #         camera = read_camera()
-        #         if camera["code"] == -1:
-        #             messages.error(request, camera["message"])
-        #
-        #
-        # else:
-        #     messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
-        #     return self.get(request, *args, **kwargs)
+        if request.user.is_superuser or permission or grouppermission:
+            if files and len(files) > 0:
+                messages.success(request, "file is there")
+                for csv_file in files:
+                    pass
+            else:
+                camera = read_camera()
+                print("Post -------- camera",camera)
+
+                if camera:
+                    messages.success(request, f" فعال است {camera} دوربین ")
+
+
+        else:
+            messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
+            return self.get(request, *args, **kwargs)
 
         return render(request, "index.html", {"data": data})
 
