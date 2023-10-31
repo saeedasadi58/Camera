@@ -99,7 +99,7 @@ button:focus { outline: none; }
 /*.cd-hero-slider li:last-child { background-size: auto; }*/
 
 .tm-bg-white-translucent {	
-	background-color: rgba(255,255,255,0.75);	
+	background-color: #ffffffe8;
 }
 
 .tm-bg-white-translucent p { color: black; }

@@ -20,7 +20,7 @@ from .serializers import UserSerializer, UserCrateSerializer, ChangePasswordSeri
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime
 from django.db.models import Avg, Count
-from webApp.form import loginForm, SettingsForm
+from webApp.form import loginForm, SettingsForm, ReportForm
 from django.contrib.auth.views import LoginView
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -47,9 +47,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-from .BackCods.Python.plotly import *
+# from .BackCods.Python.plotly import *
 from django.contrib import messages
 import json
+
 
 class RemovedInDjango21Warning(PendingDeprecationWarning):
     pass
@@ -176,7 +177,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         # settings_form = SettingsForm()
         with open('webApp/setting.json') as f:
             data = json.load(f)
-        print("saeed data ************ ",data)
+        print("saeed data ************ ", data)
         settings_form = SettingsForm(initial={
             "ExposureTime": data["setting"]["CameraSettings"]["ExposureTime"],
             "Gain": data["setting"]["CameraSettings"]["Gain"],
@@ -191,15 +192,17 @@ class ReadCameraView(LoginRequiredMixin, View):
             "processedSeparately": data["setting"]["PanelSettings"]["processedSeparately"],
             "processPerSeconds": data["setting"]["PanelSettings"]["processPerSeconds"],
             "calibration": data["setting"]["PanelSettings"]["calibration"],
-            "evaluatedDirectly": data["setting"]["PanelSettings"]["evaluatedDirectly"],
-            "evaluatedAutomatically": data["setting"]["PanelSettings"]["evaluatedAutomatically"],
-            "evaluatedExperimental": data["setting"]["PanelSettings"]["evaluatedExperimental"],
+            # "evaluatedDirectly": data["setting"]["PanelSettings"]["evaluatedDirectly"],
+            # "evaluatedAutomatically": data["setting"]["PanelSettings"]["evaluatedAutomatically"],
+            # "evaluatedExperimental": data["setting"]["PanelSettings"]["evaluatedExperimental"],
             "coefficient_N": data["setting"]["PanelSettings"]["coefficient_N"],
             "coefficient_X": data["setting"]["PanelSettings"]["coefficient_X"],
             "separationAlgorithm": data["setting"]["PanelSettings"]["separationAlgorithm"],
+            "evaluated": data["setting"]["PanelSettings"]["evaluated"],
         })
         data = {
             "SettingsForm": settings_form,
+            "ReportForm": ReportForm,
             "customerList": "customerList",
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
@@ -212,42 +215,66 @@ class ReadCameraView(LoginRequiredMixin, View):
         grouppermission = request.user.get_group_permissions()
         data = {
             "SettingsForm": SettingsForm,
+            "ReportForm": ReportForm,
             "customerList": "customerList",
             "Custpmers": "Customers",
             "searchTestPerson": "searchTest"
         }
-        if request.user.is_superuser or permission or grouppermission:
-            if files and len(files) > 0:
-                messages.success(request, "file is there")
-                for csv_file in files:
-                    pass
-            else:
-                camera = read_camera()
-                if camera["code"] == -1:
-                    messages.error(request, camera["message"])
+        # if request.user.is_superuser or permission or grouppermission:
+        #     if files and len(files) > 0:
+        #         messages.success(request, "file is there")
+        #         for csv_file in files:
+        #             pass
+        #     else:
+        #         camera = read_camera()
+        #         if camera["code"] == -1:
+        #             messages.error(request, camera["message"])
+        #
+        #
+        # else:
+        #     messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
+        #     return self.get(request, *args, **kwargs)
+
+        return render(request, "index.html", {"data": data})
 
 
-        else:
-            messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
-            return self.get(request, *args, **kwargs)
-
-        return render(request, "main.html", {"data": data})
+import os
 
 
 class Settings(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        print("saeed ------------- ", request.POST)
-        if request.method == 'POST':
-            regForm = SettingsForm(request.POST)  # form needs content
-            if regForm.is_valid():
-                print("saeed ------------- regForm.is_valid ", regForm.is_valid())
 
         if request.method == "POST":
             settings_form = SettingsForm(request.POST)
-            print("saeed ------------- ", settings_form.is_valid())
-            if settings_form.is_valid():
-                print("saeed ------------- ", settings_form.cleaned_data)
+            print("saeed ------------- settings_form.cleaned_data ", settings_form.is_valid())
+            settings_cleaned = settings_form.cleaned_data
+            print("saeed ------------- settings_form.cleaned_data ", settings_cleaned)
+            if settings_cleaned:
+                f = open('webApp/setting.json', "r+")
+                data = json.load(f)
+                os.remove("webApp/setting.json")
+                data["setting"]["CameraSettings"]["ExposureTime"] = settings_cleaned["ExposureTime"]
+                data["setting"]["CameraSettings"]["Width"] = settings_cleaned["Width"]
+                data["setting"]["CameraSettings"]["Height"] = settings_cleaned["Height"]
+                data["setting"]["CameraSettings"]["FrameRate"] = settings_cleaned["FrameRate"]
+                data["setting"]["CameraSettings"]["PixelFormat"] = settings_cleaned["PixelFormat"]
+                data["setting"]["CameraSettings"]["AutoWhiteBalance"] = settings_cleaned["AutoWhiteBalance"]
+                data["setting"]["CameraSettings"]["ColorBalanceRed"] = settings_cleaned["ColorBalanceRed"]
+                data["setting"]["CameraSettings"]["ColorBalanceBlue"] = settings_cleaned["ColorBalanceBlue"]
+
+                data["setting"]["PanelSettings"]["samplingTime"] = settings_cleaned["samplingTime"]
+                data["setting"]["PanelSettings"]["processedSeparately"] = settings_cleaned["processedSeparately"]
+                data["setting"]["PanelSettings"]["processPerSeconds"] = settings_cleaned["processPerSeconds"]
+                data["setting"]["PanelSettings"]["calibration"] = settings_cleaned["calibration"]
+                data["setting"]["PanelSettings"]["evaluated"] = settings_cleaned["evaluated"]
+                data["setting"]["PanelSettings"]["coefficient_N"] = settings_cleaned["coefficient_N"]
+                data["setting"]["PanelSettings"]["coefficient_X"] = settings_cleaned["coefficient_X"]
+                data["setting"]["PanelSettings"]["separationAlgorithm"] = settings_cleaned["separationAlgorithm"]
+
+                f = open('webApp/setting.json', "w")
+                f.write(json.dumps(data))
+                f.close()
 
         return redirect("/")
 

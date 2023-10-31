@@ -17,6 +17,21 @@ from django.utils.translation import gettext_lazy as _
 UserModel = get_user_model()
 
 
+class ReportForm(forms.Form):
+    from_date = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control col-xl-12',
+            "type": "date",
+        })
+    )
+
+    to_date = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control col-xl-12',
+            "type": "date",
+        })
+    )
+
 class SettingsForm(forms.Form):
     samplingTime = forms.CharField(
         widget=forms.TextInput(attrs={
