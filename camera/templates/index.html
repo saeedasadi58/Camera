@@ -96,6 +96,32 @@
             </div>
         </nav>
     </div>
+{#    <div class="alert alert-success alert-dismissible fade show"#}
+{#         style="display: block;text-align: center; margin-right: 50px"#}
+{#         id="alert">#}
+{#        <strong>sssdfsdfd </strong>#}
+{#    </div>#}
+{##}
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            {{ message.level }}#}
+{#            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}#}
+{#                <div class="alert alert-success alert-dismissible fade show"#}
+{#                     style="display: block;text-align: center; margin-right: 50px"#}
+{#                     id="alert">#}
+{#                    <strong>{{ message }} </strong>#}
+{#                </div>#}
+{#            {% endif %}#}
+{#            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}#}
+{#                <div class="alert alert-danger alert-dismissible fade show"#}
+{#                     style="display: block;text-align: center;margin-right: 50px" id="alert">#}
+{#                    <strong>{{ message }}</strong>#}
+{#                </div>#}
+{#            {% endif %}#}
+{##}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+{#    <div class="alert-messages"></div>#}
 
     <ul class="cd-hero-slider">  <!-- autoplay -->
         <li class="selected">
@@ -210,6 +236,12 @@
                                                     </button>
 
                                                 </form>
+                                                <div  id="" style="display: flex;flex-direction: row;text-align: center">
+                                                    <img src="{% static 'image/cameraPic.png' %}" style="    margin-top: 20px;width: 48%;margin-right: 10px">
+
+                                                    <img src="{% static 'image/cameraPic.png' %}" style="    margin-top: 20px;width: 48%;margin-left: 10px">
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -845,6 +877,13 @@
 
     });
 
+</script>
+<script>
+    if (document.getElementById('alert').style.display == "block") {
+        setTimeout(function () {
+            document.getElementById('alert').style.display = "none"
+        }, 3000);
+    }
 </script>
 
 </body>
