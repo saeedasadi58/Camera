@@ -13,10 +13,10 @@
     http://www.templatemo.com/tm-491-flat
     -->
     <!-- load stylesheets -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">#}
     <!-- Google web font "Open Sans" -->
     {#    <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">            <!-- Font awesome -->#}
-    <link rel="stylesheet" href="{% static 'css/font-awesome-4.6.3/css/font-awesome.min.css' %}">
+{#    <link rel="stylesheet" href="{% static 'css/font-awesome-4.6.3/css/font-awesome.min.css' %}">#}
     <!-- Font awesome -->
     {#    <link rel="stylesheet" href="css/bootstrap.min.css">                                  <!-- Bootstrap style -->#}
     <link rel="stylesheet" href="{% static 'css/bootstrap2.min.css' %}">            <!-- Font awesome -->
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{% static 'css/hero-slider-style.css' %}">            <!-- Font awesome -->
     {#    <link rel="stylesheet" href="css/magnific-popup.css">                                 <!-- Magnific popup style (http://dimsemenov.com/plugins/magnific-popup/) -->#}
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">            <!-- Font awesome -->
+
+    <script class="col-xl-12" src="{% static 'js/chart.js' %}"></script>
 
     {#    <link rel="stylesheet" href="css/templatemo-style.css">                               <!-- Templatemo style -->#}
     <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">            <!-- Font awesome -->
@@ -120,8 +122,6 @@
                                                         <canvas id="live_Chart"></canvas>
                                                     </div>
 
-                                                    <script class="col-xl-12"
-                                                            src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                                                     <script>
                                                         const ctx3 = document.getElementById('live_Chart');
@@ -152,8 +152,8 @@
                                                         <canvas id="col_Chart"></canvas>
                                                     </div>
 
-                                                    <script class="col-xl-12"
-                                                            src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                    {#                                                    <script class="col-xl-12"#}
+                                                    {#                                                            src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
 
                                                     <script>
                                                         const ctx4 = document.getElementById('col_Chart');
@@ -163,7 +163,7 @@
                                                             data: {
                                                                 labels: ['1', '2', '3', '4', '5', '6'],
                                                                 datasets: [{
-                                                                    label: '# اندازه میلی متر در زمان ',
+                                                                    label: '#  ',
                                                                     data: [0, 0, 0],
                                                                     borderWidth: 1
                                                                 }]
@@ -501,7 +501,8 @@
                                         </div>
                                         <div class="col-6">
                                             <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
-                                            <input type="submit" style="width: 75px;;height: 25px;font-size: 13px;margin: 3%;"
+                                            <input type="submit"
+                                                   style="width: 75px;;height: 25px;font-size: 13px;margin: 3%;"
                                                    class="btn btn-success btn-sm btn-font "
                                                    value="تایید">
                                         </div>
@@ -511,7 +512,7 @@
                                         <canvas id="myChart"></canvas>
                                     </div>
 
-                                    <script class="col-xl-12" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                    {#                                    <script class="col-xl-12" src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
 
                                     <script>
                                         const ctx = document.getElementById('myChart');
@@ -778,7 +779,7 @@
 
 {#        <script src="js/jquery-1.11.3.min.js"></script>         <!-- jQuery (https://jquery.com/download/) -->#}
 <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>         <!-- jQuery (https://jquery.com/download/) -->
-<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+{#<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>#}
 <!-- Tether for Bootstrap (http://stackoverflow.com/questions/34567939/how-to-fix-the-error-error-bootstrap-tooltips-require-tether-http-github-h) -->
 {#        <script src="js/bootstrap.min.js"></script>             <!-- Bootstrap js (v4-alpha.getbootstrap.com/) -->#}
 <script src="{% static 'js/bootstrap2.min.js' %}"></script>         <!-- jQuery (https://jquery.com/download/) -->
