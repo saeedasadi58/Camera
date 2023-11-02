@@ -47,7 +47,11 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-from .BackCods.Python.plotly import *
+
+try:
+    from .BackCods.Python.plotly import *
+except:
+    pass
 from django.contrib import messages
 import json
 
@@ -71,7 +75,7 @@ class LoginView(SuccessURLAllowedHostsMixin, FormView):
     form_class = loginForm
     authentication_form = loginForm
     redirect_field_name = REDIRECT_FIELD_NAME
-    template_name = 'login.html'
+    template_name = 'newLogin.html'
     redirect_authenticated_user = False
     extra_context = None
 
@@ -223,10 +227,10 @@ class ReadCameraView(LoginRequiredMixin, View):
                 for csv_file in files:
                     pass
             else:
-                try :
+                try:
 
                     camera = read_camera()
-                    print("Post -------- camera",camera)
+                    print("Post -------- camera", camera)
 
                     if camera:
                         messages.success(request, f" فعال است. {camera} دوربین ")
