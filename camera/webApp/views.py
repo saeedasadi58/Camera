@@ -203,9 +203,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": settings_form,
             "ReportForm": ReportForm,
-            "customerList": "customerList",
-            "Custpmers": "Customers",
-            "searchTestPerson": "searchTest"
+            "play": True
         }
         return render(request, "index.html", {"data": data})
 
@@ -217,9 +215,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": SettingsForm,
             "ReportForm": ReportForm,
-            "customerList": "customerList",
-            "Custpmers": "Customers",
-            "searchTestPerson": "searchTest"
+            "play": True
         }
         if request.user.is_superuser or permission or grouppermission:
             if files and len(files) > 0:
@@ -227,12 +223,17 @@ class ReadCameraView(LoginRequiredMixin, View):
                 for csv_file in files:
                     pass
             else:
-                camera = read_camera()
-                print("Post -------- camera",camera)
+                try :
 
-                if camera:
-                    messages.success(request, f" فعال است {camera} دوربین ")
+                    camera = read_camera()
+                    print("Post -------- camera",camera)
 
+                    if camera:
+                        messages.success(request, f" فعال است. {camera} دوربین ")
+                        data["play"] = False
+                except:
+                    data["play"] = True
+                    messages.error(request, f" هیچ دوربینی یافت نشد. ")
 
         else:
             messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')

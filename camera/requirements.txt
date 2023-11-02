@@ -2,7 +2,6 @@ django
 requests
 django-allauth
 pillow
-pypylon
 matplotlib
 djangorestframework
 markdown
@@ -10,3 +9,6 @@ django-filter
 django-currentuser
 django-ckeditor
 persiantools
+fontawesomefree
+pypylon
+
