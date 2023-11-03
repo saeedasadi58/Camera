@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ]
 AUTH_USER_MODEL='webApp.User'
 
-LOGIN_URL='/admin/login/'
+LOGIN_URL='/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 CORS_ORIGIN_ALLOW_ALL = True

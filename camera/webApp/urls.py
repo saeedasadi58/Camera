@@ -35,7 +35,7 @@ router = DefaultRouter()
 urlpatterns = [
     # path('login', views.Login.as_view()),
     path('login/', views.login, name='login'),
-    path('admin/login/', views.login, name='login'),
+    # path('admin/login/', views.login, name='login'),
     # path('admin/login/', views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', drf_views.LogoutView.as_view(), name='logout'),
     path('docs/', include(router.urls)),
