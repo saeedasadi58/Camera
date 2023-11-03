@@ -35,7 +35,7 @@ class ReportForm(forms.Form):
 class SettingsForm(forms.Form):
     samplingTime = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control col-xl-1',
+            'class': 'form-control col-xl-2',
             "type": "number",
             "value": 0,
         })
