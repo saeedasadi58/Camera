@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webApp.models import Camera
+from webApp.models import Camera, User, Proccess
 
 from django import forms
 from django.contrib import admin
@@ -10,7 +10,7 @@ from .models import User
 from django.db.models import Q
 from django.utils.html import strip_tags
 
-#
+
 # class UserCreationForm(forms.ModelForm):
 #     # A form for creating new users. Includes all the required
 #     # fields, plus a repeated password.
@@ -180,3 +180,5 @@ from django.utils.html import strip_tags
 
 # Register your models here.
 admin.site.register(Camera)
+admin.site.register(User)
+admin.site.register(Proccess)

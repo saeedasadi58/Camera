@@ -12,6 +12,9 @@ import time
 from pypylon import pylon
 import threading
 
+from datetime import datetime
+from webApp.models import Proccess
+
 # Create the main window
 window = tk.Tk()
 
@@ -54,44 +57,45 @@ def plotting():
         random_number_D40 = random.uniform(11.35, 13.008)
         random_number_D50 = random.uniform(13.1, 15)
         random_number_D80 = random.uniform(15.2, 16.35)
-
-        D20.append(random_number_D20)
-        # axs[0].clear()
-        axs[0].plot(D20)
-        axs[0].set_title('D20')
-
-        D40.append(random_number_D40)
-        # axs[1].clear()
-        axs[1].plot(D40)
-        axs[1].set_title('D40')
-
-        D50.append(random_number_D50)
-        # axs[2].clear()
-        axs[2].plot(D50)
-        axs[2].set_title('D50')
-
-        D80.append(random_number_D80)
-        # axs[3].clear()
-        axs[3].plot(D80)
-        axs[3].set_title('D80')
-
+        Process.objects.create(D20=random_number_D20, D40=random_number_D40, D50=random_number_D50,
+                               D80=random_number_D80, start_date=datetime.now())
+        # D20.append(random_number_D20)
+        # # axs[0].clear()
+        # axs[0].plot(D20)
+        # axs[0].set_title('D20')
+        #
+        # D40.append(random_number_D40)
+        # # axs[1].clear()
+        # axs[1].plot(D40)
+        # axs[1].set_title('D40')
+        #
+        # D50.append(random_number_D50)
+        # # axs[2].clear()
+        # axs[2].plot(D50)
+        # axs[2].set_title('D50')
+        #
+        # D80.append(random_number_D80)
+        # # axs[3].clear()
+        # axs[3].plot(D80)
+        # axs[3].set_title('D80')
+        print("------------axs ------------------", random_number_D20)
         # Redraw the canvas
-        canvas.draw()
+        # canvas.draw()
 
-        from PIL import Image, ImageTk
-        image = Image.open(image_path)
-        resized_image = image.resize((image_width, image_height))
+        # from PIL import Image, ImageTk
+        # image = Image.open(image_path)
+        # resized_image = image.resize((image_width, image_height))
+        #
+        # # Create a Tkinter-compatible photo image
+        # photo = ImageTk.PhotoImage(resized_image)
+        #
+        # # Update the label with the new image
+        # image_label.configure(image=photo)
+        # image_label.image = photo  # Keep a reference to prevent garbage collection
 
-        # Create a Tkinter-compatible photo image
-        photo = ImageTk.PhotoImage(resized_image)
+        # window.update()
 
-        # Update the label with the new image
-        image_label.configure(image=photo)
-        image_label.image = photo  # Keep a reference to prevent garbage collection
-
-        window.update()
-
-    window.mainloop()
+    # window.mainloop()
 
 
 def read_camera():

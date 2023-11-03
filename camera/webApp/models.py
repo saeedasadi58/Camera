@@ -61,3 +61,13 @@ class Camera(models.Model):
     city_name = models.CharField(null=True,max_length=50)
     latitude = models.CharField(null=True,max_length=20)
     longitude = models.CharField(null=True,max_length=20)
+
+class Proccess(models.Model):
+    D20 = models.CharField(null=True,max_length=20)
+    D40 = models.CharField(null=True,max_length=20)
+    D50 = models.CharField(null=True,max_length=20)
+    D80 = models.CharField(null=True,max_length=20)
+    start_date = models.DateField(null=True)
+
+    # class Meta:
+    #     table_name = "Proccess"

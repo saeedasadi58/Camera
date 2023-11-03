@@ -1,3 +1,6 @@
+import django
+
+django.setup()
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -13,12 +16,12 @@ from rest_framework.permissions import AllowAny, DjangoModelPermissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.renderers import TemplateHTMLRenderer
-from .models import User, Camera
+from .models import User, Camera, Proccess
 from .permissions import OwnerCanManageOrReadOnly
 from .serializers import UserSerializer, UserCrateSerializer, ChangePasswordSerializer, \
     AccountSerializer, CameraSerializer
 from persiantools.jdatetime import JalaliDate
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Avg, Count
 from webApp.form import loginForm, SettingsForm, ReportForm
 from django.contrib.auth.views import LoginView
@@ -47,13 +50,16 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-
-try:
-    from .BackCods.Python.plotly import *
-except:
-    pass
+from multiprocessing import Pool, Process
+# from .BackCods.Python.plotly import plotting
+# try:
+#     from .BackCods.Python.plotly import *
+# except:
+#     pass
 from django.contrib import messages
 import json
+from django import db
+import random
 
 
 class RemovedInDjango21Warning(PendingDeprecationWarning):
@@ -168,14 +174,21 @@ def login(request, *args, **kwargs):
     )
     return LoginView.as_view(**kwargs)(request, *args, **kwargs)
 
+from django.http import HttpResponse
+
+class CameraViewLive(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse(Proccess.objects.filter(start_date__range=[kwargs["start_date"], datetime.now() + timedelta(days=1)]))
+
 
 class ReadCameraView(LoginRequiredMixin, View):
     """
     API endpoint that allows groups to be viewed or edited.
     """
 
-    # queryset = Camera.objects.all()
-    # serializer_class = CameraSerializer
+    def __init__(self):
+        self.Proce = Process(target=plotting2, args=())
+
     def get(self, request, *args, **kwargs):
 
         # settings_form = SettingsForm()
@@ -196,9 +209,6 @@ class ReadCameraView(LoginRequiredMixin, View):
             "processedSeparately": data["setting"]["PanelSettings"]["processedSeparately"],
             "processPerSeconds": data["setting"]["PanelSettings"]["processPerSeconds"],
             "calibration": data["setting"]["PanelSettings"]["calibration"],
-            # "evaluatedDirectly": data["setting"]["PanelSettings"]["evaluatedDirectly"],
-            # "evaluatedAutomatically": data["setting"]["PanelSettings"]["evaluatedAutomatically"],
-            # "evaluatedExperimental": data["setting"]["PanelSettings"]["evaluatedExperimental"],
             "coefficient_N": data["setting"]["PanelSettings"]["coefficient_N"],
             "coefficient_X": data["setting"]["PanelSettings"]["coefficient_X"],
             "separationAlgorithm": data["setting"]["PanelSettings"]["separationAlgorithm"],
@@ -207,19 +217,21 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": settings_form,
             "ReportForm": ReportForm,
-            "play": True
+            "play": self.Proce.is_alive(),
+            "play_date": datetime.now()
         }
         return render(request, "index.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
-        print("Post")
+        self.Proce.start()
         files = request.FILES.getlist("uploaded")
         permission = Permission.objects.filter(user=request.user)
         grouppermission = request.user.get_group_permissions()
         data = {
             "SettingsForm": SettingsForm,
             "ReportForm": ReportForm,
-            "play": True
+            "play": self.Proce.is_alive(),
+            "play_date": datetime.now()
         }
         if request.user.is_superuser or permission or grouppermission:
             if files and len(files) > 0:
@@ -228,15 +240,16 @@ class ReadCameraView(LoginRequiredMixin, View):
                     pass
             else:
                 try:
-
-                    camera = read_camera()
-                    print("Post -------- camera", camera)
-
-                    if camera:
-                        messages.success(request, f" فعال است. {camera} دوربین ")
+                    if self.Proce.is_alive():
                         data["play"] = False
+                    else:
+                        camera = read_camera()
+                        if camera:
+                            self.Proce.start()
+                            messages.success(request, f" فعال است. {camera} دوربین ")
+                            data["play"] = self.Proce.is_alive()
                 except:
-                    data["play"] = True
+                    data["play"] = self.Proce.is_alive()
                     messages.error(request, f" هیچ دوربینی یافت نشد. ")
 
         else:
@@ -244,6 +257,19 @@ class ReadCameraView(LoginRequiredMixin, View):
             return self.get(request, *args, **kwargs)
 
         return render(request, "index.html", {"data": data})
+
+
+def plotting2():
+    # db.connections.close_all()
+    print("plotting2")
+
+    while True:
+        random_number_D20 = random.uniform(10, 11.32)
+        random_number_D40 = random.uniform(11.35, 13.008)
+        random_number_D50 = random.uniform(13.1, 15)
+        random_number_D80 = random.uniform(15.2, 16.35)
+        Proccess.objects.create(D20=random_number_D20, D40=random_number_D40, D50=random_number_D50,
+                                D80=random_number_D80, start_date=datetime.now())
 
 
 import os

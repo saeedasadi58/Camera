@@ -19,7 +19,7 @@ from django.contrib import admin
 from webApp import views
 urlpatterns = [
     path('', include('webApp.urls', namespace='webApp')),
-    path('/login/', views.login, name='login'),
+    path('login/', views.login, name='login'),
     path('admin/', admin.site.urls, name='admin'),
 
     # path('admin/', admin.site.urls),
