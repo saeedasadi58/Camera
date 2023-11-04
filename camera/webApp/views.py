@@ -1,3 +1,5 @@
+import time
+
 import django
 
 django.setup()
@@ -30,11 +32,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect, QueryDict
-# from django.contrib.auth.models import Group
-# from django.contrib.auth import get_user_model
-# from rest_framework import viewsets
-# from rest_framework import permissions
-# from webApp.serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -60,6 +57,7 @@ from django.contrib import messages
 import json
 from django import db
 import random
+import os
 
 
 class RemovedInDjango21Warning(PendingDeprecationWarning):
@@ -174,11 +172,51 @@ def login(request, *args, **kwargs):
     )
     return LoginView.as_view(**kwargs)(request, *args, **kwargs)
 
-from django.http import HttpResponse
 
-class CameraViewLive(LoginRequiredMixin, View):
+from django.http import HttpResponse
+from django.http import JsonResponse
+
+
+class CameraViewData(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return HttpResponse(Proccess.objects.filter(start_date__range=[kwargs["start_date"], datetime.now() + timedelta(days=1)]))
+        if kwargs['to_date'] != "0":
+            to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
+        else:
+            to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+        data = Proccess.objects.filter(
+            start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'), to_date])
+        D20 = []
+        D40 = []
+        D50 = []
+        D80 = []
+
+        for i in data:
+            # print(i)
+            D20.append(i.D20)
+            D40.append(i.D40)
+            D50.append(i.D50)
+            D80.append(i.D80)
+
+        print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
+        # return HttpResponse(Proccess.objects.filter(start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'),to_date]))
+        return JsonResponse(({"D20": D20, "D40": D40, "D50": D50, "D80": D80}))
+
+
+def plotting2():
+    while True:
+        print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+        # read_camera()
+        random_number_D20 = random.uniform(10, 11.32)
+        random_number_D40 = random.uniform(11.35, 13.008)
+        random_number_D50 = random.uniform(13.1, 15)
+        random_number_D80 = random.uniform(15.2, 16.35)
+        Proccess.objects.create(D20=random_number_D20, D40=random_number_D40, D50=random_number_D50,
+                                D80=random_number_D80, start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+
+        time.sleep(1)
+
+
+Proce = Process(target=plotting2, args=())
 
 
 class ReadCameraView(LoginRequiredMixin, View):
@@ -186,8 +224,8 @@ class ReadCameraView(LoginRequiredMixin, View):
     API endpoint that allows groups to be viewed or edited.
     """
 
-    def __init__(self):
-        self.Proce = Process(target=plotting2, args=())
+    # def __init__(self):
+    #     self.
 
     def get(self, request, *args, **kwargs):
 
@@ -217,21 +255,20 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": settings_form,
             "ReportForm": ReportForm,
-            "play": self.Proce.is_alive(),
-            "play_date": datetime.now()
+            "play": Proce.is_alive(),
+            "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
         }
         return render(request, "index.html", {"data": data})
 
     def post(self, request, *args, **kwargs):
-        self.Proce.start()
         files = request.FILES.getlist("uploaded")
         permission = Permission.objects.filter(user=request.user)
         grouppermission = request.user.get_group_permissions()
         data = {
             "SettingsForm": SettingsForm,
             "ReportForm": ReportForm,
-            "play": self.Proce.is_alive(),
-            "play_date": datetime.now()
+            "play": Proce.is_alive(),
+            "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
         }
         if request.user.is_superuser or permission or grouppermission:
             if files and len(files) > 0:
@@ -239,18 +276,36 @@ class ReadCameraView(LoginRequiredMixin, View):
                 for csv_file in files:
                     pass
             else:
-                try:
-                    if self.Proce.is_alive():
-                        data["play"] = False
-                    else:
-                        camera = read_camera()
-                        if camera:
-                            self.Proce.start()
-                            messages.success(request, f" فعال است. {camera} دوربین ")
-                            data["play"] = self.Proce.is_alive()
-                except:
-                    data["play"] = self.Proce.is_alive()
-                    messages.error(request, f" هیچ دوربینی یافت نشد. ")
+                # try:
+                if Proce.is_alive():
+
+                    data["play"] = False
+                    Proce.terminate()
+                    Proce.kill()
+                    # Proce.close()
+
+                else:
+                    # Proce = Process(target=plotting2, args=())
+                    try:
+                        Proce.start()
+                    except:
+                        Proce.join()
+                        Proce.start()
+
+
+                        # Proce = Process(target=plotting2, args=())
+                        # Proce.start()
+                        ...
+                    data["play"] = Proce.is_alive()
+                    # camera = read_camera()
+                    # if camera:
+                    #     Proce.start()
+                    #     camera = read_camera()
+                    #     data["play"] = Proce.is_alive()
+                    #     messages.success(request, f" فعال است. {camera} دوربین ")
+                # except:
+                #     data["play"] = Proce.is_alive()
+                #     messages.error(request, f" هیچ دوربینی یافت نشد. ")
 
         else:
             messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
@@ -259,31 +314,13 @@ class ReadCameraView(LoginRequiredMixin, View):
         return render(request, "index.html", {"data": data})
 
 
-def plotting2():
-    # db.connections.close_all()
-    print("plotting2")
-
-    while True:
-        random_number_D20 = random.uniform(10, 11.32)
-        random_number_D40 = random.uniform(11.35, 13.008)
-        random_number_D50 = random.uniform(13.1, 15)
-        random_number_D80 = random.uniform(15.2, 16.35)
-        Proccess.objects.create(D20=random_number_D20, D40=random_number_D40, D50=random_number_D50,
-                                D80=random_number_D80, start_date=datetime.now())
-
-
-import os
-
-
 class Settings(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
 
         if request.method == "POST":
             settings_form = SettingsForm(request.POST)
-            print("saeed ------------- settings_form.cleaned_data ", settings_form.is_valid())
             settings_cleaned = settings_form.cleaned_data
-            print("saeed ------------- settings_form.cleaned_data ", settings_cleaned)
             if settings_cleaned:
                 f = open('webApp/setting.json', "r+")
                 data = json.load(f)
@@ -311,207 +348,3 @@ class Settings(LoginRequiredMixin, View):
                 f.close()
 
         return redirect("/")
-
-#
-# class StandardResultsSetPagination(PageNumberPagination):
-#     # this feature set the number of recored for present per page
-#     page_size = 50
-#     page_size_query_param = 'page_size'
-#     max_page_size = 50
-#
-#
-# class CloudPagination(PageNumberPagination):
-#     # this feature set the number of recored for present per page
-#     page_size = 1000
-#     page_size_query_param = 'page_size'
-#     max_page_size = 1000
-#
-#
-# class UserListApiView(ListCreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserCrateSerializer
-#     permission_classes = [DjangoModelPermissions]
-#     pagination_class = StandardResultsSetPagination
-
-# permission_classes = [AllowAny]
-
-# for hashing password
-# def perform_create(self, serializer):
-#     instance = serializer.save()
-#     instance.set_password(instance.password)
-#     instance.save()
-
-
-# class ProfileView(ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = AccountSerializer
-#     pagination_class = StandardResultsSetPagination
-#     permission_classes = [AllowAny]
-#
-#     # for hashing password
-#     def perform_create(self, serializer):
-#         instance = serializer.save()
-#         instance.set_password(instance.password)
-#         instance.save()
-#
-#
-# class UserUpdateApiView(RetrieveUpdateDestroyAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = [OwnerCanManageOrReadOnly]
-#
-#     def update(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         serializer = self.get_serializer(data=request.data)
-#
-#         if serializer.is_valid():
-#             # Check old password
-#             if not self.object.check_password(serializer.data.get("old_password")):
-#                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-#             # set_password also hashes the password that the user will get
-#             self.object.set_password(serializer.data.get("new_password"))
-#             self.object.save()
-#             return Response("Success.", status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-
-# @api_view(['GET'])
-# def create_project(request):
-#     # data = first_task()
-#     # second_task(data) # want to run this function at background
-#     return Response("asdasdasdsad")  # want to return this response after completion of first_task()
-#
-#
-# class ReadCameraView(LoginRequiredMixin, View):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#
-#     # queryset = Camera.objects.all()
-#     # serializer_class = CameraSerializer
-#     def get(self, request, *args, **kwargs):
-#         return render(request, "error_403.html")
-
-# def get(self, request, *args, **kwargs):
-#     if request.user.is_superuser:
-#         if request.method == "GET":
-#             template_name = 'profile/status_staff.html'
-#             result = User.objects.all().order_by('date_joined')
-#             # for j in result:
-#             #     print(j.)
-#             # paginator = Paginator(result, 10)
-#             # page = request.GET.get('page')
-#             # result = paginator.get_page(page)
-#             context = {
-#                 'object_of_event': result,
-#                 # 'paginator': paginator,
-#                 'permission_flag': True
-#             }
-#             return render(request, template_name, context)
-#     return render(request, 'error_403.html')
-
-# def get(self,request,*args,**kwargs):
-#     return HttpResponse("ok")
-# permission_classes = [DjangoModelPermissions]
-# pagination_class = StandardResultsSetPagination
-
-# def perform_create(self, serializer):
-#     instance = serializer.save()
-#     # instance.set_password(instance.password)
-#     instance.save()
-
-
-# class AddCameraViewSet(ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#
-#     queryset = Camera.objects.all()
-#     serializer_class = GroupSerializer
-
-#
-# class ChangePasswordView(UpdateAPIView):
-#     """
-#     An endpoint for changing password.
-#     """
-#     serializer_class = ChangePasswordSerializer
-#     model = User
-#     permission_classes = (OwnerCanManageOrReadOnly,)
-#
-#     def get_object(self, queryset=None):
-#         obj = self.request.user
-#         return obj
-#
-#     def update(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         serializer = self.get_serializer(data=request.data)
-#
-#         if serializer.is_valid():
-#             # Check old password
-#             if not self.object.check_password(serializer.data.get("old_password")):
-#                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-#             # set_password also hashes the password that the user will get
-#             self.object.set_password(serializer.data.get("new_password"))
-#             self.object.save()
-#             return Response("Success.", status=status.HTTP_200_OK)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
-# class StatusStaffView(LoginRequiredMixin, ListView):
-#     template_name = 'profile/status_staff.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         if request.user.is_superuser:
-#             if request.method == "GET":
-#                 template_name = 'profile/status_staff.html'
-#                 result = User.objects.all().order_by('date_joined')
-#                 # for j in result:
-#                 #     print(j.)
-#                 # paginator = Paginator(result, 10)
-#                 # page = request.GET.get('page')
-#                 # result = paginator.get_page(page)
-#                 context = {
-#                     'object_of_event': result,
-#                     # 'paginator': paginator,
-#                     'permission_flag': True
-#                 }
-#                 return render(request, template_name, context)
-#         return render(request, 'error_403.html')
-
-#
-# @login_required
-# def profile(request):
-#     return render(request, 'profile/base.html')
-#
-#
-# def error_404(request, exception):
-#     data = {}
-#     return render(request, 'error_404.html', data)
-#
-#
-# def error_500(request):
-#     data = {}
-#     return render(request, 'error_500.html', data)
-#
-#
-# def error_403(request, exception):
-#     data = {}
-#     return render(request, 'error_403.html', data)
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     queryset = User.objects.all().order_by('-date_joined')
-#     serializer_class = UserSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-
-# class GroupViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Group.objects.all()
-#     serializer_class = GroupSerializer
-#     permission_classes = [permissions.IsAuthenticated]

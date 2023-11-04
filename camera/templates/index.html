@@ -206,7 +206,7 @@
                                                     <script>
                                                         const ctx4 = document.getElementById('col_Chart');
 
-                                                        new Chart(ctx4, {
+                                                        var chart = new Chart(ctx4, {
                                                             type: 'line',
                                                             data: {
                                                                 labels: ['1', '2', '3', '4', '5', '6'],
@@ -242,6 +242,38 @@
                                                                 }
                                                             }
                                                         });
+
+                                                        var chart_ = function () {
+                                                            var xhttp = new XMLHttpRequest();
+                                                            xhttp.onreadystatechange = function () {
+                                                                if (this.readyState == 4 && this.status == 200) {
+                                                                    result = JSON.parse(this.responseText)
+                                                                    chart.data.datasets[0].data = result['D20']
+                                                                    chart.data.datasets[1].data = result['D40']
+                                                                    chart.data.datasets[2].data = result['D50']
+                                                                    chart.data.datasets[3].data = result['D80']
+                                                                    lables = []
+                                                                    for (var i = 0; i <= (result['D80'].length); i++) {
+                                                                        lables.push(i)
+                                                                    }
+                                                                    chart.data.labels = lables
+                                                                    chart.update();
+                                                                }
+
+                                                            };
+                                                            {#xhttp.open("GET", 'camera_data/2023-09-04 13:55:28.577297/0', false);#}
+                                                            xhttp.open("GET", 'camera_data/' + "{{ data.play_date }}" + '/0', true);
+                                                            xhttp.send();
+                                                        }
+
+                                                        const interval = setInterval(function () {
+                                                            chart_();
+                                                        }, 1000);
+                                                        if ("{{ data.play }}" === "False") {
+                                                            clearInterval(interval);
+                                                        }
+
+
                                                     </script>
                                                 </div>
 
