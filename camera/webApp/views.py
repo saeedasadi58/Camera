@@ -25,7 +25,7 @@ from .serializers import UserSerializer, UserCrateSerializer, ChangePasswordSeri
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime, timedelta
 from django.db.models import Avg, Count
-from webApp.form import loginForm, SettingsForm, ReportForm
+from webApp.form import loginForm, SettingsForm, ReportForm,kalibrSettingsForm
 from django.contrib.auth.views import LoginView
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -48,7 +48,7 @@ from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
 from multiprocessing import Pool, Process
-# from .BackCods.Python.plotly import plotting
+# from .BackCods.Python.plotly import plotting,analysis
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -201,6 +201,12 @@ class CameraViewData(LoginRequiredMixin, View):
         # return HttpResponse(Proccess.objects.filter(start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'),to_date]))
         return JsonResponse(({"D20": D20, "D40": D40, "D50": D50, "D80": D80}))
 
+# class MatlabAnalysis(LoginRequiredMixin, View):
+#     def get(self, request, *args, **kwargs):
+#         print("------------axs ------------------")
+#
+#         return HttpResponse(analysis())
+
 
 def plotting2():
     while True:
@@ -216,7 +222,7 @@ def plotting2():
         time.sleep(1)
 
 
-Proce = Process(target=plotting2, args=())
+# Proce = Process(target=plotting2, args=())
 
 
 class ReadCameraView(LoginRequiredMixin, View):
@@ -243,6 +249,10 @@ class ReadCameraView(LoginRequiredMixin, View):
             "AutoWhiteBalance": data["setting"]["CameraSettings"]["AutoWhiteBalance"],
             "ColorBalanceRed": data["setting"]["CameraSettings"]["ColorBalanceRed"],
             "ColorBalanceBlue": data["setting"]["CameraSettings"]["ColorBalanceBlue"],
+
+        })
+
+        kalibr_settings_form = kalibrSettingsForm(initial={
             "samplingTime": data["setting"]["PanelSettings"]["samplingTime"],
             "processedSeparately": data["setting"]["PanelSettings"]["processedSeparately"],
             "processPerSeconds": data["setting"]["PanelSettings"]["processPerSeconds"],
@@ -254,8 +264,9 @@ class ReadCameraView(LoginRequiredMixin, View):
         })
         data = {
             "SettingsForm": settings_form,
+            "KalibrSettingsForm": kalibr_settings_form,
             "ReportForm": ReportForm,
-            "play": Proce.is_alive(),
+            "play": False,
             "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
         }
         return render(request, "index.html", {"data": data})
@@ -267,7 +278,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": SettingsForm,
             "ReportForm": ReportForm,
-            "play": Proce.is_alive(),
+            "play": False,
             "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
         }
         if request.user.is_superuser or permission or grouppermission:
@@ -276,36 +287,36 @@ class ReadCameraView(LoginRequiredMixin, View):
                 for csv_file in files:
                     pass
             else:
-                # try:
-                if Proce.is_alive():
+                try:
+                    if Proce.is_alive():
 
-                    data["play"] = False
-                    Proce.terminate()
-                    Proce.kill()
-                    # Proce.close()
+                        data["play"] = False
+                        Proce.terminate()
+                        Proce.kill()
+                        # Proce.close()
 
-                else:
-                    # Proce = Process(target=plotting2, args=())
-                    try:
-                        Proce.start()
-                    except:
-                        Proce.join()
-                        Proce.start()
-
-
+                    else:
                         # Proce = Process(target=plotting2, args=())
-                        # Proce.start()
-                        ...
-                    data["play"] = Proce.is_alive()
-                    # camera = read_camera()
-                    # if camera:
-                    #     Proce.start()
-                    #     camera = read_camera()
-                    #     data["play"] = Proce.is_alive()
-                    #     messages.success(request, f" فعال است. {camera} دوربین ")
-                # except:
-                #     data["play"] = Proce.is_alive()
-                #     messages.error(request, f" هیچ دوربینی یافت نشد. ")
+                        try:
+                            Proce.start()
+                        except:
+                            Proce.join()
+                            Proce.start()
+
+
+                            # Proce = Process(target=plotting2, args=())
+                            # Proce.start()
+                            ...
+                        data["play"] = Proce.is_alive()
+                        # camera = read_camera()
+                        # if camera:
+                        #     Proce.start()
+                        #     camera = read_camera()
+                        #     data["play"] = Proce.is_alive()
+                        #     messages.success(request, f" فعال است. {camera} دوربین ")
+                except:
+                    # data["play"] = Proce.is_alive()
+                    messages.error(request, f". هیچ دوربینی یافت نشد  ")
 
         else:
             messages.error(request, 'نام کاربری که با آن وارد شدید اجازه انجام این عملیات را ندارد.')
@@ -320,6 +331,7 @@ class Settings(LoginRequiredMixin, View):
 
         if request.method == "POST":
             settings_form = SettingsForm(request.POST)
+            print(settings_form.is_valid())
             settings_cleaned = settings_form.cleaned_data
             if settings_cleaned:
                 f = open('webApp/setting.json', "r+")
@@ -333,6 +345,42 @@ class Settings(LoginRequiredMixin, View):
                 data["setting"]["CameraSettings"]["AutoWhiteBalance"] = settings_cleaned["AutoWhiteBalance"]
                 data["setting"]["CameraSettings"]["ColorBalanceRed"] = settings_cleaned["ColorBalanceRed"]
                 data["setting"]["CameraSettings"]["ColorBalanceBlue"] = settings_cleaned["ColorBalanceBlue"]
+
+                # data["setting"]["PanelSettings"]["samplingTime"] = settings_cleaned["samplingTime"]
+                # data["setting"]["PanelSettings"]["processedSeparately"] = settings_cleaned["processedSeparately"]
+                # data["setting"]["PanelSettings"]["processPerSeconds"] = settings_cleaned["processPerSeconds"]
+                # data["setting"]["PanelSettings"]["calibration"] = settings_cleaned["calibration"]
+                # data["setting"]["PanelSettings"]["evaluated"] = settings_cleaned["evaluated"]
+                # data["setting"]["PanelSettings"]["coefficient_N"] = settings_cleaned["coefficient_N"]
+                # data["setting"]["PanelSettings"]["coefficient_X"] = settings_cleaned["coefficient_X"]
+                # data["setting"]["PanelSettings"]["separationAlgorithm"] = settings_cleaned["separationAlgorithm"]
+
+                f = open('webApp/setting.json', "w")
+                f.write(json.dumps(data))
+                f.close()
+
+        return redirect("/")
+
+class KalibrSettings(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+
+        if request.method == "POST":
+            settings_form = kalibrSettingsForm(request.POST)
+            print(settings_form.is_valid())
+            settings_cleaned = settings_form.cleaned_data
+            if settings_cleaned:
+                f = open('webApp/setting.json', "r+")
+                data = json.load(f)
+                os.remove("webApp/setting.json")
+                # data["setting"]["CameraSettings"]["ExposureTime"] = settings_cleaned["ExposureTime"]
+                # data["setting"]["CameraSettings"]["Width"] = settings_cleaned["Width"]
+                # data["setting"]["CameraSettings"]["Height"] = settings_cleaned["Height"]
+                # data["setting"]["CameraSettings"]["FrameRate"] = settings_cleaned["FrameRate"]
+                # data["setting"]["CameraSettings"]["PixelFormat"] = settings_cleaned["PixelFormat"]
+                # data["setting"]["CameraSettings"]["AutoWhiteBalance"] = settings_cleaned["AutoWhiteBalance"]
+                # data["setting"]["CameraSettings"]["ColorBalanceRed"] = settings_cleaned["ColorBalanceRed"]
+                # data["setting"]["CameraSettings"]["ColorBalanceBlue"] = settings_cleaned["ColorBalanceBlue"]
 
                 data["setting"]["PanelSettings"]["samplingTime"] = settings_cleaned["samplingTime"]
                 data["setting"]["PanelSettings"]["processedSeparately"] = settings_cleaned["processedSeparately"]

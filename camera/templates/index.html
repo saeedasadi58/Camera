@@ -435,7 +435,7 @@
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form method="post" action="/settings" class="col-xs-12 form-row" style="margin: 25px;">
+                            <form method="post" action="/KalibrSettings" class="col-xs-12 form-row" style="margin: 25px;">
                                 {% csrf_token %}
 
                                 {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox form-row col-xl-12">#}
@@ -449,13 +449,13 @@
                                     <div class="col-xl-12 form-row " style="text-align: right;">
                                         <label class="col-xl-3">نمونه برداری هر </label>
                                         {#                                    <input class="col-xl-2" value="0" type="number">#}
-                                        {{ data.SettingsForm.samplingTime }}
+                                        {{ data.KalibrSettingsForm.samplingTime }}
                                         <label class="col-xl-4">ثانیه انجام شود</label>
 
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl;">
                                         <div class="col-xl-1">
-                                            {{ data.SettingsForm.processedSeparately }}
+                                            {{ data.KalibrSettingsForm.processedSeparately }}
 
                                         </div>
                                         {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
@@ -466,13 +466,13 @@
                                     </div>
                                     <div class="col-xl-12 form-row " style="text-align: right;">
                                         <label class="col-xl-1"> هر </label>
-                                        {{ data.SettingsForm.processPerSeconds }}
+                                        {{ data.KalibrSettingsForm.processPerSeconds }}
                                         {#                                    <input class="col-xl-2" value="0" type="number">#}
                                         <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
                                     </div>
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         <label class="col-xl-3"> : کالیبراسین</label>
-                                        {{ data.SettingsForm.calibration }}
+                                        {{ data.KalibrSettingsForm.calibration }}
 
                                         {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
                                         {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
@@ -494,7 +494,7 @@
                                     {#                                </div>#}
                                     <div class="col-xl-12 form-row "
                                          style="padding: 9px;text-align: initial;direction: rtl;">
-                                        {{ data.SettingsForm.evaluated }}
+                                        {{ data.KalibrSettingsForm.evaluated }}
                                         {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
                                         {#                                           style="height: 15px;text-align: right;">#}
                                         {#                                    <label class="col-xl-10" style="text-align: right;">نتایج بر اساس نتایج تجربی توسط#}
@@ -503,13 +503,13 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         <div class="col-xl-6 form-row">
                                             <label class="col-xl-6">ضریب (n) </label>
-                                            {{ data.SettingsForm.coefficient_N }}
+                                            {{ data.KalibrSettingsForm.coefficient_N }}
 
                                             {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
                                         </div>
                                         <div class="col-xl-6 form-row">
                                             <label class="col-xl-6">ضریب (x) </label>
-                                            {{ data.SettingsForm.coefficient_X }}
+                                            {{ data.KalibrSettingsForm.coefficient_X }}
 
                                             {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
                                         </div>
@@ -517,7 +517,7 @@
                                     <div class="col-xl-12 form-row " style="padding: 9px">
                                         <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl; ">
                                             <div class="col-xl-1">
-                                                {{ data.SettingsForm.separationAlgorithm }}
+                                                {{ data.KalibrSettingsForm.separationAlgorithm }}
 
                                             </div>
                                             <label class="col-xl-11" style="text-align: right;">از الگوریتم جدا سازی

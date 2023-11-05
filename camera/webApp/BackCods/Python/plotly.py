@@ -14,6 +14,7 @@ import threading
 
 from datetime import datetime
 from webApp.models import Proccess
+import subprocess
 
 # Create the main window
 window = tk.Tk()
@@ -78,7 +79,6 @@ def plotting():
         # # axs[3].clear()
         # axs[3].plot(D80)
         # axs[3].set_title('D80')
-        print("------------axs ------------------", random_number_D20)
         # Redraw the canvas
         # canvas.draw()
 
@@ -147,3 +147,34 @@ thread2.start()
 
 thread1.join()
 thread2.join()"""
+# import matlab.engine
+
+import matlab.engine
+def analysis():
+    matlab_script = './webApp/BackCods/Matlab/calibrationsarand.m'
+
+    # Run MATLAB script using subprocess
+    # try:
+    print("------------axs ------------------")
+    eng = matlab.engine.start_matlab()
+    print("------------axs ------------------ 2 ")
+    button = 'Yes'
+
+    calibration_constant = 12.7
+    fname = './IMG.jpg'
+    eng.run(matlab_script,nargout=0)
+    res = eng.workspace['ans']
+    # res2 = eng.result()
+    command = f"result = analysis();"
+
+    # output = eng.eval(command, nargout=0)
+
+    # print(f"Output: {output}")
+
+    # output2 = eng.matlab_script()
+
+    print("------------axs ------------------ ", res)
+    eng.quit()
+    # return (subprocess.run(["matlab", "-r", f"run('{matlab_script}')"]))
+    # except subprocess.CalledProcessError as e:
+    #     print(f"Error running MATLAB script: {e}")

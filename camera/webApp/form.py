@@ -32,7 +32,7 @@ class ReportForm(forms.Form):
         })
     )
 
-class SettingsForm(forms.Form):
+class kalibrSettingsForm(forms.Form):
     samplingTime = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-2',
@@ -75,6 +75,8 @@ class SettingsForm(forms.Form):
         })
     )
     separationAlgorithm = forms.BooleanField(required=False)
+
+class SettingsForm(forms.Form):
     ExposureTime = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-3',
@@ -133,6 +135,8 @@ class SettingsForm(forms.Form):
             "value": 0,
         })
     )
+
+
 class UsernameField(forms.CharField):
     def to_python(self, value):
         return unicodedata.normalize("NFKC", super().to_python(value))
