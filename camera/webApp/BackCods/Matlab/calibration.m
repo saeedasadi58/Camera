@@ -1,6 +1,6 @@
 function [px2mm, bw2, outputImg] = calibration()
     fname = 'IMG.jpg'
-    dimensionofball = 10
+    dimensionofball = 65
     I = imread(fname,'jpeg');
     I=imadjust(rgb2gray(I));  %adjust the contrast of image
 

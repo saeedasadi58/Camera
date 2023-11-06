@@ -1,6 +1,6 @@
 function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 
-	calibcoeff = 5.3512690178629505
+	calibcoeff = 12.7
 	%button='Yes';
 	%while strcmp(button,'Yes')
 	% clear;

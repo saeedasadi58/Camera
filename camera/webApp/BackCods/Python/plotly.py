@@ -150,7 +150,7 @@ thread2.join()"""
 # import matlab.engine
 
 import matlab.engine
-def analysis():
+def analysis2():
     matlab_script = './webApp/BackCods/Matlab/calibrationsarand.m'
 
     # Run MATLAB script using subprocess
@@ -181,6 +181,14 @@ def analysis():
 
 def calibration():
     matlab_script = './webApp/BackCods/Matlab/calibration.m'
+    eng = matlab.engine.start_matlab()
+    eng.run(matlab_script,nargout=0)
+    res = eng.workspace['ans']
+    eng.quit()
+    return res
+
+def analysis():
+    matlab_script = './webApp/BackCods/Matlab/analysis.m'
     eng = matlab.engine.start_matlab()
     eng.run(matlab_script,nargout=0)
     res = eng.workspace['ans']

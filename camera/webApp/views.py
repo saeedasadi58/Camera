@@ -1,4 +1,5 @@
 import django
+
 django.setup()
 import time
 from django.views.decorators.csrf import csrf_exempt
@@ -299,6 +300,8 @@ class ReadCameraView(LoginRequiredMixin, View):
                 else:
                     # Proce = Process(target=plotting2, args=())
                     try:
+                        print("analysis() **********")
+                        print("analysis() **********",analysis())
                         Proce.start()
                     except:
                         Proce.join()
@@ -362,7 +365,8 @@ class Settings(LoginRequiredMixin, View):
         return redirect("/")
 
 
-def uploadOrginalImage(arg, request=None):
+def uploadOrginalImage(arg, request):
+
     imgdata = arg['file']
     with open("./webApp/BackCods/Matlab/IMG.jpg", 'wb') as f:
         f.write(imgdata)
@@ -375,7 +379,17 @@ def uploadOrginalImage(arg, request=None):
     with open('./webApp/BackCods/Matlab/calibration.m', 'w') as f:
         f.write(file.replace("dimensionofball = 20", f"dimensionofball = {arg['name']}"))
         f.close()
-    return calibration()
+
+    with open('./webApp/BackCods/Matlab/analysis_BK.m', 'r') as f:
+        file = f.read()
+        f.close()
+    data = calibration()
+
+    with open('./webApp/BackCods/Matlab/analysis.m', 'w') as f:
+        f.write(file.replace("calibcoeff = 12.7", f"calibcoeff = {data}"))
+        f.close()
+
+    return "success"
 
 
 @csrf_exempt
@@ -385,13 +399,15 @@ def uploadOrginalImageViwe(request, *arg, **kwargs):
         "file": request.body,
         "name": kwargs['name']
     }
+    # Proce2 = Process(target=uploadOrginalImage, args=(data, request))
+    # Proce2.start()
 
-    result = uploadOrginalImage(data, request=request)
 
-    # print("saeed ------------ ", kwargs['name'])
+    result = uploadOrginalImage(data, request)
+
     return HttpResponse(f"{result}")
-    # except:
-    #     return render(request, 'handle500.html')
+# except:
+#     return render(request, 'handle500.html')
 
 
 class KalibrSettings(LoginRequiredMixin, View):
@@ -427,7 +443,7 @@ class KalibrSettings(LoginRequiredMixin, View):
                 data["setting"]["PanelSettings"]["samplingTime"] = settings_cleaned["samplingTime"]
                 data["setting"]["PanelSettings"]["processedSeparately"] = settings_cleaned["processedSeparately"]
                 data["setting"]["PanelSettings"]["processPerSeconds"] = settings_cleaned["processPerSeconds"]
-                data["setting"]["PanelSettings"]["calibration"] = settings_cleaned["calibration"]
+                # data["setting"]["PanelSettings"]["calibration"] = settings_cleaned["calibration"]
                 data["setting"]["PanelSettings"]["evaluated"] = settings_cleaned["evaluated"]
                 data["setting"]["PanelSettings"]["coefficient_N"] = settings_cleaned["coefficient_N"]
                 data["setting"]["PanelSettings"]["coefficient_X"] = settings_cleaned["coefficient_X"]
