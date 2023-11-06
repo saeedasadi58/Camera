@@ -32,6 +32,7 @@ class ReportForm(forms.Form):
         })
     )
 
+
 class kalibrSettingsForm(forms.Form):
     samplingTime = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -55,6 +56,7 @@ class kalibrSettingsForm(forms.Form):
             "value": 0,
         })
     )
+
     CHOICES = [('evaluatedDirectly', 'نتایج مستقیما ارزیابی شود'),
                ('evaluatedAutomatically', 'نتایج به صورت خودکار توسط تاریخ توزیع تخمین زده شود'),
                ('evaluatedExperimental', 'نتایج بر اساس تجربی توسط تابع توزیع تخمین زده شود')]
@@ -75,6 +77,17 @@ class kalibrSettingsForm(forms.Form):
         })
     )
     separationAlgorithm = forms.BooleanField(required=False)
+
+    # calibration_file = forms.FileField(
+    #     widget=forms.TextInput(attrs={
+    #         'class': 'form-control col-xl-5',
+    #         "type": "file",
+    #     })
+    # )
+class CalibrationFileForm(forms.Form):
+    # title = forms.CharField(max_length=50)
+    file = forms.FileField()
+
 
 class SettingsForm(forms.Form):
     ExposureTime = forms.CharField(

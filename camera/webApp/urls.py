@@ -44,6 +44,7 @@ urlpatterns = [
     path('MatlabAnalysis/', views.MatlabAnalysis.as_view(), name="MatlabAnalysis"),
     path('settings', views.Settings.as_view(), name="settings"),
     path('KalibrSettings', views.KalibrSettings.as_view(), name="KalibrSettings"),
+    path('uploadOrginalImageViwe/<name>', views.uploadOrginalImageViwe, name="uploadOrginalImageViwe"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

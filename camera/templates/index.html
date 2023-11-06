@@ -435,7 +435,9 @@
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form method="post" action="/KalibrSettings" class="col-xs-12 form-row" style="margin: 25px;">
+
+                            <form method="post" action="/KalibrSettings" class="col-xs-12 form-row"
+                                  style="margin: 25px;">
                                 {% csrf_token %}
 
                                 {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox form-row col-xl-12">#}
@@ -446,100 +448,104 @@
                                             کالیبراسیون</h3>
                                         <hr>
                                     </div>
-                                    <div class="col-xl-12 form-row " style="text-align: right;">
-                                        <label class="col-xl-3">نمونه برداری هر </label>
-                                        {#                                    <input class="col-xl-2" value="0" type="number">#}
-                                        {{ data.KalibrSettingsForm.samplingTime }}
-                                        <label class="col-xl-4">ثانیه انجام شود</label>
-
-                                    </div>
-                                    <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl;">
-                                        <div class="col-xl-1">
-                                            {{ data.KalibrSettingsForm.processedSeparately }}
-
+                                    <div class="col-xs-12 form-row"
+                                         style="margin-bottom: 20px;border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 10px;">
+                                        <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">
+                                            <label class="col-xl-4"> : اندازه گوی کالیبراسیون</label>
+                                            {{ data.KalibrSettingsForm.calibration }}
                                         </div>
-                                        {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
-                                        <label style="text-align: right;" class="col-xl-10">هر نمونه به صورت مجزا
-                                            پردازش
-                                            شود</label>
-
-                                    </div>
-                                    <div class="col-xl-12 form-row " style="text-align: right;">
-                                        <label class="col-xl-1"> هر </label>
-                                        {{ data.KalibrSettingsForm.processPerSeconds }}
-                                        {#                                    <input class="col-xl-2" value="0" type="number">#}
-                                        <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
-                                    </div>
-                                    <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <label class="col-xl-3"> : کالیبراسین</label>
-                                        {{ data.KalibrSettingsForm.calibration }}
-
-                                        {#                                    <input class="col-xl-2" value="0" type="number" style="height: 25px;">#}
-                                        {#                                    <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>#}
-                                    </div>
-                                    {#                                <div class="col-xl-12 form-row " style="padding: 9px">#}
-                                    {#                                    {{ data.SettingsForm.evaluatedDirectly }}#}
-                                    {#                                    <input class="col-xl-1" type="radio" name="proccess" style="height: 15px;text-align: right;">#}
-                                    {#                                    <label class="col-xl-10" style="text-align: right;">نتایج مستقیما ارزیابی#}
-                                    {#                                        شود</label>#}
-                                    {##}
-                                    {#                                </div>#}
-                                    {#                                <div class="col-xl-12 form-row " style="padding: 9px">#}
-                                    {#                                    {{ data.SettingsForm.evaluatedAutomatically }}#}
-                                    {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
-                                    {#                                           style="height: 15px;text-align: right;">#}
-                                    {#                                    <label class="col-xl-10" style="text-align: right;">نتایج به صورت خودکار توسط تاریخ#}
-                                    {#                                        توزیع تخمین زده شود</label>#}
-                                    {##}
-                                    {#                                </div>#}
-                                    <div class="col-xl-12 form-row "
-                                         style="padding: 9px;text-align: initial;direction: rtl;">
-                                        {{ data.KalibrSettingsForm.evaluated }}
-                                        {#                                    <input class="col-xl-1" type="radio" name="proccess"#}
-                                        {#                                           style="height: 15px;text-align: right;">#}
-                                        {#                                    <label class="col-xl-10" style="text-align: right;">نتایج بر اساس نتایج تجربی توسط#}
-                                        {#                                        تابع توزیع تخمین زده شود</label>#}
-                                    </div>
-                                    <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <div class="col-xl-6 form-row">
-                                            <label class="col-xl-6">ضریب (n) </label>
-                                            {{ data.KalibrSettingsForm.coefficient_N }}
-
-                                            {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                        <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">
+                                            <label class="col-xl-4"> : تصویر کالیبراسیون</label>
+                                            <button style="margin: 2px" type="button"
+                                                    class="btn btn-primary btn-sm btn-font col-xl-2"
+                                                    id="vaccineImageButton"
+                                                    onclick="document.getElementById('VaccineImage').click()">بارگذاری تصویر</button>
+                                            <input type="file" accesskey="false" style="visibility:hidden"
+                                                   id="VaccineImage">
                                         </div>
-                                        <div class="col-xl-6 form-row">
-                                            <label class="col-xl-6">ضریب (x) </label>
-                                            {{ data.KalibrSettingsForm.coefficient_X }}
-
-                                            {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                        <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
+                                            <div class="col-6">
+                                                <button onclick=" submitUploadImages()"
+                                                        style="width: 75px;;height: 25px;font-size: 13px;"
+                                                        class="btn btn-success btn-sm btn-font " value="تایید">تایید</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 form-row " style="padding: 9px">
-                                        <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl; ">
+                                    <div class="col-xs-12 form-row"
+                                         style="margin-bottom: 20px;border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 10px;">
+
+                                        <div class="col-xl-12 form-row " style="text-align: right;">
+                                            <label class="col-xl-3">نمونه برداری هر </label>
+                                            {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                            {{ data.KalibrSettingsForm.samplingTime }}
+                                            <label class="col-xl-4">ثانیه انجام شود</label>
+
+                                        </div>
+                                        <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl;">
                                             <div class="col-xl-1">
-                                                {{ data.KalibrSettingsForm.separationAlgorithm }}
+                                                {{ data.KalibrSettingsForm.processedSeparately }}
 
                                             </div>
-                                            <label class="col-xl-11" style="text-align: right;">از الگوریتم جدا سازی
-                                                برای
-                                                تفکیک
-                                                بیشتر ذرات استفاده شود.</label>
+                                            {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
+                                            <label style="text-align: right;" class="col-xl-10">هر نمونه به صورت مجزا
+                                                پردازش
+                                                شود</label>
 
                                         </div>
-                                    </div>
-                                    <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
-                                        <div class="col-6">
-                                            <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
-                                            <input type="submit" style="width: 75px;;height: 25px;font-size: 13px;"
-                                                   class="btn btn-success btn-sm btn-font "
-                                                   value="تایید">
+                                        <div class="col-xl-12 form-row " style="text-align: right;">
+                                            <label class="col-xl-1"> هر </label>
+                                            {{ data.KalibrSettingsForm.processPerSeconds }}
+                                            {#                                    <input class="col-xl-2" value="0" type="number">#}
+                                            <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
+                                        </div>
+                                        {#                                    <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">#}
+                                        {#                                        <label class="col-xl-5"> : اندازه گوی کالیبراسیون</label>#}
+                                        {#                                        {{ data.KalibrSettingsForm.calibration }}#}
+                                        {#                                    </div>#}
+                                        {#                                    <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">#}
+                                        {#                                        <label class="col-xl-4"> : تصویر کالیبراسیون</label>#}
+                                        {#                                        {{ data.CalibrationFileForm }}#}
+                                        {#                                    </div>#}
+                                        <div class="col-xl-12 form-row "
+                                             style="padding: 9px;text-align: initial;direction: rtl;">
+                                            {{ data.KalibrSettingsForm.evaluated }}
+                                        </div>
+                                        <div class="col-xl-12 form-row " style="padding: 9px">
+                                            <div class="col-xl-6 form-row">
+                                                <label class="col-xl-6">ضریب (n) </label>
+                                                {{ data.KalibrSettingsForm.coefficient_N }}
+
+                                                {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                            </div>
+                                            <div class="col-xl-6 form-row">
+                                                <label class="col-xl-6">ضریب (x) </label>
+                                                {{ data.KalibrSettingsForm.coefficient_X }}
+
+                                                {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 form-row " style="padding: 9px">
+                                            <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl; ">
+                                                <div class="col-xl-1">
+                                                    {{ data.KalibrSettingsForm.separationAlgorithm }}
+
+                                                </div>
+                                                <label class="col-xl-11" style="text-align: right;">از الگوریتم جدا سازی
+                                                    برای
+                                                    تفکیک
+                                                    بیشتر ذرات استفاده شود.</label>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
+                                            <div class="col-6">
+                                                <input type="submit" style="width: 75px;;height: 25px;font-size: 13px;"
+                                                       class="btn btn-success btn-sm btn-font "
+                                                       value="تایید">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                {#                                </div>#}
-                                {##}
-                                {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox">#}
-
                             </form>
                         </div>
                     </div>
@@ -639,10 +645,7 @@
                                             }
                                         });
                                     </script>
-
                                 </div>
-                                {#                                </div>#}
-
                             </div>
                         </div>
                     </div>
@@ -650,167 +653,11 @@
 
             </div>
 
-            {#            <div class="js-tm-page-content" data-page-no="4">#}
-            {##}
-            {#                <div class="cd-bg-video-wrapper" data-video="video/sunset-loop">#}
-            {#                    <!-- video element will be loaded using jQuery -->#}
-            {#                </div> <!-- .cd-bg-video-wrapper -->#}
-            {#                <video loop="">#}
-            {#                    <source src="{% static 'video/sunset-loop.mp4' %}" type="video/mp4">#}
-            {#                    <source src="{% static 'video/sunset-loop.mp4' %}" type="video/webm">#}
-            {#                </video>#}
-            {##}
-            {#            </div>#}
-
         </li>
 
         <li>
             <div class="report_box col-xl-12 form-row card-border-footer tm-bg-white-translucent" style="width: 80%">
 
-                <table class="label-class"
-                       style="margin-top: 1.55rem ;overflow: visible !important;">
-                    <tr>
-                        <th> Id</th>
-                        <th> Date</th>
-                        <th> Chart 1</th>
-                        <th> Chart 2</th>
-                        <th> Chart 3</th>
-                        <th> Chart 4</th>
-                        <th> Chart 5</th>
-                        <th> Chart 6</th>
-                        <th> Chart 7</th>
-                        <th> Chart 8</th>
-                        <th> Chart 9</th>
-                        <th> Chart 10</th>
-
-                        {#                                        <th>Submit Date</th>#}
-                        {#                                        <th>ُLaboratory Code</th>#}
-                        {#                                        <th>Group Code</th>#}
-                        {#                                        <th>Test Result</th>#}
-                        {#                                        <th>Operation</th>#}
-                    </tr>
-                    {#                                    {% for obj in data.customers %}#}
-                    <tr>
-                        <td> 1</td>
-                        <td> 2023/06/04</td>
-                        <td> 20</td>
-                        <td> 30</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                        <td> 40</td>
-                    </tr>
-                    <tr>
-                        <td> 2</td>
-                        <td> 2023/06/04</td>
-                        <td> 20</td>
-                        <td> 0</td>
-                        <td> 20</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                        <td> 60</td>
-                    </tr>
-                    <tr>
-                        <td> 3</td>
-                        <td> 2023/06/04</td>
-                        <td> 20</td>
-                        <td> 40</td>
-                        <td> 50</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                        <td> 10</td>
-                    </tr>
-                    {#                                    {% endfor %}#}
-                </table>
-                {% if data.lastPage >= 1 %}
-                    <nav class="Page navigation example">
-                        {% csrf_token %}
-                        <ul class="pagination pg-blue">
-                            <div action="?pageNumber=0" method="POST" style="position: unset;"
-                                 class="formpage">
-                                {% csrf_token %}
-                                <li class="page-item">
-                                    <a href="?pageNumber=0" class="page-link"
-                                       id="tablLi{{ forloop.counter }}"
-                                       style="position: unset;">&laquo;</a>
-                                </li>
-                            </div>
-
-
-                            {% for page in data.total %}
-                                {% if page < data.thisPage|add:'-2' %}
-                                    {% if forloop.counter0 == 0 %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{ data.thisPage|add:'-3'}}"
-                                                   class="page-link"
-                                                   id="tablLi{{ forloop.counter }}"
-                                                   style="position: unset;">....</a>
-                                            </li>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                                {% if page > data.thisPage|add:'-3' and page < data.thisPage|add:'3' %}
-
-                                    {% if data.thisPage == page %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item active">
-                                                <a href="?pageNumber={{ page }}" class="page-link"
-                                                   id="tablLi{{ forloop.counter }}"
-                                                   style="position: unset;">{{ forloop.counter }}</a>
-                                            </li>
-                                        </div>
-                                    {% else %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{ page }}" class="page-link"
-                                                   id="tablLi{{ forloop.counter }}"
-                                                   style="position: unset;">{{ forloop.counter }}</a>
-                                            </li>
-                                        </div>
-                                    {% endif %}
-                                {% else %}
-
-                                    {% if forloop.last %}
-                                        <div style="position: unset;" class="formpage">
-                                            {% csrf_token %}
-                                            <li class="page-item">
-                                                <a href="?pageNumber={{ data.thisPage|add:'3'}}"
-                                                   class="page-link"
-                                                   id="tablLi{{ forloop.counter }}"
-                                                   style="position: unset;">....</a>
-                                            </li>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-
-
-                            <div style="position: unset;" class="formpage">
-                                {% csrf_token %}
-                                <li class="page-item">
-                                    <a href="?pageNumber={{ data.lastPage }}" class="page-link"
-                                       id="tablLi{{ forloop.counter }}"
-                                       style="position: unset;">&raquo;</a></li>
-                            </div>
-                        </ul>
-                    </nav>
-                {% endif %}
 
             </div>
         </li>
@@ -836,7 +683,7 @@
 
     </footer>
 
-</div> <!-- .cd-hero -->
+</div>
 
 
 <!-- Preloader, https://ihatetomatoes.net/create-custom-preloading-screen/ -->
@@ -860,7 +707,6 @@
 <script src="{% static 'js/hero-slider-main.js' %}"></script>         <!-- jQuery (https://jquery.com/download/) -->
 {#        <script src="js/jquery.magnific-popup.min.js"></script> <!-- Magnific popup (http://dimsemenov.com/plugins/magnific-popup/) -->#}
 <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-<!-- jQuery (https://jquery.com/download/) -->
 
 <script>
 
@@ -925,6 +771,36 @@
             document.getElementById('alert').style.display = "none"
         }, 3000);
     }
+</script>
+<script>
+    function submitUploadImages() {
+
+        file = $('#VaccineImage');
+        console.log(file[0].files[0])
+
+        if (file[0].files[0]) {
+            uploadOrginalImage(file[0].files[0], document.getElementById('id_calibration').value)
+
+
+        }
+    }
+
+
+    function uploadOrginalImage(e, name) {
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                console.log(this.responseText)
+
+                {#document.querySelector('#new' + i.toString() + ' #' + name).alt = (this.responseText).toString()#}
+            }
+        });
+        xhr.open("POST", "/uploadOrginalImageViwe/" + name, false);
+        xhr.send(e);
+    }
+
 </script>
 
 </body>

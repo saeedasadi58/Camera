@@ -1,8 +1,7 @@
-import time
-
 import django
-
 django.setup()
+import time
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -25,7 +24,7 @@ from .serializers import UserSerializer, UserCrateSerializer, ChangePasswordSeri
 from persiantools.jdatetime import JalaliDate
 from datetime import datetime, timedelta
 from django.db.models import Avg, Count
-from webApp.form import loginForm, SettingsForm, ReportForm,kalibrSettingsForm
+from webApp.form import loginForm, SettingsForm, ReportForm, kalibrSettingsForm, CalibrationFileForm
 from django.contrib.auth.views import LoginView
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -48,7 +47,7 @@ from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
 from multiprocessing import Pool, Process
-from .BackCods.Python.plotly import plotting,analysis
+from .BackCods.Python.plotly import *
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -201,6 +200,7 @@ class CameraViewData(LoginRequiredMixin, View):
         # return HttpResponse(Proccess.objects.filter(start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'),to_date]))
         return JsonResponse(({"D20": D20, "D40": D40, "D50": D50, "D80": D80}))
 
+
 class MatlabAnalysis(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         print("------------axs ------------------")
@@ -238,7 +238,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         # settings_form = SettingsForm()
         with open('webApp/setting.json') as f:
             data = json.load(f)
-        print("saeed data ************ ", data)
+        # print("saeed data ************ ", data)
         settings_form = SettingsForm(initial={
             "ExposureTime": data["setting"]["CameraSettings"]["ExposureTime"],
             "Gain": data["setting"]["CameraSettings"]["Gain"],
@@ -265,6 +265,7 @@ class ReadCameraView(LoginRequiredMixin, View):
         data = {
             "SettingsForm": settings_form,
             "KalibrSettingsForm": kalibr_settings_form,
+            "CalibrationFileForm": CalibrationFileForm,
             "ReportForm": ReportForm,
             "play": Proce.is_alive(),
             "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -302,7 +303,6 @@ class ReadCameraView(LoginRequiredMixin, View):
                     except:
                         Proce.join()
                         Proce.start()
-
 
                         # Proce = Process(target=plotting2, args=())
                         # Proce.start()
@@ -361,18 +361,60 @@ class Settings(LoginRequiredMixin, View):
 
         return redirect("/")
 
+
+def uploadOrginalImage(arg, request=None):
+    imgdata = arg['file']
+    with open("./webApp/BackCods/Matlab/IMG.jpg", 'wb') as f:
+        f.write(imgdata)
+
+    file = ""
+    with open('./webApp/BackCods/Matlab/calibration_BK.m', 'r') as f:
+        file = f.read()
+        f.close()
+
+    with open('./webApp/BackCods/Matlab/calibration.m', 'w') as f:
+        f.write(file.replace("dimensionofball = 20", f"dimensionofball = {arg['name']}"))
+        f.close()
+    return calibration()
+
+
+@csrf_exempt
+def uploadOrginalImageViwe(request, *arg, **kwargs):
+    # try:
+    data = {
+        "file": request.body,
+        "name": kwargs['name']
+    }
+
+    result = uploadOrginalImage(data, request=request)
+
+    # print("saeed ------------ ", kwargs['name'])
+    return HttpResponse(f"{result}")
+    # except:
+    #     return render(request, 'handle500.html')
+
+
 class KalibrSettings(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
 
         if request.method == "POST":
+            # print("saeed ------------ ", request.body['file'])
+            form = CalibrationFileForm(request.POST, request.FILES)
+            # print("saeed ------------ ", form.is_valid())
+
+            # form_cleaned = form.cleaned_data
+            # handle_uploaded_file(form_cleaned["file"])
+            if form.is_valid():
+                # return HttpResponseRedirect("/success/url/")
+                print("saeed ------------ ", request.FILES['file'])
+
             settings_form = kalibrSettingsForm(request.POST)
             print(settings_form.is_valid())
             settings_cleaned = settings_form.cleaned_data
             if settings_cleaned:
                 f = open('webApp/setting.json', "r+")
                 data = json.load(f)
-                os.remove("webApp/setting.json")
                 # data["setting"]["CameraSettings"]["ExposureTime"] = settings_cleaned["ExposureTime"]
                 # data["setting"]["CameraSettings"]["Width"] = settings_cleaned["Width"]
                 # data["setting"]["CameraSettings"]["Height"] = settings_cleaned["Height"]
@@ -390,6 +432,7 @@ class KalibrSettings(LoginRequiredMixin, View):
                 data["setting"]["PanelSettings"]["coefficient_N"] = settings_cleaned["coefficient_N"]
                 data["setting"]["PanelSettings"]["coefficient_X"] = settings_cleaned["coefficient_X"]
                 data["setting"]["PanelSettings"]["separationAlgorithm"] = settings_cleaned["separationAlgorithm"]
+                os.remove("webApp/setting.json")
 
                 f = open('webApp/setting.json', "w")
                 f.write(json.dumps(data))

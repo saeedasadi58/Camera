@@ -178,3 +178,11 @@ def analysis():
     # return (subprocess.run(["matlab", "-r", f"run('{matlab_script}')"]))
     # except subprocess.CalledProcessError as e:
     #     print(f"Error running MATLAB script: {e}")
+
+def calibration():
+    matlab_script = './webApp/BackCods/Matlab/calibration.m'
+    eng = matlab.engine.start_matlab()
+    eng.run(matlab_script,nargout=0)
+    res = eng.workspace['ans']
+    eng.quit()
+    return res
