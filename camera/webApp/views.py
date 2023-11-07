@@ -49,6 +49,7 @@ from rest_framework.authtoken.models import Token
 from camera import settings
 from multiprocessing import Pool, Process
 from .BackCods.Python.plotly import *
+from .BackCods.Python.plotly import analysis
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -197,8 +198,7 @@ class CameraViewData(LoginRequiredMixin, View):
             D50.append(i.D50)
             D80.append(i.D80)
 
-        print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
-        # return HttpResponse(Proccess.objects.filter(start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'),to_date]))
+        # print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
         return JsonResponse(({"D20": D20, "D40": D40, "D50": D50, "D80": D80}))
 
 
@@ -210,17 +210,20 @@ class MatlabAnalysis(LoginRequiredMixin, View):
 
 
 def plotting2():
-    while True:
-        print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-        # read_camera()
-        random_number_D20 = random.uniform(10, 11.32)
-        random_number_D40 = random.uniform(11.35, 13.008)
-        random_number_D50 = random.uniform(13.1, 15)
-        random_number_D80 = random.uniform(15.2, 16.35)
-        Proccess.objects.create(D20=random_number_D20, D40=random_number_D40, D50=random_number_D50,
-                                D80=random_number_D80, start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+    # while True:
+    # read_camera()
+    # random_number_D20 = random.uniform(10, 11.32)
+    # random_number_D40 = random.uniform(11.35, 13.008)
+    # random_number_D50 = random.uniform(13.1, 15)
+    # random_number_D80 = random.uniform(15.2, 16.35)
+    analysised_data = analysis()
+    Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
+                            D40=(analysised_data[2].split("="))[1].replace(" ", ""),
+                            D50=(analysised_data[1].split("="))[1].replace(" ", ""),
+                            D80=(analysised_data[0].split("="))[1].replace(" ", ""), start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+    print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
 
-        time.sleep(1)
+    # time.sleep(1)
 
 
 Proce = Process(target=plotting2, args=())
@@ -269,7 +272,7 @@ class ReadCameraView(LoginRequiredMixin, View):
             "CalibrationFileForm": CalibrationFileForm,
             "ReportForm": ReportForm,
             "play": Proce.is_alive(),
-            "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+            "play_date": "2023-11-07 12:10:26.212375"
         }
         return render(request, "index.html", {"data": data})
 
@@ -281,7 +284,7 @@ class ReadCameraView(LoginRequiredMixin, View):
             "SettingsForm": SettingsForm,
             "ReportForm": ReportForm,
             "play": Proce.is_alive(),
-            "play_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+            "play_date": "2023-11-07 12:10:26.212375"
         }
         if request.user.is_superuser or permission or grouppermission:
             if files and len(files) > 0:
@@ -299,17 +302,34 @@ class ReadCameraView(LoginRequiredMixin, View):
 
                 else:
                     # Proce = Process(target=plotting2, args=())
-                    try:
-                        print("analysis() **********")
-                        print("analysis() **********",analysis())
-                        Proce.start()
-                    except:
-                        Proce.join()
-                        Proce.start()
+                    # print("saeed *-*--*-*-*-*-*-*-*-*-* :",plotting2())
+                    # try:
+                        # print("analysis() **********")
+                        # analysis = analysis()
+                        # print("analysis() ********** analysis", analysis())
+                    num_processes = 4  # Adjust the number of processes as needed
+                    print("saeed ------- ",num_processes)
+
+                    processes = [Process(target=plotting2, args=()) for _ in
+                                 range(num_processes)]
+
+                    print("saeed ------- ",num_processes)
+                    # Start the processes
+                    for process in processes:
+                        process.start()
+
+                    # Wait for all processes to complete
+                    for process in processes:
+                        process.join()
+                    # Proce.start()
+                    # Proce.join()
+
+                    # except:
+                        # Proce.join()
+                        # Proce.start()
 
                         # Proce = Process(target=plotting2, args=())
                         # Proce.start()
-                        ...
                     data["play"] = Proce.is_alive()
                     # camera = read_camera()
                     # if camera:
@@ -366,7 +386,6 @@ class Settings(LoginRequiredMixin, View):
 
 
 def uploadOrginalImage(arg, request):
-
     imgdata = arg['file']
     with open("./webApp/BackCods/Matlab/IMG.jpg", 'wb') as f:
         f.write(imgdata)
@@ -402,10 +421,11 @@ def uploadOrginalImageViwe(request, *arg, **kwargs):
     # Proce2 = Process(target=uploadOrginalImage, args=(data, request))
     # Proce2.start()
 
-
     result = uploadOrginalImage(data, request)
 
     return HttpResponse(f"{result}")
+
+
 # except:
 #     return render(request, 'handle500.html')
 

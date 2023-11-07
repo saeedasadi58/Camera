@@ -1,11 +1,10 @@
-function [N, D80, D50, D40, D20, outputImg, imageFilename] = analysis()
+function [Dstr] = analysis()
 
 	calibcoeff = 12.7
-	button='Yes';
-    	fname = 'IMG.jpg';
-	while strcmp(button,'Yes')
+	%button='Yes';
+	%while strcmp(button,'Yes')
 	% clear;
-	% fname = input('Enter picture file name (with extension [.jpg and ...]): ', 's');
+	%fname = input('Enter picture file name (with extension [.jpg and ...]): ', 's');
 	fname = 'IMG.jpg'
 
 	I = imread(fname,'jpg');
@@ -152,17 +151,9 @@ function [N, D80, D50, D40, D20, outputImg, imageFilename] = analysis()
 		'BackgroundColor',[1 1 1]);
 	%text(maxsize-2*(bbbb(2,1)-bbbb(1,1)),50,Dstr);
 	hold off;
-    timestamp = datestr(now, 'yyyymmdd_HHMMSS');
-    imageFilename = ['image_', timestamp, '.jpg'];
-    % imageFilename = 'output_figure.png'
+    imageFilename = 'output_figure.png'
 	saveas(gcf, imageFilename);
 
-    % Load the saved image and return it
-    % outputImg = imread('output_figure.png');
-    %
-    % imwrite(outputImg, 'output.png');
-    %
-    % output= 'output.png';
-    button = questdlg('Do you have another picture?','','Yes','No','Yes');
+    %button = questdlg('Do you have another picture?','','Yes','No','Yes');
 
 end

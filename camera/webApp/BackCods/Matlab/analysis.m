@@ -1,6 +1,6 @@
-function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
+function [Dstr] = analysis()
 
-	calibcoeff = 5.3512690178629505
+	calibcoeff = 0.3293088626377201
 	%button='Yes';
 	%while strcmp(button,'Yes')
 	% clear;
@@ -14,14 +14,14 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 	%figure,imshow(I);
 	% imtool(rgb2gray(I)),imtool(J);
 	bw=~bw;
-	bw = imfill(bw, 'holes');  %filling holes 
+	bw = imfill(bw, 'holes');  %filling holes
 	bw = imclearborder(bw, 4);  % remove uncomplete objects which are on border
 	% remove all object containing fewer than 30 pixels
 	bw = bwareaopen(bw,20);
 
 	%% spliting part
 	% %####################### this part design for split particles ###########
-	% D = bwdist(~bw,'chessboard'); 
+	% D = bwdist(~bw,'chessboard');
 	%    %F=imregionalmax(D);
 	%    %F = im2bw(D, graythresh(D));
 	%    %figure, imshow(F,[]);
@@ -60,19 +60,19 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 
 	% obtain (X,Y) boundary coordinates corresponding to label 'k'
 	boundary = B{k};
-	
-	
+
+
 	% compute a simple estimate of the object's perimeter
-	%delta_sq = diff(boundary).^2;    
+	%delta_sq = diff(boundary).^2;
 	%perimeter = sum(sqrt(sum(delta_sq,2)));
-	
+
 	% obtain the area calculation corresponding to label 'k'
 	area = stats(k).Area;
 	boxes=stats(k).BoundingBox;
-	
+
 	% compute the roundness metric
 	%metric = 4*pi*area/perimeter^2;
-	
+
 	% display the results
 	area_string = sprintf('%5d',area);
 
@@ -89,10 +89,10 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 	len(k,2)=boxes(4);
 	%plot(xx, boxes(2), 'w', 'LineWidth', 2)
 	%text(centroid(1),centroid(2),area_string,'Color','black','FontSize',7,'FontWeight','bold');
-	
-	
+
+
 	%text(boundary(1,2)-35,boundary(1,1)+13,area_string,'Color','black','FontSize',7,'FontWeight','bold');
-	
+
 	end
 	% sarandmesh=0.2; % this variable determine the mesh of sarand in CM
 	% ss=sum(len,1)/k;
@@ -111,7 +111,7 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 	end
 
 	n=1;
-	for i=minsize:(maxsize-minsize)/10:maxsize 
+	for i=minsize:(maxsize-minsize)/10:maxsize
 	bbbb(n,1)=round(i);
 	bbbb(n,2)=(sum(result(find([result(:,3)]<=i),4))/wholevolume)*100;
 	n=n+1;
@@ -147,7 +147,7 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 	% hold on;
 	text((maxsize-2*(bbbb(2,1)-bbbb(1,1)))*calibcoeff,20,...
 		[Dstr],...
-		'HorizontalAlignment','center',... 
+		'HorizontalAlignment','center',...
 		'BackgroundColor',[1 1 1]);
 	%text(maxsize-2*(bbbb(2,1)-bbbb(1,1)),50,Dstr);
 	hold off;
@@ -156,4 +156,4 @@ function [N, D80, D50, D40, D20, bw, outputImg, imageFilename] = analysis()
 
     %button = questdlg('Do you have another picture?','','Yes','No','Yes');
 
-	end
+end

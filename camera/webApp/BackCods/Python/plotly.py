@@ -150,6 +150,8 @@ thread2.join()"""
 # import matlab.engine
 
 import matlab.engine
+
+
 def analysis2():
     matlab_script = './webApp/BackCods/Matlab/calibrationsarand.m'
 
@@ -162,7 +164,7 @@ def analysis2():
 
     calibration_constant = 12.7
     fname = './IMG.jpg'
-    eng.run(matlab_script,nargout=0)
+    eng.run(matlab_script, nargout=0)
     res = eng.workspace['ans']
     # res2 = eng.result()
     command = f"result = analysis();"
@@ -179,18 +181,33 @@ def analysis2():
     # except subprocess.CalledProcessError as e:
     #     print(f"Error running MATLAB script: {e}")
 
+
 def calibration():
     matlab_script = './webApp/BackCods/Matlab/calibration.m'
     eng = matlab.engine.start_matlab()
-    eng.run(matlab_script,nargout=0)
+    eng.run(matlab_script, nargout=0)
     res = eng.workspace['ans']
     eng.quit()
     return res
 
+
 def analysis():
-    matlab_script = './webApp/BackCods/Matlab/analysis.m'
-    eng = matlab.engine.start_matlab()
-    eng.run(matlab_script,nargout=0)
-    res = eng.workspace['ans']
-    eng.quit()
+    res = []
+    try:
+        matlab_script = './webApp/BackCods/Matlab/analysis.m'
+        eng = matlab.engine.start_matlab()
+        eng.run(matlab_script, nargout=0, background=True)
+        res = eng.workspace['ans']
+        # print("anal ----------- res",res)
+        res = res.split("\n")
+        # print("anal ----------- res",res)
+    finally:
+        # Close the MATLAB engine
+        eng.quit()
+
+    # print("anal ----------- res",res)
+    # print("anal ----------- res",
+    #       {"D80": (res[0].split("=")).replace(" ", ""), "D50": (res[1].split("=")).replace(" ", ""),
+    #        "D40": (res[2].split("=")).replace(" ", ""), "D20": (res[3].split("=")).replace(" ", "")})
+
     return res
