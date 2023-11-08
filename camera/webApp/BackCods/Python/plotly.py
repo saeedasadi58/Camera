@@ -13,7 +13,7 @@ from pypylon import pylon
 import threading
 
 from datetime import datetime
-from webApp.models import Proccess
+from webApp.models import Proccess, ProccessInfo
 import subprocess
 
 # Create the main window
@@ -32,7 +32,7 @@ image_label = tk.Label(window)
 image_label.place(x=window_width // 2, y=0, anchor=tk.NW)
 
 # List of image paths
-image_path = "webApp/static/image/cameraPic.png"  # Replace with the paths to your images
+image_path = "webApp/static/image/IMG.jpg"  # Replace with the paths to your images
 
 
 def plotting():
@@ -192,22 +192,23 @@ def calibration():
 
 
 def analysis():
-    res = []
-    try:
+    print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+    p_info = ProccessInfo.objects.filter().order_by('-id')
+    if p_info[0].run:
+        res = []
         matlab_script = './webApp/BackCods/Matlab/analysis.m'
         eng = matlab.engine.start_matlab()
         eng.run(matlab_script, nargout=0, background=True)
         res = eng.workspace['ans']
-        # print("anal ----------- res",res)
         res = res.split("\n")
-        # print("anal ----------- res",res)
-    finally:
-        # Close the MATLAB engine
         eng.quit()
-
-    # print("anal ----------- res",res)
-    # print("anal ----------- res",
-    #       {"D80": (res[0].split("=")).replace(" ", ""), "D50": (res[1].split("=")).replace(" ", ""),
-    #        "D40": (res[2].split("=")).replace(" ", ""), "D20": (res[3].split("=")).replace(" ", "")})
-
-    return res
+        analysised_data = res
+        Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
+                                D40=(analysised_data[2].split("="))[1].replace(" ", ""),
+                                D50=(analysised_data[1].split("="))[1].replace(" ", ""),
+                                D80=(analysised_data[0].split("="))[1].replace(" ", ""),
+                                start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+        print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+        return res
+    else:
+        return p_info[0].run

@@ -57,17 +57,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Camera(models.Model):
-    region_name = models.CharField(null=True,max_length=50)
-    city_name = models.CharField(null=True,max_length=50)
-    latitude = models.CharField(null=True,max_length=20)
-    longitude = models.CharField(null=True,max_length=20)
+    region_name = models.CharField(null=True, max_length=50)
+    city_name = models.CharField(null=True, max_length=50)
+    latitude = models.CharField(null=True, max_length=20)
+    longitude = models.CharField(null=True, max_length=20)
+
 
 class Proccess(models.Model):
-    D20 = models.CharField(null=True,max_length=20)
-    D40 = models.CharField(null=True,max_length=20)
-    D50 = models.CharField(null=True,max_length=20)
-    D80 = models.CharField(null=True,max_length=20)
+    D20 = models.CharField(null=True, max_length=20)
+    D40 = models.CharField(null=True, max_length=20)
+    D50 = models.CharField(null=True, max_length=20)
+    D80 = models.CharField(null=True, max_length=20)
     start_date = models.DateTimeField(null=True)
+
+
+class ProccessInfo(models.Model):
+    run = models.BooleanField(null=True, default=False)
+    start_date = models.DateTimeField(null=True)
+    stop_date = models.DateTimeField(null=True, blank=True)
 
     # class Meta:
     #     table_name = "Proccess"

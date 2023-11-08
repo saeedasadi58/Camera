@@ -17,11 +17,12 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from webApp import views
+
 urlpatterns = [
     path('', include('webApp.urls', namespace='webApp')),
     path('login/', views.login, name='login'),
     path('admin/', admin.site.urls, name='admin'),
-
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     # path('admin/', admin.site.urls),
     # path('login', views.login),
     # path('index', views.index),

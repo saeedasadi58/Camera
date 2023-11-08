@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-**ujc40j12)ec87a6o=#)_4bcx$pcxhz30&mxq8k=g)-yx1l18
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,8 +43,12 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'fontawesomefree',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 AUTH_USER_MODEL='webApp.User'
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 LOGIN_URL='/login/'
 LOGIN_REDIRECT_URL = '/'

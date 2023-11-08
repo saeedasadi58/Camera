@@ -54,6 +54,16 @@ class kalibrSettingsForm(forms.Form):
             'class': 'form-control col-xl-2',
             "type": "number",
             "value": 0,
+            # "style": "margin-top: 5%;"
+
+        })
+    )
+    calibration_persent = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control col-xl-3',
+            "type": "text",
+            "disabled":True,
+            # "style":"margin-right: 10%;margin-top: 5%;"
         })
     )
 
