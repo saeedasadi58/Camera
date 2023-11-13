@@ -1,6 +1,6 @@
 import tkinter as tk
 # from PIL import Image, ImageTk
-
+import json
 import matplotlib.pyplot as plt
 import random
 
@@ -99,27 +99,61 @@ def plotting():
 
 
 def read_camera():
-    tl_factory = pylon.TlFactory.GetInstance()
-    all_devices = tl_factory.EnumerateDevices()
-    devices = []
-    for device in all_devices:
-        devices.append(device.GetFriendlyName())
-
-    tl_factory = pylon.TlFactory.GetInstance()
-    camera = pylon.InstantCamera()
-    camera.Attach(tl_factory.CreateFirstDevice())
-
+    camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateFirstDevice())
     camera.Open()
-    camera.StartGrabbing(1)
-    grab = camera.RetrieveResult(2000, pylon.TimeoutHandling_Return)
-    if grab.GrabSucceeded():
-        img = grab.GetArray()
-        # print(f'Size of image: {img.shape}')
-    camera.Close()
-    from PIL import Image, ImageTk
-    im = Image.fromarray(img)
 
-    im.save(image_path)
+    # demonstrate some feature access
+
+    with open('webApp/setting.json') as f:
+        data = json.load(f)
+    gain = data["setting"]["CameraSettings"]["Gain"]
+    width = data["setting"]["CameraSettings"]["Width"]
+    height = data["setting"]["CameraSettings"]["Height"]
+    frame_rate = data["setting"]["CameraSettings"]["FrameRate"]
+    pixel_format = data["setting"]["CameraSettings"]["PixelFormat"]
+
+    # Initialize Pylon
+    tl_factory = pylon.TlFactory.GetInstance()
+    devices = tl_factory.EnumerateDevices()
+
+    for device in devices:
+        print(device.GetFriendlyName())
+
+    # camera.ExposureTime.Value = (int(exposure_time))
+    # camera.Gain.Value = (int(gain))
+    new_width = camera.Width.Value - camera.Width.Inc
+    if camera.Width.Value <= int(width):
+        # camera.Width.Value = new_width
+        camera.Width.SetValue(int(width))
+
+    if camera.Height.Value <= int(height):
+        # camera.Width.Value = new_width
+        camera.Height.SetValue(int(height))
+    # = (int(width))
+    # camera.Width.SetValue(int(500))
+    # camera.Height.SetValue(int(50))
+    camera.GainRaw.SetValue(int(gain))
+    # camera.GainRaw.SetValue(int(gain))
+    # camera.Height.SetValue(int(50))
+    # = (int(height))
+    # camera.AcquisitionFrameRateAbs.Value = (frame_rate)
+    # camera.PixelFormat.Value = (pixel_format)
+
+    numberOfImagesToGrab = 1
+    camera.StartGrabbingMax(numberOfImagesToGrab)
+
+    while camera.IsGrabbing():
+        grabResult = camera.RetrieveResult(5000, pylon.TimeoutHandling_ThrowException)
+
+        if grabResult.GrabSucceeded():
+            from PIL import Image, ImageTk
+            img = grabResult.Array
+            im = Image.fromarray(img)
+
+            im.save(image_path)
+
+        grabResult.Release()
+    camera.Close()
     return devices
 
 
@@ -192,23 +226,26 @@ def calibration():
 
 
 def analysis():
-    print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-    p_info = ProccessInfo.objects.filter().order_by('-id')
-    if p_info[0].run:
-        res = []
-        matlab_script = './webApp/BackCods/Matlab/analysis.m'
-        eng = matlab.engine.start_matlab()
-        eng.run(matlab_script, nargout=0, background=True)
-        res = eng.workspace['ans']
-        res = res.split("\n")
-        eng.quit()
-        analysised_data = res
-        Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
-                                D40=(analysised_data[2].split("="))[1].replace(" ", ""),
-                                D50=(analysised_data[1].split("="))[1].replace(" ", ""),
-                                D80=(analysised_data[0].split("="))[1].replace(" ", ""),
-                                start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+    try:
         print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-        return res
-    else:
-        return p_info[0].run
+        p_info = ProccessInfo.objects.filter().order_by('-id')
+        if p_info[0].run:
+            res = []
+            matlab_script = './webApp/BackCods/Matlab/analysis.m'
+            eng = matlab.engine.start_matlab()
+            eng.run(matlab_script, nargout=0, background=True)
+            res = eng.workspace['ans']
+            res = res.split("\n")
+            eng.quit()
+            analysised_data = res
+            Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
+                                    D40=(analysised_data[2].split("="))[1].replace(" ", ""),
+                                    D50=(analysised_data[1].split("="))[1].replace(" ", ""),
+                                    D80=(analysised_data[0].split("="))[1].replace(" ", ""),
+                                    start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+            print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+            return res
+        else:
+            return p_info[0].run
+    except:
+        return True

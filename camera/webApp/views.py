@@ -47,7 +47,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-from .BackCods.Python.plotly import analysis, calibration
+from .BackCods.Python.plotly import analysis, calibration ,read_camera
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -238,22 +238,25 @@ class MatlabAnalysis(LoginRequiredMixin, View):
                         p_info.run = False
                         p_info.stop_date = datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f')
                         p_info.save()
-                        break
+                        #break
                 except:
-                    break
+                    ...
+                    #break
 
                 analysised_data = analysis()
                 output_figure = open("webApp/BackCods/Matlab/output_figure.png", "rb")
                 with open("webApp/static/image/output_figure.png", "wb") as f:
                     f.write(output_figure.read())
 
-                output_img = open("webApp/BackCods/Matlab/IMG.jpg", "rb")
-                with open("webApp/static/image/cameraPic.png", "wb") as f:
+                output_img = open("webApp/static/image/IMG.jpg", "rb")
+
+                with open("webApp/BackCods/Matlab/IMG.jpg", "wb") as f:
                     f.write(output_img.read())
 
-                # time.sleep(1)
+                time.sleep(1)
                 if analysised_data == False:
-                    break
+                    ...
+                #break
         except:
             return HttpResponse("False")
 
