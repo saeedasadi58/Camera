@@ -144,6 +144,20 @@
                                                 <div class="" style="
                                                         display: flex;
                                                         flex-direction: row;
+                                                        width: 95% !important;
+                                                        direction: rtl;
+                                                    ">
+
+                                                    <label class="">نمونه برداری هر </label>
+                                                    <input type="number" name="samplingTime" value="0"
+                                                           class="form-control "
+                                                           id="DashSamplingTime"
+                                                           style="width: 62px;margin: 0 20px;">
+                                                    <label class=""> ثانیه انجام شود</label>
+                                                </div>
+                                                <div class="" style="
+                                                        display: flex;
+                                                        flex-direction: row;
                                                         width: 100% !important;
                                                         direction: rtl;
                                                     ">
@@ -397,119 +411,123 @@
 
                                 {#                                <div class="tm-bg-white-translucent text-xs-left tm-textbox form-row col-xl-12">#}
                                 <div class="tm-bg-white-translucent text-xs-left tm-textbox "
-                                     style="position: fixed;padding: 30px;margin-right: 76%;width: 43%;left: 28%;">
+                                     style="position: fixed;padding: 30px;margin-right: 76%;width: 55%;left: 22%;">
                                     <div class="col-xl-12" style="display: flex;flex-direction: column">
                                         <h3 style="text-align: center;font-size: 2.25rem !important ;margin-bottom: 1.5rem !important;">
                                             کالیبراسیون</h3>
                                         <hr>
                                     </div>
                                     <div class="col-xs-12 form-row"
-                                         style="margin-bottom: 20px;border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 10px;">
-                                        <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">
-                                            <label class="col-xl-4"> : اندازه گوی کالیبراسیون</label>
-                                            {{ data.KalibrSettingsForm.calibration }}
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">
-                                            <label class="col-xl-4"> : تصویر کالیبراسیون</label>
-                                            <button style="margin: 2px;height: 25px;" type="button"
-                                                    class="btn btn-primary btn-sm btn-font col-xl-2"
-                                                    id="vaccineImageButton"
-                                                    onclick="document.getElementById('VaccineImage').click()">بارگذاری
-                                                تصویر
-                                            </button>
-                                            <input type="file" accesskey="false" style="visibility:hidden"
-                                                   id="VaccineImage">
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">
-                                            <label class="col-xl-4"> : درصد محاسبه شده</label>
-                                            {{ data.KalibrSettingsForm.calibration_persent }}
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
-                                            <div class="col-6">
-                                                <button onclick=" submitUploadImages()"
-                                                        style="width: 75px;;height: 25px;font-size: 13px;"
-                                                        class="btn btn-success btn-sm btn-font " value="تایید">تایید
+                                         style="margin-bottom: 20px ;padding: 10px">
+
+                                        <div class="col-xs-5"
+                                             style="border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 10px;margin: 0 40px;">
+                                            <h4 style="text-align: center;font-size: 2.25rem !important ;margin-bottom: 1.5rem !important;">
+                                                کالیبراسیون گوی</h4>
+                                            <hr>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <label class="col-xl-9"> : اندازه گوی کالیبراسیون</label>
+                                                {{ data.KalibrSettingsForm.calibration }}
+                                            </div>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <label class="col-xl-8"> : تصویر کالیبراسیون</label>
+                                                <button style="margin: 2px;height: 25px;" type="button"
+                                                        class="btn btn-primary btn-sm btn-font col-xl-3"
+                                                        id="vaccineImageButton"
+                                                        onclick="document.getElementById('VaccineImage').click()">
+                                                    بارگذاری
+                                                    تصویر
                                                 </button>
+
+                                            </div>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <label class="col-xl-8"> : ضریب کالیبراسیون </label>
+                                                {{ data.KalibrSettingsForm.calibration_persent }}
+                                            </div>
+                                            <hr style="
+                                                border: solid #b5b5b5ba 1px;
+                                                border-radius: 102px;
+                                            ">
+                                            <h4 style="text-align: center;font-size: 2.25rem !important ;margin-bottom: 1.5rem !important;">
+                                                کالیبراسیون کارخانه</h4>
+                                            <hr>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <label class="col-xl-4">: اندازه سنگ </label>
+                                                <input type="number" name="samplingTime" value="0"
+                                                       class="col-xl-2 form-control "
+                                                       id="DashSamplingTime"
+                                                       style="width: 62px;margin: 0 20px;">
+                                            </div>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <label class="col-xl-4">: درصد </label>
+                                                <input type="number" name="samplingTime" value="0"
+                                                       class="col-xl-2 form-control "
+                                                       id="DashSamplingTime"
+                                                       style="width: 62px;margin: 0 20px;">
+                                            </div>
+                                            <div class="col-xl-12 form-row "
+                                                 style="padding: 9px;    text-align: right;">
+                                                <div class="col-xl-6 form-row">
+
+                                                    <label class="col-xl-7">: n ضریب </label>
+                                                    <input disabled type="number" name="samplingTime" value="0"
+                                                           class="col-xl-4 form-control "
+                                                           id="DashSamplingTime">
+
+                                                </div>
+                                                <div class="col-xl-6 form-row">
+
+                                                    <label class="col-xl-8">: xc ضریب </label>
+                                                    <input disabled type="number" name="samplingTime" value="0"
+                                                           class="col-xl-4 form-control "
+                                                           id="DashSamplingTime">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
+                                                <div class="col-6">
+                                                    <button onclick=" submitUploadImages()"
+                                                            style="width: 75px;;height: 25px;font-size: 13px;"
+                                                            class="btn btn-success btn-sm btn-font " value="تایید">تایید
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-5 form-row"
+                                             style="margin-bottom: 20px ;;">
+
+                                            <div class="col-xs-12"
+                                                 style="border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 20px;margin: 0 40px;">
+                                                <h4 style="text-align: center;font-size: 2.25rem !important ;margin-bottom: 1.5rem !important;">
+                                                    تصویر گوی</h4>
+                                                <hr>
+                                                {#                                                <label class="col-xl-9" style="margin-bottom: 15px;"> : اندازه گوی کالیبراسیون</label>#}
+                                                <img id="cameraPic" class=""
+                                                     src="{% static 'image/cameraPic.png' %}"
+                                                     style="width:100%">
+                                                <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
+                                                    <div class="col-6">
+                                                        <button onclick=""
+                                                                style="width: 100px;height: 25px;font-size: 13px;margin: 35px 0;"
+                                                                class="btn btn-primary btn-sm btn-font " value="">
+                                                            گرفتن عکس
+                                                        </button>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <form method="post" action="/KalibrSettings" class="col-xs-12 form-row"
-                                          style="margin-bottom: 20px;border: 1px solid #a9a6a6cc;border-radius: 9px;padding: 10px;">
-                                        {% csrf_token %}
 
-                                        <div class="col-xl-12 form-row " style="text-align: right;">
-                                            <label class="col-xl-3">نمونه برداری هر </label>
-                                            {#                                    <input class="col-xl-2" value="0" type="number">#}
-                                            {{ data.KalibrSettingsForm.samplingTime }}
-                                            <label class="col-xl-4">ثانیه انجام شود</label>
-
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl;">
-                                            <div class="col-xl-1">
-                                                {{ data.KalibrSettingsForm.processedSeparately }}
-
-                                            </div>
-                                            {#                                    <input style="text-align: right;height: 15px;" class="col-xl-1" type="checkbox">#}
-                                            <label style="text-align: right;" class="col-xl-10">هر نمونه به صورت مجزا
-                                                پردازش
-                                                شود</label>
-
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="text-align: right;">
-                                            <label class="col-xl-1"> هر </label>
-                                            {{ data.KalibrSettingsForm.processPerSeconds }}
-                                            {#                                    <input class="col-xl-2" value="0" type="number">#}
-                                            <label class="col-xl-9">هر نمونه به صورت کلی پردازش شود</label>
-                                        </div>
-                                        {#                                    <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">#}
-                                        {#                                        <label class="col-xl-5"> : اندازه گوی کالیبراسیون</label>#}
-                                        {#                                        {{ data.KalibrSettingsForm.calibration }}#}
-                                        {#                                    </div>#}
-                                        {#                                    <div class="col-xl-12 form-row " style="padding: 9px;    text-align: right;">#}
-                                        {#                                        <label class="col-xl-4"> : تصویر کالیبراسیون</label>#}
-                                        {#                                        {{ data.CalibrationFileForm }}#}
-                                        {#                                    </div>#}
-                                        <div class="col-xl-12 form-row "
-                                             style="padding: 9px;text-align: initial;direction: rtl;">
-                                            {{ data.KalibrSettingsForm.evaluated }}
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="padding: 9px">
-                                            <div class="col-xl-6 form-row">
-                                                <label class="col-xl-6">ضریب (n) </label>
-                                                {{ data.KalibrSettingsForm.coefficient_N }}
-
-                                                {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
-                                            </div>
-                                            <div class="col-xl-6 form-row">
-                                                <label class="col-xl-6">ضریب (x) </label>
-                                                {{ data.KalibrSettingsForm.coefficient_X }}
-
-                                                {#                                        <input class="col-xl-6" value="0" type="number" style="height: 25px;">#}
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="padding: 9px">
-                                            <div class="col-xl-12 form-row " style="padding: 9px;direction:rtl; ">
-                                                <div class="col-xl-1">
-                                                    {{ data.KalibrSettingsForm.separationAlgorithm }}
-
-                                                </div>
-                                                <label class="col-xl-11" style="text-align: right;">از الگوریتم جدا سازی
-                                                    برای
-                                                    تفکیک
-                                                    بیشتر ذرات استفاده شود.</label>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
-                                            <div class="col-6">
-                                                <input type="submit" style="width: 75px;;height: 25px;font-size: 13px;"
-                                                       class="btn btn-success btn-sm btn-font "
-                                                       value="تایید">
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -617,7 +635,8 @@
             </div>
 
         </li>
-
+        <input type="file" accesskey="false" style="visibility:hidden"
+               id="VaccineImage">
         <li>
             <div class="report_box col-xl-12 form-row card-border-footer tm-bg-white-translucent" style="width: 80%">
 

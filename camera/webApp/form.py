@@ -21,14 +21,14 @@ class ReportForm(forms.Form):
     from_date = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-12',
-            "type": "date",
+            "type": "datetime-local",
         })
     )
 
     to_date = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-12',
-            "type": "date",
+            "type": "datetime-local",
         })
     )
 
