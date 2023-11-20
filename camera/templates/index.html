@@ -149,7 +149,7 @@
                                                     ">
 
                                                     <label class="">نمونه برداری هر </label>
-                                                    <input type="number" name="samplingTime" value="0"
+                                                    <input type="number" name="samplingTime" value="30"
                                                            class="form-control "
                                                            id="DashSamplingTime"
                                                            style="width: 62px;margin: 0 20px;">
@@ -269,9 +269,10 @@
 
                                                             };
                                                             {#xhttp.open("GET", 'camera_data/2023-09-04 13:55:28.577297/0', false);#}
-                                                            xhttp.open("GET", 'camera_data/' + "{{ data.play_date }}" + '/0', true);
+                                                            xhttp.open("GET", 'camera_data/' + "{{ data.play_date }}" + '/0/' + document.getElementById('DashSamplingTime').value, true);
                                                             xhttp.send();
                                                         }
+                                                        chart_();
 
                                                         const interval = setInterval(function () {
                                                             chart_();

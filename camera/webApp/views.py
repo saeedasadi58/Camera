@@ -47,7 +47,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-from .BackCods.Python.plotly import analysis, calibration ,read_camera
+from .BackCods.Python.plotly import analysis, calibration, read_camera
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -178,12 +178,34 @@ from django.http import JsonResponse
 
 class CameraViewData(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        length = []
+        from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
         if kwargs['to_date'] != "0":
             to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
+            length = ["D20", "D40", "D50", "D80"]
+            data = Proccess.objects.filter(
+                start_date__range=[from_date, to_date])
+        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
+            data = []
+            to_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
+            d = (to_date - from_date)
+            print("ss ////////////////// ", timedelta().strftime('%Y-%m-%d %H:%M:%S.%f'))
+
+            for item, index in enumerate((to_date - from_date) / kwargs["interval"]):
+                print("------------------------------- ", (to_date - from_date) / kwargs["interval"])
+
         else:
             to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
-        data = Proccess.objects.filter(
-            start_date__range=[datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f'), to_date])
+
+        single_data = Proccess.objects.filter(
+            start_date__range=[from_date, to_date])
+        data.append(single_data)
+        length = ["D20", "D40", "D50", "D80"]
+        # else:
+        #     to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+
+        # if "interval" in kwargs and kwargs["interval"] != "0":
+
         D20 = []
         D40 = []
         D50 = []
@@ -192,12 +214,15 @@ class CameraViewData(LoginRequiredMixin, View):
         for i in data:
             # print(i)
             D20.append(i.D20)
-            D40.append(i.D40)
-            D50.append(i.D50)
-            D80.append(i.D80)
+        D40.append(i.D40)
+        D50.append(i.D50)
+        D80.append(i.D80)
+
+        # if "interval" in kwargs and kwargs["interval"] != "0":
 
         # print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
-        return JsonResponse(({"D20": D20, "D40": D40, "D50": D50, "D80": D80}))
+
+        return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
 
 
 class MatlabAnalysis(LoginRequiredMixin, View):
@@ -238,10 +263,10 @@ class MatlabAnalysis(LoginRequiredMixin, View):
                         p_info.run = False
                         p_info.stop_date = datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f')
                         p_info.save()
-                        #break
+                        # break
                 except:
                     ...
-                    #break
+                    # break
 
                 analysised_data = analysis()
                 output_figure = open("webApp/BackCods/Matlab/output_figure.png", "rb")
@@ -256,7 +281,7 @@ class MatlabAnalysis(LoginRequiredMixin, View):
                 time.sleep(1)
                 if analysised_data == False:
                     ...
-                #break
+                # break
         except:
             return HttpResponse("False")
 
