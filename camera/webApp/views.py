@@ -176,9 +176,31 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 
 
+def show_time(time):
+    time = int(time)
+    day = time // (24 * 3600)
+    time = time % (24 * 3600)
+    hour = time // 3600
+    time %= 3600
+    minutes = time // 60
+    time %= 60
+    seconds = time
+    if day != 0:
+        return "%dD %dH %dM %dS" % (day, hour, minutes, seconds)
+    elif day == 0 and hour != 0:
+        return "%dH %dM %dS" % (hour, minutes, seconds)
+    elif day == 0 and hour == 0 and minutes != 0:
+        return "%dM %dS" % (minutes, seconds)
+    else:
+        return "%dS" % (seconds)
+
+
 class CameraViewData(LoginRequiredMixin, View):
+
     def get(self, request, *args, **kwargs):
         length = []
+        print("--------------------",show_time(60))
+
         from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
         if kwargs['to_date'] != "0":
             to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
@@ -189,7 +211,7 @@ class CameraViewData(LoginRequiredMixin, View):
             data = []
             to_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
             d = (to_date - from_date)
-            print("ss ////////////////// ", timedelta().strftime('%Y-%m-%d %H:%M:%S.%f'))
+            print("ss ////////////////// ", d.strftime('%Y-%m-%d %H:%M:%S.%f'))
 
             for item, index in enumerate((to_date - from_date) / kwargs["interval"]):
                 print("------------------------------- ", (to_date - from_date) / kwargs["interval"])
