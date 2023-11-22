@@ -195,6 +195,8 @@ def show_time(time):
         return "%dS" % (seconds)
 
 
+
+
 class CameraViewData(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
