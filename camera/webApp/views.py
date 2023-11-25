@@ -47,7 +47,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
 from rest_framework.authtoken.models import Token
 from camera import settings
-from .BackCods.Python.plotly import analysis, calibration, read_camera
+from .BackCods.Python.plotly import analysis, calibration, read_camera, calibration_sarand
+from .BackCods.Python.calib import circle_find
 # try:
 #     from .BackCods.Python.plotly import *
 # except:
@@ -195,13 +196,11 @@ def show_time(time):
         return "%dS" % (seconds)
 
 
-
-
 class CameraViewData(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         length = []
-        print("--------------------",show_time(60))
+        print("--------------------", show_time(60))
 
         from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
         if kwargs['to_date'] != "0":
@@ -212,18 +211,27 @@ class CameraViewData(LoginRequiredMixin, View):
         elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
             data = []
             to_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
-            d = (to_date - from_date)
-            print("ss ////////////////// ", d.strftime('%Y-%m-%d %H:%M:%S.%f'))
+            x = (to_date - from_date)
+            # print("ss ////////////////// ", x.total_seconds())
+            # print("ss ////////////////// ", x.total_seconds() / int(kwargs["interval"]))
+            period = int(x.total_seconds() / int(kwargs["interval"]))
+            for item in range(0, period):
+                # print("------------------------------- ", from_date + timedelta(seconds=item*int(kwargs["interval"])) ,to_date + timedelta(seconds=item*int(kwargs["interval"])))
+                single_data = Proccess.objects.filter(
+                    start_date__range=[from_date + timedelta(seconds=(item-1)*int(kwargs["interval"])), to_date + timedelta(seconds=item*int(kwargs["interval"]))])
+                data.append(single_data)
 
-            for item, index in enumerate((to_date - from_date) / kwargs["interval"]):
-                print("------------------------------- ", (to_date - from_date) / kwargs["interval"])
+                # print("------------------------------- ", single_data)
+            # print("------------------------------- ", data)
 
         else:
             to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
 
-        single_data = Proccess.objects.filter(
-            start_date__range=[from_date, to_date])
-        data.append(single_data)
+            single_data = Proccess.objects.filter(
+                start_date__range=[from_date, to_date])
+            data.append(single_data)
+        # print("------------------------------- ", data)
+
         length = ["D20", "D40", "D50", "D80"]
         # else:
         #     to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -238,15 +246,27 @@ class CameraViewData(LoginRequiredMixin, View):
         for i in data:
             # print(i)
             D20.append(i.D20)
-        D40.append(i.D40)
-        D50.append(i.D50)
-        D80.append(i.D80)
+            D40.append(i.D40)
+            D50.append(i.D50)
+            D80.append(i.D80)
 
         # if "interval" in kwargs and kwargs["interval"] != "0":
 
         # print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
 
         return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
+
+
+class GetPicture(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        try:
+            camera = read_camera()
+            if camera:
+                messages.success(request, f". فعال است {camera} دوربین ")
+                return HttpResponse("True")
+        except:
+            messages.error(request, ". دوربین یافت نشد ")
+            return HttpResponse("False")
 
 
 class MatlabAnalysis(LoginRequiredMixin, View):
@@ -408,6 +428,8 @@ class Settings(LoginRequiredMixin, View):
 
 def uploadOrginalImage(arg, request):
     imgdata = arg['file']
+    with open("./webApp/BackCods/Matlab/IMGD.jpg", 'wb') as f:
+        f.write(imgdata)
     with open("./webApp/BackCods/Matlab/IMGC.jpg", 'wb') as f:
         f.write(imgdata)
 
@@ -420,15 +442,38 @@ def uploadOrginalImage(arg, request):
         f.write(file.replace("dimensionofball = 20", f"dimensionofball = {arg['name']}"))
         f.close()
 
-    with open('./webApp/BackCods/Matlab/analysis_BK.m', 'r') as f:
+    with open('./webApp/BackCods/Matlab/Calibration_SarandBK.m', 'r') as f:
         file = f.read()
         f.close()
+
+    file = file.replace("particleSize=[4;11.2;19;38.2]", f"particleSize = {arg['stone']}")
+    file = file.replace("percent=[0;24.92;61.4522;96.426]", f"percent = {arg['percent']}")
+    with open('./webApp/BackCods/Matlab/Calibration_Sarand.m', 'w') as f:
+        f.write(file)
+        # f.write(file.replace("percent=[0;24.92;61.4522;96.426]", f"percent = {arg['percent']}"))
+        f.close()
+
+    circle_ = circle_find("./webApp/BackCods/Matlab/IMGC.jpg", "./webApp/BackCods/Matlab/IMGC.jpg")
+
+    # data = calibration()
+
+    with open('./webApp/BackCods/Matlab/analyze4volume_F.m', 'r') as f:
+        file = f.read()
+        f.close()
+
     data = calibration()
+    print(" data_sarand ///////////////////***********", data)
+    data_sarand = calibration_sarand()
+    print(" data_sarand ///////////////////***********", data_sarand)
 
     with open('webApp/setting.json', "r+") as f:
         json_file = json.load(f)
         json_file["setting"]["PanelSettings"]["calibration_persent"] = str(data)
         json_file["setting"]["PanelSettings"]["calibration"] = str(arg['name'])
+        json_file["setting"]["PanelSettings"]["stone"] = str(arg['stone'])
+        json_file["setting"]["PanelSettings"]["percent"] = str(arg['percent'])
+        json_file["setting"]["PanelSettings"]["coefficient_N"] = str(arg['percent'])
+        json_file["setting"]["PanelSettings"]["coefficient_X"] = str(arg['percent'])
         f.close()
         os.remove("webApp/setting.json")
 
@@ -437,7 +482,9 @@ def uploadOrginalImage(arg, request):
         f.close()
 
     with open('./webApp/BackCods/Matlab/analysis.m', 'w') as f:
-        f.write(file.replace("calibcoeff = 12.7", f"calibcoeff = {data}"))
+        f.write(file.replace("calibcoeff = 0.42", f"calibcoeff = {data}"))
+        f.write(file.replace("xc=2.4", f"xc = {data}"))
+        f.write(file.replace("nc=1.32", f"nc = {data}"))
         f.close()
 
     return str(data)
@@ -445,9 +492,30 @@ def uploadOrginalImage(arg, request):
 
 @csrf_exempt
 def uploadOrginalImageViwe(request, *arg, **kwargs):
+    stone_ = str(str(kwargs['stone']).replace("[", "")).replace("]", "")
+    stone_ = stone_.split(";")
+    stone = []
+    for item in stone_:
+        if item != '-':
+            stone.append(float(item))
+
+    stone = str(stone).replace(",", ";")
+
+    percent_ = str(str(kwargs['percent']).replace("[", "")).replace("]", "")
+    percent_ = percent_.split(";")
+    percent = []
+    for item in percent_:
+        if item != '-':
+            percent.append(float(item))
+
+    percent = str(percent).replace(",", ";")
+
     data = {
+        # "file": str(str(request.body).split("'")[1]).split(",")[0],
         "file": request.body,
-        "name": kwargs['name']
+        "name": kwargs['name'],
+        "stone": stone.replace(" ", ""),
+        "percent": percent.replace(" ", "")
     }
 
     result = uploadOrginalImage(data, request)

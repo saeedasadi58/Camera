@@ -41,11 +41,12 @@ urlpatterns = [
     path('docs/', include(router.urls)),
     path('', views.ReadCameraView.as_view(), name="home"),
     path('camera_data/<from_date>/<to_date>/<interval>', views.CameraViewData.as_view(), name="camera_data"),
+    path('GetPicture/', views.GetPicture.as_view(), name="GetPicture"),
     path('MatlabAnalysis/', views.MatlabAnalysis.as_view(), name="MatlabAnalysis"),
     path('MatlabAnalysis/<check>', views.MatlabAnalysis.as_view(), name="MatlabAnalysis"),
     path('settings', views.Settings.as_view(), name="settings"),
     path('KalibrSettings', views.KalibrSettings.as_view(), name="KalibrSettings"),
-    path('uploadOrginalImageViwe/<name>', views.uploadOrginalImageViwe, name="uploadOrginalImageViwe"),
+    path('uploadOrginalImageViwe/<name>/<stone>/<percent>', views.uploadOrginalImageViwe, name="uploadOrginalImageViwe"),
     # path('MatlabAnalysis/', views.MatlabAnalysis, name="MatlabAnalysis"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -224,6 +224,14 @@ def calibration():
     eng.quit()
     return res
 
+def calibration_sarand():
+    matlab_script = './webApp/BackCods/Matlab/Calibration_Sarand.m'
+    eng = matlab.engine.start_matlab()
+    eng.run(matlab_script, nargout=0)
+    res = eng.workspace['ans']
+    eng.quit()
+    return res
+
 
 def analysis():
     try:

@@ -459,13 +459,13 @@
                                                  style="padding: 9px;    text-align: right;">
                                                 <label class="col-xl-4">: اندازه سنگ </label>
                                                 <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"
-                                                       class="col-xl-2 form-control " id="DashSamplingTime"
+                                                       class="col-xl-2 form-control " id="stone"
                                                        style="width: 187px;margin: 0 20px;"></div>
                                             <div class="col-xl-12 form-row "
                                                  style="padding: 9px;    text-align: right;">
                                                 <label class="col-xl-4">: درصد </label>
                                                 <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"
-                                                       class="col-xl-2 form-control " id="DashSamplingTime"
+                                                       class="col-xl-2 form-control " id="percent"
                                                        style="width: 187px;margin: 0 20px;"></div>
                                             <div class="col-xl-12 form-row "
                                                  style="padding: 9px;    text-align: right;">
@@ -504,12 +504,12 @@
                                                     تصویر گوی</h4>
                                                 <hr>
                                                 {#                                                <label class="col-xl-9" style="margin-bottom: 15px;"> : اندازه گوی کالیبراسیون</label>#}
-                                                <img id="cameraPic" class=""
+                                                <img id="cameraPicSettings" class=""
                                                      src="{% static 'image/cameraPic.png' %}"
                                                      style="width:100%">
                                                 <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
                                                     <div class="col-6">
-                                                        <button onclick=""
+                                                        <button onclick="getPicture()"
                                                                 style="width: 100px;height: 25px;font-size: 13px;margin: 35px 0;"
                                                                 class="btn btn-primary btn-sm btn-font " value="">
                                                             گرفتن عکس
@@ -724,10 +724,13 @@
 <script>
     function submitUploadImages() {
 
+
         file = $('#VaccineImage');
         console.log(file[0].files[0])
 
         if (file[0].files[0]) {
+            console.log("saeeeeeeeeeeeeeeeeeeddddddddddddddddd")
+
             uploadOrginalImage(file[0].files[0], document.getElementById('id_calibration').value)
 
 
@@ -736,6 +739,7 @@
 
 
     function uploadOrginalImage(e, name) {
+        console.log("saeeeeeeeeeeeeeeeeeeddddddddddddddddd")
         var xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
 
@@ -746,7 +750,9 @@
                 {#document.querySelector('#new' + i.toString() + ' #' + name).alt = (this.responseText).toString()#}
             }
         });
-        xhr.open("POST", "/uploadOrginalImageViwe/" + name, false);
+        console.log("saeeeeeeeeeeeeeeeeeeddddddddddddddddd", document.getElementById('stone').value)
+        console.log("saeeeeeeeeeeeeeeeeeeddddddddddddddddd", document.getElementById('percent').value)
+        xhr.open("POST", "/uploadOrginalImageViwe/" + name + "/" + document.getElementById('stone').value + "/" + document.getElementById('percent').value, false);
         xhr.send(e);
     }
 
@@ -776,6 +782,21 @@
             }
         };
         xhttp.open("GET", 'MatlabAnalysis/check', false);
+        xhttp.send();
+    }
+
+    var getPicture = function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText)
+                if (this.responseText === "True") {
+                    var rand = Math.floor(Math.random() * 10000)
+                    document.getElementById("cameraPicSettings").src = "/static/image/cameraPic.png?" + rand;
+                }
+            }
+        };
+        xhttp.open("GET", 'GetPicture/', false);
         xhttp.send();
     }
 

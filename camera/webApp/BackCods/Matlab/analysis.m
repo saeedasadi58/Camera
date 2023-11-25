@@ -1,6 +1,6 @@
 function [Dstr] = analysis()
 
-	calibcoeff = 1.6465443131886002
+	calibcoeff = True
 	%button='Yes';
 	%while strcmp(button,'Yes')
 	% clear;
