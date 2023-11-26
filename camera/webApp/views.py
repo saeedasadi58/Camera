@@ -49,10 +49,8 @@ from rest_framework.authtoken.models import Token
 from camera import settings
 from .BackCods.Python.plotly import analysis, calibration, read_camera, calibration_sarand
 from .BackCods.Python.calib import circle_find
-# try:
-#     from .BackCods.Python.plotly import *
-# except:
-#     pass
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib import messages
 import json
 from django import db
@@ -173,86 +171,58 @@ def login(request, *args, **kwargs):
     return LoginView.as_view(**kwargs)(request, *args, **kwargs)
 
 
-from django.http import HttpResponse
-from django.http import JsonResponse
-
-
-def show_time(time):
-    time = int(time)
-    day = time // (24 * 3600)
-    time = time % (24 * 3600)
-    hour = time // 3600
-    time %= 3600
-    minutes = time // 60
-    time %= 60
-    seconds = time
-    if day != 0:
-        return "%dD %dH %dM %dS" % (day, hour, minutes, seconds)
-    elif day == 0 and hour != 0:
-        return "%dH %dM %dS" % (hour, minutes, seconds)
-    elif day == 0 and hour == 0 and minutes != 0:
-        return "%dM %dS" % (minutes, seconds)
-    else:
-        return "%dS" % (seconds)
-
-
 class CameraViewData(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
+
         length = []
-        print("--------------------", show_time(60))
-
-        from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
-        if kwargs['to_date'] != "0":
-            to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
-            length = ["D20", "D40", "D50", "D80"]
-            data = Proccess.objects.filter(
-                start_date__range=[from_date, to_date])
-        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
-            data = []
-            to_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
-            x = (to_date - from_date)
-            # print("ss ////////////////// ", x.total_seconds())
-            # print("ss ////////////////// ", x.total_seconds() / int(kwargs["interval"]))
-            period = int(x.total_seconds() / int(kwargs["interval"]))
-            for item in range(0, period):
-                # print("------------------------------- ", from_date + timedelta(seconds=item*int(kwargs["interval"])) ,to_date + timedelta(seconds=item*int(kwargs["interval"])))
-                single_data = Proccess.objects.filter(
-                    start_date__range=[from_date + timedelta(seconds=(item-1)*int(kwargs["interval"])), to_date + timedelta(seconds=item*int(kwargs["interval"]))])
-                data.append(single_data)
-
-                # print("------------------------------- ", single_data)
-            # print("------------------------------- ", data)
-
-        else:
-            to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
-
-            single_data = Proccess.objects.filter(
-                start_date__range=[from_date, to_date])
-            data.append(single_data)
-        # print("------------------------------- ", data)
-
-        length = ["D20", "D40", "D50", "D80"]
-        # else:
-        #     to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
-
-        # if "interval" in kwargs and kwargs["interval"] != "0":
-
+        data = []
         D20 = []
         D40 = []
         D50 = []
         D80 = []
 
-        for i in data:
-            # print(i)
-            D20.append(i.D20)
-            D40.append(i.D40)
-            D50.append(i.D50)
-            D80.append(i.D80)
+        if kwargs['to_date'] != "0":
+            kwargs['to_date'] = str(kwargs['to_date']).replace("T"," ")+":00.000"
+            kwargs['from_date'] = str(kwargs['from_date']).replace("T"," ")+":00.000"
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
-        # if "interval" in kwargs and kwargs["interval"] != "0":
+            # 12: 46:34.971239
+            to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
+            length = ["D20", "D40", "D50", "D80"]
+            data = Proccess.objects.filter(
+                start_date__range=[from_date, to_date])
+        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
-        # print("saeed /-/-/-/-/--/-/-/-/-/-/-/-/-/-/-/-/-//-", D20, D40, D50, D80)
+            to_date = datetime.strptime(datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
+            x = (to_date - from_date)
+            period = int(x.total_seconds() / int(kwargs["interval"]))
+            for item in range(0, period):
+                single_data = Proccess.objects.filter(
+                    start_date__range=[from_date + timedelta(seconds=(item - 1) * int(kwargs["interval"])),
+                                       to_date + timedelta(seconds=item * int(kwargs["interval"]))])
+                data.append(single_data)
+
+        else:
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
+
+            to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+
+            single_data = Proccess.objects.filter(
+                start_date__range=[from_date, to_date])
+            data.append(single_data)
+
+        for index, i in enumerate(data):
+            try:
+                D20.append(i.D20)
+                D40.append(i.D40)
+                D50.append(i.D50)
+                D80.append(i.D80)
+                length.append(from_date + timedelta(seconds=index * int(kwargs["interval"])))
+
+            except:
+                ...
 
         return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
 
