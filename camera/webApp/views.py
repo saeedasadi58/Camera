@@ -435,7 +435,8 @@ def uploadOrginalImage(arg, request):
     print(" data_sarand ///////////////////***********", data)
     data_sarand = calibration_sarand()
     print(" data_sarand ///////////////////***********", data_sarand)
-
+#     data_sarand // // // // // // // // // / ** ** ** ** ** *nc = 0.1
+# xc = 74658494193.5
     with open('webApp/setting.json', "r+") as f:
         json_file = json.load(f)
         json_file["setting"]["PanelSettings"]["calibration_persent"] = str(data)
