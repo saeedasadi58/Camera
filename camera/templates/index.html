@@ -272,7 +272,6 @@
                                                             xhttp.open("GET", 'camera_data/' + "{{ data.play_date }}" + '/0/' + document.getElementById('DashSamplingTime').value, true);
                                                             xhttp.send();
                                                         }
-                                                        chart_();
 
                                                         const interval = setInterval(function () {
                                                             chart_();
@@ -458,31 +457,37 @@
                                             <div class="col-xl-12 form-row "
                                                  style="padding: 9px;    text-align: right;">
                                                 <label class="col-xl-4">: اندازه سنگ </label>
-                                                <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"
-                                                       class="col-xl-2 form-control " id="stone"
-                                                       style="width: 187px;margin: 0 20px;"></div>
+                                                {{ data.KalibrSettingsForm.size_stone }}
+                                                {#                                                <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"#}
+                                                {#                                                       class="col-xl-2 form-control " id="stone"#}
+                                                {#                                                       style="width: 187px;margin: 0 20px;">#}
+                                            </div>
                                             <div class="col-xl-12 form-row "
                                                  style="padding: 9px;    text-align: right;">
                                                 <label class="col-xl-4">: درصد </label>
-                                                <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"
-                                                       class="col-xl-2 form-control " id="percent"
-                                                       style="width: 187px;margin: 0 20px;"></div>
+                                                {{ data.KalibrSettingsForm.percent_stone }}
+                                                {#                                                <input type="text" name="samplingTime" value="[-;-;-;-;-;-]"#}
+                                                {#                                                       class="col-xl-2 form-control " id="percent"#}
+                                                {#                                                       style="width: 187px;margin: 0 20px;">#}
+                                            </div>
                                             <div class="col-xl-12 form-row "
                                                  style="padding: 9px;    text-align: right;">
                                                 <div class="col-xl-6 form-row">
 
                                                     <label class="col-xl-7">: n ضریب </label>
-                                                    <input disabled type="number" name="samplingTime" value="0"
-                                                           class="col-xl-4 form-control "
-                                                           id="DashSamplingTime">
+                                                    {{ data.KalibrSettingsForm.coefficient_N }}
+                                                    {#                                                    <input disabled type="number" name="samplingTime" value="0"#}
+                                                    {#                                                           class="col-xl-4 form-control "#}
+                                                    {#                                                           id="DashSamplingTime">#}
 
                                                 </div>
                                                 <div class="col-xl-6 form-row">
 
                                                     <label class="col-xl-8">: xc ضریب </label>
-                                                    <input disabled type="number" name="samplingTime" value="0"
-                                                           class="col-xl-4 form-control "
-                                                           id="DashSamplingTime">
+                                                    {{ data.KalibrSettingsForm.coefficient_X }}
+                                                    {#                                                    <input disabled type="number" name="samplingTime" value="0"#}
+                                                    {#                                                           class="col-xl-4 form-control "#}
+                                                    {#                                                           id="DashSamplingTime">#}
 
                                                 </div>
                                             </div>
@@ -753,7 +758,12 @@
 
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === 4) {
-                document.getElementById("id_calibration_persent").value = this.responseText
+                console.log("res *--------------* ",this.responseText)
+                res = JSON.parse(this.responseText)
+                console.log("res *--------------* ",res)
+                document.getElementById("id_calibration_persent").value = res['data']
+                document.getElementById("id_coefficient_X").value = res['id_coefficient_X']
+                document.getElementById("id_coefficient_N").value = res['id_coefficient_N']
             }
         });
         xhr.open("POST", "/uploadOrginalImageViwe/" + name + "/" + document.getElementById('stone').value + "/" + document.getElementById('percent').value, false);

@@ -34,21 +34,6 @@ class ReportForm(forms.Form):
 
 
 class kalibrSettingsForm(forms.Form):
-    samplingTime = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control col-xl-2',
-            "type": "number",
-            "value": 0,
-        })
-    )
-    processedSeparately = forms.BooleanField(required=False)
-    processPerSeconds = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control col-xl-2',
-            "type": "number",
-            "value": 0,
-        })
-    )
     calibration = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-2',
@@ -62,28 +47,48 @@ class kalibrSettingsForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'form-control col-xl-3',
             "type": "text",
-            "disabled":True,
+            "disabled": True,
             # "style":"margin-right: 10%;margin-top: 5%;"
         })
     )
+    #
+    # CHOICES = [('evaluatedDirectly', 'نتایج مستقیما ارزیابی شود'),
+    #            ('evaluatedAutomatically', 'نتایج به صورت خودکار توسط تاریخ توزیع تخمین زده شود'),
+    #            ('evaluatedExperimental', 'نتایج بر اساس تجربی توسط تابع توزیع تخمین زده شود')]
+    # evaluated = forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
+    size_stone = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'id': 'stone',
+            'class': 'col-xl-2 form-control',
+            "type": "text",
+            "value": "[-;-;-;-;-;-]",
+            "style": "width: 187px;margin: 0 20px;"
 
-    CHOICES = [('evaluatedDirectly', 'نتایج مستقیما ارزیابی شود'),
-               ('evaluatedAutomatically', 'نتایج به صورت خودکار توسط تاریخ توزیع تخمین زده شود'),
-               ('evaluatedExperimental', 'نتایج بر اساس تجربی توسط تابع توزیع تخمین زده شود')]
-    evaluated = forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
-
+        })
+    )
+    percent_stone = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'id': 'percent',
+            'class': 'col-xl-2 form-control',
+            "type": "text",
+            "value": "[-;-;-;-;-;-]",
+            "style":"width: 187px;margin: 0 20px;"
+        })
+    )
     coefficient_N = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control col-xl-4',
-            "type": "number",
-            "value": 0,
+            'class': 'col-xl-4 form-control',
+            "type": "text",
+            "value": "0",
+            "disabled": True,
         })
     )
     coefficient_X = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control col-xl-4',
-            "type": "number",
-            "value": 0,
+            'class': 'col-xl-4 form-control',
+            "type": "text",
+            "value": "0",
+            "disabled": True,
         })
     )
     separationAlgorithm = forms.BooleanField(required=False)
@@ -94,6 +99,8 @@ class kalibrSettingsForm(forms.Form):
     #         "type": "file",
     #     })
     # )
+
+
 class CalibrationFileForm(forms.Form):
     # title = forms.CharField(max_length=50)
     file = forms.FileField()

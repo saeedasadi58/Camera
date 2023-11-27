@@ -183,8 +183,8 @@ class CameraViewData(LoginRequiredMixin, View):
         D80 = []
 
         if kwargs['to_date'] != "0":
-            kwargs['to_date'] = str(kwargs['to_date']).replace("T"," ")+":00.000"
-            kwargs['from_date'] = str(kwargs['from_date']).replace("T"," ")+":00.000"
+            kwargs['to_date'] = str(kwargs['to_date']).replace("T", " ") + ":00.000"
+            kwargs['from_date'] = str(kwargs['from_date']).replace("T", " ") + ":00.000"
             from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
             # 12: 46:34.971239
@@ -331,6 +331,8 @@ class ReadCameraView(LoginRequiredMixin, View):
             "coefficient_X": data["setting"]["PanelSettings"]["coefficient_X"],
             "separationAlgorithm": data["setting"]["PanelSettings"]["separationAlgorithm"],
             "evaluated": data["setting"]["PanelSettings"]["evaluated"],
+            "percent_stone": data["setting"]["PanelSettings"]["percent"],
+            "size_stone": data["setting"]["PanelSettings"]["stone"],
         })
         data = {
             "SettingsForm": settings_form,
@@ -432,33 +434,33 @@ def uploadOrginalImage(arg, request):
         f.close()
 
     data = calibration()
-    print(" data_sarand ///////////////////***********", data)
     data_sarand = calibration_sarand()
-    print(" data_sarand ///////////////////***********", data_sarand)
-#     data_sarand // // // // // // // // // / ** ** ** ** ** *nc = 0.1
-# xc = 74658494193.5
+    # data_sarand = "nc =9.1;xc =5.5"
+    data_sarand = data_sarand.split((';'))
+
     with open('webApp/setting.json', "r+") as f:
         json_file = json.load(f)
         json_file["setting"]["PanelSettings"]["calibration_persent"] = str(data)
         json_file["setting"]["PanelSettings"]["calibration"] = str(arg['name'])
         json_file["setting"]["PanelSettings"]["stone"] = str(arg['stone'])
         json_file["setting"]["PanelSettings"]["percent"] = str(arg['percent'])
-        json_file["setting"]["PanelSettings"]["coefficient_N"] = str(arg['percent'])
-        json_file["setting"]["PanelSettings"]["coefficient_X"] = str(arg['percent'])
+        json_file["setting"]["PanelSettings"]["coefficient_N"] = str(data_sarand[0]).split('=')[1]
+        json_file["setting"]["PanelSettings"]["coefficient_X"] = str(data_sarand[1]).split('=')[1]
         f.close()
         os.remove("webApp/setting.json")
 
         f = open('webApp/setting.json', "w")
         f.write(json.dumps(json_file))
         f.close()
-
+    file = file.replace("calibcoeff = 0.42", f"calibcoeff = {data}")
+    file = file.replace("xc=2.4", f"{data_sarand[1]}")
+    file = file.replace("nc=1.32", f"{data_sarand[0]}")
     with open('./webApp/BackCods/Matlab/analysis.m', 'w') as f:
-        f.write(file.replace("calibcoeff = 0.42", f"calibcoeff = {data}"))
-        f.write(file.replace("xc=2.4", f"xc = {data}"))
-        f.write(file.replace("nc=1.32", f"nc = {data}"))
-        f.close()
+        f.write(file)
+    f.close()
 
-    return str(data)
+    return HttpResponse(json.dumps({"data": data, "id_coefficient_X": str(data_sarand[1]).split('=')[1],
+                       "id_coefficient_N": str(data_sarand[0]).split('=')[1]}))
 
 
 @csrf_exempt
@@ -491,7 +493,7 @@ def uploadOrginalImageViwe(request, *arg, **kwargs):
 
     result = uploadOrginalImage(data, request)
 
-    return HttpResponse(f"{result}")
+    return result
 
 
 class KalibrSettings(LoginRequiredMixin, View):
