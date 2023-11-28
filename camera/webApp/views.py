@@ -233,6 +233,8 @@ class GetPicture(LoginRequiredMixin, View):
             camera = read_camera()
             if camera:
                 messages.success(request, f". فعال است {camera} دوربین ")
+                circle_ = circle_find("./webApp/static/image/IMG", "./webApp/BackCods/Matlab/IMG.jpg")
+
                 return HttpResponse("True")
         except:
             messages.error(request, ". دوربین یافت نشد ")
@@ -399,11 +401,15 @@ class Settings(LoginRequiredMixin, View):
 
 
 def uploadOrginalImage(arg, request):
-    imgdata = arg['file']
-    with open("./webApp/BackCods/Matlab/IMGD.jpg", 'wb') as f:
-        f.write(imgdata)
-    with open("./webApp/BackCods/Matlab/IMGC.jpg", 'wb') as f:
-        f.write(imgdata)
+    print("--------------------",arg['file'] == b'')
+    if arg['file'] != b'':
+        print("in if --------------------")
+        imgdata = arg['file']
+
+        with open("./webApp/BackCods/Matlab/IMG.jpg", 'wb') as f:
+            f.write(imgdata)
+
+        circle_ = circle_find("./webApp/BackCods/Matlab/IMG.jpg", "./webApp/BackCods/Matlab/IMG.jpg")
 
     file = ""
     with open('./webApp/BackCods/Matlab/calibration_BK.m', 'r') as f:
@@ -425,7 +431,6 @@ def uploadOrginalImage(arg, request):
         # f.write(file.replace("percent=[0;24.92;61.4522;96.426]", f"percent = {arg['percent']}"))
         f.close()
 
-    circle_ = circle_find("./webApp/BackCods/Matlab/IMGC.jpg", "./webApp/BackCods/Matlab/IMGC.jpg")
 
     # data = calibration()
 
@@ -434,8 +439,8 @@ def uploadOrginalImage(arg, request):
         f.close()
 
     data = calibration()
-    data_sarand = calibration_sarand()
-    # data_sarand = "nc =9.1;xc =5.5"
+    # data_sarand = calibration_sarand()
+    data_sarand = "nc =9.1;xc =5.5"
     data_sarand = data_sarand.split((';'))
 
     with open('webApp/setting.json', "r+") as f:
@@ -460,7 +465,7 @@ def uploadOrginalImage(arg, request):
     f.close()
 
     return HttpResponse(json.dumps({"data": data, "id_coefficient_X": str(data_sarand[1]).split('=')[1],
-                       "id_coefficient_N": str(data_sarand[0]).split('=')[1]}))
+                                    "id_coefficient_N": str(data_sarand[0]).split('=')[1]}))
 
 
 @csrf_exempt

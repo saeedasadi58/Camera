@@ -741,13 +741,16 @@
 
 
         file = $('#VaccineImage');
-        console.log(file[0].files[0])
+        console.log(file)
 
         if (file[0].files[0]) {
 
             uploadOrginalImage(file[0].files[0], document.getElementById('id_calibration').value)
 
 
+        }
+        else{
+            uploadOrginalImage([], document.getElementById('id_calibration').value)
         }
     }
 
