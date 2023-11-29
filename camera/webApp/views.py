@@ -439,8 +439,8 @@ def uploadOrginalImage(arg, request):
         f.close()
 
     data = calibration()
-    # data_sarand = calibration_sarand()
-    data_sarand = "nc =9.1;xc =5.5"
+    data_sarand = calibration_sarand()
+    # data_sarand = "nc =9.1;xc =5.5"
     data_sarand = data_sarand.split((';'))
 
     with open('webApp/setting.json', "r+") as f:
