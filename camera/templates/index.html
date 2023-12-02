@@ -171,7 +171,7 @@
                                                     <div class="col-xl-6 form-row"
                                                          style="display: flex;flex-direction: row;text-align: center">
                                                         <img id="cameraPic" class="dashboardImage"
-                                                             src="{% static 'image/cameraPic.png' %}"
+                                                             src="{% static 'image/IMG.jpg' %}"
                                                              style="">
 
                                                     </div>
@@ -246,10 +246,10 @@
                                                             xhttp.onreadystatechange = function () {
                                                                 if (this.readyState == 4 && this.status == 200) {
                                                                     result = JSON.parse(this.responseText)
-                                                                    chart.data.datasets[0].data = result['D20']
-                                                                    chart.data.datasets[1].data = result['D40']
-                                                                    chart.data.datasets[2].data = result['D50']
-                                                                    chart.data.datasets[3].data = result['D80']
+                                                                    chart.data.datasets[0].data = result['data']['D20']
+                                                                    chart.data.datasets[1].data = result['data']['D40']
+                                                                    chart.data.datasets[2].data = result['data']['D50']
+                                                                    chart.data.datasets[3].data = result['data']['D80']
                                                                     lables = []
                                                                     for (var i = 0; i <= (result['length'].length); i++) {
                                                                         lables.push(result['length'][i])
@@ -263,7 +263,7 @@
                                                                     document.getElementById("output_figure").src = "/static/image/output_figure.png?" + rand;
 
                                                                     cameraPic = document.getElementById("cameraPic")
-                                                                    document.getElementById("cameraPic").src = "/static/image/cameraPic.png?" + rand;
+                                                                    document.getElementById("cameraPic").src = "/static/image/IMG.jpg?" + rand;
 
                                                                 }
 
@@ -510,7 +510,7 @@
                                                 <hr>
                                                 {#                                                <label class="col-xl-9" style="margin-bottom: 15px;"> : اندازه گوی کالیبراسیون</label>#}
                                                 <img id="cameraPicSettings" class=""
-                                                     src="{% static 'image/cameraPic.png' %}"
+                                                     src="{% static 'image/IMG.jpg' %}"
                                                      style="width:100%">
                                                 <div class="col-xl-12 form-row " style="text-align: left;padding: 9px">
                                                     <div class="col-6">
@@ -809,7 +809,7 @@
                 console.log(this.responseText)
                 if (this.responseText === "True") {
                     var rand = Math.floor(Math.random() * 10000)
-                    document.getElementById("cameraPicSettings").src = "/static/image/cameraPic.png?" + rand;
+                    document.getElementById("cameraPicSettings").src = "/static/image/IMG.jpg?" + rand;
                 }
             }
         };

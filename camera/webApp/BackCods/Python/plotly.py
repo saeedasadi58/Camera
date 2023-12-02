@@ -121,18 +121,21 @@ def read_camera():
 
     # camera.ExposureTime.Value = (int(exposure_time))
     # camera.Gain.Value = (int(gain))
-    new_width = camera.Width.Value - camera.Width.Inc
-    if camera.Width.Value <= int(width):
-        # camera.Width.Value = new_width
-        camera.Width.SetValue(int(width))
+    # new_width = camera.Width.Value - camera.Width.Inc
+    try:
+        if camera.Width.Value <= int(width):
+            # camera.Width.Value = new_width
+            camera.Width.SetValue(int(width))
 
-    if camera.Height.Value <= int(height):
-        # camera.Width.Value = new_width
-        camera.Height.SetValue(int(height))
+        if camera.Height.Value <= int(height):
+            # camera.Width.Value = new_width
+            camera.Height.SetValue(int(height))
     # = (int(width))
     # camera.Width.SetValue(int(500))
     # camera.Height.SetValue(int(50))
-    camera.GainRaw.SetValue(int(gain))
+        camera.GainRaw.SetValue(int(gain))
+    except:
+        ...
     # camera.GainRaw.SetValue(int(gain))
     # camera.Height.SetValue(int(50))
     # = (int(height))
@@ -234,26 +237,26 @@ def calibration_sarand():
 
 
 def analysis():
-    try:
+    # try:
+    print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
+    p_info = ProccessInfo.objects.filter().order_by('-id')
+    if p_info[0].run:
+        res = []
+        matlab_script = './webApp/BackCods/Matlab/analysis.m'
+        eng = matlab.engine.start_matlab()
+        eng.run(matlab_script, nargout=0, background=True)
+        res = eng.workspace['ans']
+        res = res.split("\n")
+        eng.quit()
+        analysised_data = res
+        Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
+                                D40=(analysised_data[2].split("="))[1].replace(" ", ""),
+                                D50=(analysised_data[1].split("="))[1].replace(" ", ""),
+                                D80=(analysised_data[0].split("="))[1].replace(" ", ""),
+                                start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
         print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-        p_info = ProccessInfo.objects.filter().order_by('-id')
-        if p_info[0].run:
-            res = []
-            matlab_script = './webApp/BackCods/Matlab/analysis.m'
-            eng = matlab.engine.start_matlab()
-            eng.run(matlab_script, nargout=0, background=True)
-            res = eng.workspace['ans']
-            res = res.split("\n")
-            eng.quit()
-            analysised_data = res
-            Proccess.objects.create(D20=(analysised_data[3].split("="))[1].replace(" ", ""),
-                                    D40=(analysised_data[2].split("="))[1].replace(" ", ""),
-                                    D50=(analysised_data[1].split("="))[1].replace(" ", ""),
-                                    D80=(analysised_data[0].split("="))[1].replace(" ", ""),
-                                    start_date=datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-            print("--------------------", datetime.today().strftime('%Y-%m-%d %H:%M:%S.%f'))
-            return res
-        else:
-            return p_info[0].run
-    except:
-        return True
+        return res
+    else:
+        return p_info[0].run
+    # except:
+    #     return True

@@ -1,7 +1,7 @@
 function [outs] = ca_sarand()
 
-    particleSize=[4;11.2;19;38.2];
-    percent=[0;24.92;61.4522;96.426];
+    particleSize = [4.0;11.2;19.0;38.2];
+    percent = [0.0;24.92;61.4522;96.426];
      
     fh=figure('visible','on');
     set(fh,'visible','on');
@@ -22,7 +22,7 @@ function [outs] = ca_sarand()
     nc=c2.n;
     xc=c2.xc;
 
-    outs=sprintf('nc =%3.1f \nxc =%3.1f \n',nc,xc);
+    outs=sprintf('nc=%3.1f;xc=%3.1f',nc,xc);
 
     xlabel('Size(mm)');
     ylabel('Percent(%)');
