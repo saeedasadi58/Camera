@@ -251,7 +251,7 @@ class GetPicture(LoginRequiredMixin, View):
             camera = read_camera()
             if camera:
                 messages.success(request, f". فعال است {camera} دوربین ")
-                circle_ = circle_find("./webApp/static/image/IMG", "./webApp/BackCods/Matlab/IMG.jpg")
+                circle_ = circle_find("./webApp/static/image/IMG.jpg", "./webApp/BackCods/Matlab/IMG.jpg")
 
                 return HttpResponse("True")
         except:
