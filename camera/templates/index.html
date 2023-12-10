@@ -578,17 +578,39 @@
                                     <script>
                                         const ctx2 = document.getElementById('Chart_line');
 
-                                        new Chart(ctx2, {
-                                            type: 'bar',
+                                        var chart2 = new Chart(ctx2, {
+                                            type: 'line',
                                             data: {
-                                                labels: ['D20', 'D40', 'D50', 'D80'],
+                                                labels: [],
                                                 datasets: [{
-                                                    {#label: '#',#}
-                                                    data: ['D20', 'D40', 'D50', 'D80'],
+                                                    label: '# D20 ',
+                                                    data: [],
+                                                    borderWidth: 1
+                                                }, {
+                                                    label: '# D40 ',
+                                                    data: [],
+                                                    borderWidth: 1
+                                                }, {
+                                                    label: '# D50 ',
+                                                    data: [],
+                                                    borderWidth: 1
+                                                }, {
+                                                    label: '# D80 ',
+                                                    data: [],
                                                     borderWidth: 1
                                                 }]
                                             },
                                             options: {
+                                                responsive: true,
+                                                legend: {
+                                                    display: false
+                                                },
+                                                plugins: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'زمان / میلیمتر'
+                                                    }
+                                                },
                                                 scales: {
                                                     y: {
                                                         beginAtZero: true
@@ -602,16 +624,36 @@
                                             xhttp.onreadystatechange = function () {
                                                 if (this.readyState == 4 && this.status == 200) {
                                                     result = JSON.parse(this.responseText)
-                                                    chart.data.datasets[0].data = result['D20']
-                                                    chart.data.datasets[1].data = result['D40']
-                                                    chart.data.datasets[2].data = result['D50']
-                                                    chart.data.datasets[3].data = result['D80']
+                                                    chart2.data.datasets[0].data = result['data']['D20']
+                                                    chart2.data.datasets[1].data = result['data']['D40']
+                                                    chart2.data.datasets[2].data = result['data']['D50']
+                                                    chart2.data.datasets[3].data = result['data']['D80']
+                                                    lables = []
+                                                    for (var i = 0; i <= (result['length'].length); i++) {
+                                                        lables.push(result['length'][i])
+                                                    }
+                                                    chart2.data.labels = lables
+                                                    chart2.update();
 
-                                                    chart.update();
 
                                                 }
 
                                             };
+                                            {#var chartReport = function () {#}
+                                            {#    var xhttp = new XMLHttpRequest();#}
+                                            {#    xhttp.onreadystatechange = function () {#}
+                                            {#        if (this.readyState == 4 && this.status == 200) {#}
+                                            {#            result = JSON.parse(this.responseText)#}
+                                            {#            chart.data.datasets[0].data = result['D20']#}
+                                            {#            chart.data.datasets[1].data = result['D40']#}
+                                            {#            chart.data.datasets[2].data = result['D50']#}
+                                            {#            chart.data.datasets[3].data = result['D80']#}
+                                            {##}
+                                            {#            chart.update();#}
+                                            {##}
+                                            {#        }#}
+                                            {##}
+                                            {#    };#}
                                             {#xhttp.open("GET", 'camera_data/2023-09-04 13:55:28.577297/0', false);#}
                                             var from = document.getElementById('id_from_date').value
                                             var to = document.getElementById('id_to_date').value
@@ -748,8 +790,7 @@
             uploadOrginalImage(file[0].files[0], document.getElementById('id_calibration').value)
 
 
-        }
-        else{
+        } else {
             uploadOrginalImage([], document.getElementById('id_calibration').value)
         }
     }
@@ -761,9 +802,9 @@
 
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === 4) {
-                console.log("res *--------------* ",this.responseText)
+                console.log("res *--------------* ", this.responseText)
                 res = JSON.parse(this.responseText)
-                console.log("res *--------------* ",res)
+                console.log("res *--------------* ", res)
                 document.getElementById("id_calibration_persent").value = res['data']
                 document.getElementById("id_coefficient_X").value = res['id_coefficient_X']
                 document.getElementById("id_coefficient_N").value = res['id_coefficient_N']

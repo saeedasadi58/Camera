@@ -188,34 +188,64 @@ class CameraViewData(LoginRequiredMixin, View):
             kwargs['from_date'] = str(kwargs['from_date']).replace("T", " ") + ":00.000"
             from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
-            # 12: 46:34.971239
             to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
-            length = ["D20", "D40", "D50", "D80"]
-            data = Proccess.objects.filter(
-                start_date__range=[from_date, to_date])
-        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
-            # print("*************", kwargs)
-            # print("*************", datetime.now())
+            x = (to_date - from_date)
+            for item in range(0, x.days):
+                single_data = Proccess.objects.filter(
+                    start_date__range=[from_date + timedelta(days=((item))),
+                                       from_date + timedelta(days=((item + 1)))])
+                try:
+                    data.append(single_data[0])
+                except:
+                    data.append(single_data)
+            for index, i in enumerate(data):
+                try:
+                    D20.append(i.D20)
+                    D40.append(i.D40)
+                    D50.append(i.D50)
+                    D80.append(i.D80)
+                    length.append(from_date + timedelta(days=index))
 
+                except:
+                    ...
+
+            return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
+            # kwargs['to_date'] = str(kwargs['to_date']).replace("T", " ") + ":00.000"
+            # kwargs['from_date'] = str(kwargs['from_date']).replace("T", " ") + ":00.000"
+            # from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
+            #
+            # # 12: 46:34.971239
+            # to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
+            # length = ["D20", "D40", "D50", "D80"]
+            # data = Proccess.objects.filter(
+            #     start_date__range=[from_date, to_date]).count()
+            # print("*************", data)
+            # for index, i in enumerate(data):
+            #     print("*************", i)
+            #     try:
+            #         D20.append(i.D20)
+            #         D40.append(i.D40)
+            #         D50.append(i.D50)
+            #         D80.append(i.D80)
+            #
+            #     except:
+            #         ...
+            #
+            # return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
+        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
             from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
             to_date = datetime.strptime(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
             x = (to_date - from_date)
             period = int(x.total_seconds() / int(kwargs["interval"]))
             for item in range(0, period):
-                # print("************* item , period", [item, period])
-
                 single_data = Proccess.objects.filter(
                     start_date__range=[from_date + timedelta(seconds=((item) * int(kwargs["interval"]))),
                                        from_date + timedelta(seconds=((item + 1) * int(kwargs["interval"])))])
-                # print("*************", [from_date + timedelta(seconds=((item) * int(kwargs["interval"]))),
-                #                         from_date + timedelta(seconds=((item + 1) * int(kwargs["interval"])))])
-                # print("*************", single_data)
                 try:
                     data.append(single_data[0])
                 except:
                     data.append(single_data)
-
 
         else:
             from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
@@ -227,19 +257,14 @@ class CameraViewData(LoginRequiredMixin, View):
             data.append(single_data)
 
         for index, i in enumerate(data):
-            # print("*************", i)
             try:
                 D20.append(i.D20)
                 D40.append(i.D40)
                 D50.append(i.D50)
                 D80.append(i.D80)
-                length.append(from_date + timedelta(seconds=index * int(kwargs["interval"])))
+                length.append((from_date + timedelta(seconds=index * int(kwargs["interval"]))).strftime('%H:%M:%S'))
 
             except:
-                # D20.append(i[0].D20)
-                # D40.append(i[0].D40)
-                # D50.append(i[0].D50)
-                # D80.append(i[0].D80)
                 ...
 
         return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
