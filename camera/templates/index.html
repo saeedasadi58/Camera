@@ -240,8 +240,14 @@
                                                                 }
                                                             }
                                                         });
+                                                        var count = 0
 
                                                         var chart_ = function () {
+                                                            if (count >= 3000) {
+                                                                clearInterval(interval)
+                                                                window.location = "/"
+                                                            }
+                                                            count = count + 1
                                                             var xhttp = new XMLHttpRequest();
                                                             xhttp.onreadystatechange = function () {
                                                                 if (this.readyState == 4 && this.status == 200) {
@@ -250,7 +256,7 @@
                                                                     chart.data.datasets[1].data = result['data']['D40']
                                                                     chart.data.datasets[2].data = result['data']['D50']
                                                                     chart.data.datasets[3].data = result['data']['D80']
-                                                                    lables = []
+                                                                    lables = []0
                                                                     for (var i = 0; i <= (result['length'].length); i++) {
                                                                         lables.push(result['length'][i])
                                                                     }
@@ -264,6 +270,8 @@
 
                                                                     cameraPic = document.getElementById("cameraPic")
                                                                     document.getElementById("cameraPic").src = "/static/image/IMG.jpg?" + rand;
+                                                                    count = count + 1
+                                                                    console.log(count)
 
                                                                 }
 
@@ -272,10 +280,9 @@
                                                             xhttp.open("GET", 'camera_data/' + "{{ data.play_date }}" + '/0/' + document.getElementById('DashSamplingTime').value, true);
                                                             xhttp.send();
                                                         }
-
                                                         const interval = setInterval(function () {
                                                             chart_();
-                                                        }, 1000);
+                                                        }, Number(document.getElementById('DashSamplingTime').value+"000"));
                                                         if ("{{ data.play }}" === "False") {
                                                             clearInterval(interval);
                                                         }

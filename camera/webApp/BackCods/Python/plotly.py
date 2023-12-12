@@ -33,6 +33,7 @@ image_label.place(x=window_width // 2, y=0, anchor=tk.NW)
 
 # List of image paths
 image_path = "webApp/static/image/IMG.jpg"  # Replace with the paths to your images
+image_path2 = "webApp/Matlab/IMG.jpg"  # Replace with the paths to your images
 
 
 def plotting():
@@ -154,6 +155,7 @@ def read_camera():
             im = Image.fromarray(img)
 
             im.save(image_path)
+            im.save(image_path2)
 
         grabResult.Release()
     camera.Close()
