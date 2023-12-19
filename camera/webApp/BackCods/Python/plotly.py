@@ -155,7 +155,7 @@ def read_camera():
             im = Image.fromarray(img)
 
             im.save(image_path)
-            im.save(image_path2)
+            # im.save(image_path2)
 
         grabResult.Release()
     camera.Close()
