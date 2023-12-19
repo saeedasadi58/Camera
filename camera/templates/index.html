@@ -256,7 +256,7 @@
                                                                     chart.data.datasets[1].data = result['data']['D40']
                                                                     chart.data.datasets[2].data = result['data']['D50']
                                                                     chart.data.datasets[3].data = result['data']['D80']
-                                                                    lables = []0
+                                                                    lables = []
                                                                     for (var i = 0; i <= (result['length'].length); i++) {
                                                                         lables.push(result['length'][i])
                                                                     }
@@ -574,6 +574,13 @@
                                                    class="btn btn-success btn-sm btn-font "
                                                    value="تایید" onclick="chartReport()">
                                         </div>
+                                        <div class="col-xl-3" style="margin-top: 4%;">
+                                            <!-- <input type="submit"  class="btn btn-outline-success btn-sm btn-font "  value="Yes" > -->
+                                            <input type="submit"
+                                                   style="width: 75px;;height: 25px;font-size: 13px;margin: 5px 0px 0px 52px;"
+                                                   class="btn btn-success btn-sm btn-font "
+                                                   value="فایل" onclick="exportReport()">
+                                        </div>
 
                                     </div>
 
@@ -646,26 +653,36 @@
                                                 }
 
                                             };
-                                            {#var chartReport = function () {#}
-                                            {#    var xhttp = new XMLHttpRequest();#}
-                                            {#    xhttp.onreadystatechange = function () {#}
-                                            {#        if (this.readyState == 4 && this.status == 200) {#}
-                                            {#            result = JSON.parse(this.responseText)#}
-                                            {#            chart.data.datasets[0].data = result['D20']#}
-                                            {#            chart.data.datasets[1].data = result['D40']#}
-                                            {#            chart.data.datasets[2].data = result['D50']#}
-                                            {#            chart.data.datasets[3].data = result['D80']#}
-                                            {##}
-                                            {#            chart.update();#}
-                                            {##}
-                                            {#        }#}
-                                            {##}
-                                            {#    };#}
-                                            {#xhttp.open("GET", 'camera_data/2023-09-04 13:55:28.577297/0', false);#}
                                             var from = document.getElementById('id_from_date').value
                                             var to = document.getElementById('id_to_date').value
                                             xhttp.open("GET", 'camera_data/' + from + '/' + to + '/0', true);
                                             xhttp.send();
+                                        }
+                                        var exportReport = function () {
+                                            {#var xhttp = new XMLHttpRequest();#}
+                                            {#xhttp.onreadystatechange = function () {#}
+                                            {#    if (this.readyState == 4 && this.status == 200) {#}
+                                            {#        result = JSON.parse(this.responseText)#}
+                                            {#        chart2.data.datasets[0].data = result['data']['D20']#}
+                                            {#        chart2.data.datasets[1].data = result['data']['D40']#}
+                                            {#        chart2.data.datasets[2].data = result['data']['D50']#}
+                                            {#        chart2.data.datasets[3].data = result['data']['D80']#}
+                                            {#        lables = []#}
+                                            {#        for (var i = 0; i <= (result['length'].length); i++) {#}
+                                            {#            lables.push(result['length'][i])#}
+                                            {#        }#}
+                                            {#        chart2.data.labels = lables#}
+                                            {#        chart2.update();#}
+                                            {##}
+                                            {##}
+                                            {#    }#}
+                                            {##}
+                                            var from = document.getElementById('id_from_date').value
+                                            var to = document.getElementById('id_to_date').value
+                                            window.location = 'export_report/' + from + '/' + to + '/0'
+
+                                            {#xhttp.open("GET", 'export_report/' + from + '/' + to + '/0', true);#}
+                                            {#xhttp.send();#}
                                         }
                                     </script>
                                 </div>

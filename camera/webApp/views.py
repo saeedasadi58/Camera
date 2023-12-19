@@ -210,28 +210,6 @@ class CameraViewData(LoginRequiredMixin, View):
                     ...
 
             return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
-            # kwargs['to_date'] = str(kwargs['to_date']).replace("T", " ") + ":00.000"
-            # kwargs['from_date'] = str(kwargs['from_date']).replace("T", " ") + ":00.000"
-            # from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
-            #
-            # # 12: 46:34.971239
-            # to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
-            # length = ["D20", "D40", "D50", "D80"]
-            # data = Proccess.objects.filter(
-            #     start_date__range=[from_date, to_date]).count()
-            # print("*************", data)
-            # for index, i in enumerate(data):
-            #     print("*************", i)
-            #     try:
-            #         D20.append(i.D20)
-            #         D40.append(i.D40)
-            #         D50.append(i.D50)
-            #         D80.append(i.D80)
-            #
-            #     except:
-            #         ...
-            #
-            # return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
         elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
             from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
 
@@ -268,6 +246,101 @@ class CameraViewData(LoginRequiredMixin, View):
                 ...
 
         return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
+
+
+import csv
+
+
+class ExportReport(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+
+        length = []
+        data = []
+        D20 = []
+        D40 = []
+        D50 = []
+        D80 = []
+        # print("*************", kwargs)
+
+        if kwargs['to_date'] != "0":
+            kwargs['to_date'] = str(kwargs['to_date']).replace("T", " ") + ":00.000"
+            kwargs['from_date'] = str(kwargs['from_date']).replace("T", " ") + ":00.000"
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
+
+            to_date = datetime.strptime(kwargs['to_date'], '%Y-%m-%d %H:%M:%S.%f')
+            x = (to_date - from_date)
+            for item in range(0, x.days):
+                single_data = Proccess.objects.filter(
+                    start_date__range=[from_date + timedelta(days=((item))),
+                                       from_date + timedelta(days=((item + 1)))])
+                try:
+                    data.append(single_data[0])
+                except:
+                    data.append(single_data)
+            for index, i in enumerate(data):
+                try:
+                    D20.append(i.D20)
+                    D40.append(i.D40)
+                    D50.append(i.D50)
+                    D80.append(i.D80)
+                    length.append(from_date + timedelta(days=index))
+
+                except:
+                    ...
+
+            # return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
+            response = HttpResponse(
+                content_type='text/csv',
+                # headers={'Content-Disposition': f'attachment; filename="test.csv"'},
+                headers={'Content-Disposition': f'attachment; filename="{datetime.now()}.csv"'},
+            )
+
+            writer = csv.writer(response)
+            writer.writerow(['D20', 'D40', 'D50', 'D80', 'Time'])
+            for item in length:
+                writer.writerow([D20[length.index(item)], D40[length.index(item)], D50[length.index(item)],
+                                 D80[length.index(item)],item])
+            # writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+            return response
+
+        elif kwargs['to_date'] == "0" and kwargs["interval"] != "0":
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
+
+            to_date = datetime.strptime(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'), '%Y-%m-%d %H:%M:%S.%f')
+            x = (to_date - from_date)
+            period = int(x.total_seconds() / int(kwargs["interval"]))
+            for item in range(0, period):
+                single_data = Proccess.objects.filter(
+                    start_date__range=[from_date + timedelta(seconds=((item) * int(kwargs["interval"]))),
+                                       from_date + timedelta(seconds=((item + 1) * int(kwargs["interval"])))])
+                try:
+                    data.append(single_data[0])
+                except:
+                    data.append(single_data)
+
+        else:
+            from_date = datetime.strptime(kwargs['from_date'], '%Y-%m-%d %H:%M:%S.%f')
+
+            to_date = (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S.%f')
+
+            single_data = Proccess.objects.filter(
+                start_date__range=[from_date, to_date])
+            data.append(single_data)
+
+            for index, i in enumerate(data):
+                try:
+                    D20.append(i.D20)
+                    D40.append(i.D40)
+                    D50.append(i.D50)
+                    D80.append(i.D80)
+                    length.append((from_date + timedelta(seconds=index * int(kwargs["interval"]))).strftime('%H:%M:%S'))
+
+                except:
+                    ...
+
+            return JsonResponse(({"data": {"D20": D20, "D40": D40, "D50": D50, "D80": D80}, "length": length}))
 
 
 class GetPicture(LoginRequiredMixin, View):

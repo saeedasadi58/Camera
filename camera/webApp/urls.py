@@ -41,6 +41,7 @@ urlpatterns = [
     path('docs/', include(router.urls)),
     path('', views.ReadCameraView.as_view(), name="home"),
     path('camera_data/<from_date>/<to_date>/<interval>', views.CameraViewData.as_view(), name="camera_data"),
+    path('export_report/<from_date>/<to_date>/<interval>', views.ExportReport.as_view(), name="export_report"),
     path('GetPicture/', views.GetPicture.as_view(), name="GetPicture"),
     path('MatlabAnalysis/', views.MatlabAnalysis.as_view(), name="MatlabAnalysis"),
     path('MatlabAnalysis/<check>', views.MatlabAnalysis.as_view(), name="MatlabAnalysis"),
